@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 14:58:00 by aalkaisi          #+#    #+#             */
-/*   Updated: 2023/12/25 16:51:55 by mahmoud          ###   ########.fr       */
+/*   Updated: 2023/12/26 16:54:22 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,14 @@ int		str_cmp(char *str, char *str2);
 void 	echo_built_in(char **arr);
 void	pwd_built_in(char **arr);
 void	exit_built_in(char **arr);
-void	env_built_in(char **arr, char **envp, t_dict **dictionary);
+void	env_built_in(char **arr, t_dict **dictionary);
 t_dict	*ft_dict_lstnew(char *key, char *value);
-void	ft_dict_lstadd_back(t_dict **lst, t_dict *new);
+void	ft_dict_lstadd_back(t_dict **lst, t_dict *newdict);
 void	ft_dict_lstclear(t_dict **lst, void (*del)(void *));
 void	ft_dict_lstdelone(t_dict *lst, void (*del)(void *));
+void	fill_dictionary(char **envp, t_dict **dictionary);
+void	print_dictionary(t_dict **dictionary);
+void	export_built_in(char **arr, t_dict **dictionary);
+int	ft_strcmp(const char *s1, const char *s2);
 
 #endif

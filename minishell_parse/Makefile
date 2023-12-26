@@ -3,14 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+         #
+#    By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/22 16:27:40 by aalkaisi          #+#    #+#              #
-#    Updated: 2023/12/25 16:06:35 by mahmoud          ###   ########.fr        #
+#    Updated: 2023/12/26 13:04:53 by mabdelsa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC	=	main.c ft_splitt.c extra.c echo_built_in.c pwd_built_in.c exit_built_in.c env_built_in.c dict_utils.c
+SRC	=	main.c ft_splitt.c extra.c echo_built_in.c pwd_built_in.c exit_built_in.c env_built_in.c dict_utils.c \
+		export_built_in.c
 		
 NAME = minishell
 AR = ar rs

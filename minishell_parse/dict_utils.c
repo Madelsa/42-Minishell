@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dict_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 15:07:28 by mahmoud           #+#    #+#             */
-/*   Updated: 2023/12/25 17:00:29 by mahmoud          ###   ########.fr       */
+/*   Updated: 2023/12/26 14:17:13 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,24 +68,29 @@ void	ft_dict_lstadd_back(t_dict **lst, t_dict *new)
 	node->next = new;
 }
 
-t_dict	*ft_dict_lstnew(char *key, char *value) {
+t_dict *ft_dict_lstnew(char *key, char *value) {
     t_dict *node = (t_dict *)malloc(sizeof(t_dict));
     if (!node)
         return NULL;
 
-    // Allocate memory and copy the key string
-    node->key = ft_strdup(key);
-    if (!node->key) {
-        free(node);
-        return NULL;
+    node->key = NULL;
+    node->value = NULL;
+
+    if (key) {
+        node->key = ft_strdup(key);
+        if (!node->key) {
+            free(node);
+            return NULL;
+        }
     }
 
-    // Allocate memory and copy the value string
-    node->value = ft_strdup(value);
-    if (!node->value) {
-        free(node->key);
-        free(node);
-        return NULL;
+    if (value) {
+        node->value = ft_strdup(value);
+        if (!node->value) {
+            free(node->key);
+            free(node);
+            return NULL;
+        }
     }
 
     node->next = NULL;
