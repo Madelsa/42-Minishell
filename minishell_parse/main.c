@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 18:55:17 by aalkaisi          #+#    #+#             */
-/*   Updated: 2023/12/24 15:59:43 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2023/12/25 16:51:30 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -698,7 +698,7 @@ void	num_of_commands_in_each_part(char **str, t_execution *z)
 	j = 0;
 	while (str[j] != NULL)
 	{
-		z->cmds_name[j] = ft_split(str[j], ' ', z);
+		z->cmds_name[j] = ft_splitt(str[j], ' ', z);
 		// if (z->cmds_name[j][0][0] != '\0')
 		j++;
 	}
@@ -712,7 +712,7 @@ void	put_commands(char **str, t_execution *z)
 	i = 0;
 	while (str[i] != NULL)
 	{
-		z->cmds_name[i] = ft_split(str[i], ' ', z);
+		z->cmds_name[i] = ft_splitt(str[i], ' ', z);
 		i++;
 	}
 	z->cmds_name[i] = NULL;
@@ -851,7 +851,7 @@ void	check_solution(t_execution *z)
 	}
 }
 
-int	main(void)
+int	main(int ac, char **av, char **envp)
 {
 	char		*str;
 	char		**res;
@@ -859,6 +859,9 @@ int	main(void)
 	// char		*dollar_var;
 	// char		*dollar_value;
 	t_execution	z;
+
+	(void)ac;
+	(void)av;
 
 	while (1)
 	{
@@ -888,11 +891,11 @@ int	main(void)
 		redirections(str, &z);
 		printf("%s..\n", str);
 		printf("11111.\n");
-		res = ft_split(str, '|', &z);
+		res = ft_splitt(str, '|', &z);
 		printf("77777.\n");
 		i = -1;
 		while (res[++i] != NULL)
-			res[i] = ft_strtrim(res[i], " ");
+			res[i] = ft_strtrimm(res[i], " ");
 		many_malloc(&z);
 		printf("%s, %s.\n", res[0], res[1]);
 		printf("11111.\n");
@@ -910,7 +913,9 @@ int	main(void)
 		// echo_built_in(cmd);
 		// pwd_built_in(cmd);
 		exit_built_in(cmd);
-		/////////
+		t_dict *dictionary = NULL;
+		env_built_in(cmd, envp, &dictionary);
+		///////
 		free(str);
 	}
 }

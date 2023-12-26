@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 03:29:46 by mahmoud           #+#    #+#             */
-/*   Updated: 2023/12/24 14:53:19 by mabdelsa         ###   ########.fr       */
+/*   Created: 2023/07/07 01:44:21 by mahmoud           #+#    #+#             */
+/*   Updated: 2023/09/05 15:21:01 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	write(fd, s, ft_strlen(s));
+	t_list	*node;
+	t_list	*next;
+
+	if (!lst || !*lst || !del)
+		return ;
+	node = *lst;
+	while (node)
+	{
+		next = node->next;
+		del(node->content);
+		free(node);
+		node = next;
+	}
+	*lst = NULL;
 }

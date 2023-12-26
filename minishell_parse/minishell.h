@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 14:58:00 by aalkaisi          #+#    #+#             */
-/*   Updated: 2023/12/24 15:59:00 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2023/12/25 16:51:55 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include "libft/libft.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -48,17 +49,26 @@ typedef struct split
 	unsigned int	end;
 }	t_split;
 
+typedef struct s_dict
+{
+	char			*key;
+	char			*value;
+	struct s_dict	*next;
+}					t_dict;
+
 int		num_of_strs(char *s, char c);
-char	**ft_split(char *s, char c, t_execution *z);
-size_t	ft_strlen(const char *s);
+char	**ft_splitt(char *s, char c, t_execution *z);
+size_t	ft_strlenn(const char *s);
 int		inside_qut(char *str, int i, int qut_num[], int time);
-char	*ft_strtrim(char *s1, char *set);
+char	*ft_strtrimm(char *s1, char *set);
 int		str_cmp(char *str, char *str2);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-void	ft_putstr_fd(char *s, int fd);
-int		ft_isdigit(int x);
 void 	echo_built_in(char **arr);
 void	pwd_built_in(char **arr);
 void	exit_built_in(char **arr);
+void	env_built_in(char **arr, char **envp, t_dict **dictionary);
+t_dict	*ft_dict_lstnew(char *key, char *value);
+void	ft_dict_lstadd_back(t_dict **lst, t_dict *new);
+void	ft_dict_lstclear(t_dict **lst, void (*del)(void *));
+void	ft_dict_lstdelone(t_dict *lst, void (*del)(void *));
 
 #endif

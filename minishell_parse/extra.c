@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   extra.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:28:49 by aalkaisi          #+#    #+#             */
-/*   Updated: 2023/10/30 13:45:01 by aalkaisi         ###   ########.fr       */
+/*   Updated: 2023/12/25 14:21:46 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlenn(const char *s)
 {
 	size_t	count;
 
@@ -70,7 +70,7 @@ int	end_index(int end, char *s1, char *set)
 	return (end);
 }
 
-char	*ft_strtrim(char *s1, char *set)
+char	*ft_strtrimm(char *s1, char *set)
 {
 	int		start;
 	int		i;
@@ -80,7 +80,7 @@ char	*ft_strtrim(char *s1, char *set)
 	if (s1 == NULL || set == NULL)
 		return (NULL);
 	start = start_index(s1, set);
-	end = ft_strlen(s1) - 1;
+	end = ft_strlenn(s1) - 1;
 	if (s1[start] == '\0')
 		start = 0;
 	end = end_index(end, s1, set);

@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/04 14:03:33 by mabdelsa          #+#    #+#             */
-/*   Updated: 2023/07/04 14:03:33 by mabdelsa         ###   ########.fr       */
+/*   Created: 2023/07/03 14:30:19 by mabdelsa          #+#    #+#             */
+/*   Updated: 2023/07/03 14:30:19 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_isascii(int x)
 {
-	size_t	i;
-
-	i = 0;
-	if (n <= 0 || !s1 || !s2)
+	if (x >= 0 && x <= 127)
+		return (1);
+	else
 		return (0);
-	while (i < n - 1 && (s1[i] != '\0' && s2[i] != '\0'))
-	{
-		if (s1[i] != s2[i])
-			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
-		i++;
-	}
-	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
 }

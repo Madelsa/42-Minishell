@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_splitt.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:45:25 by aalkaisi          #+#    #+#             */
-/*   Updated: 2023/10/30 19:02:27 by aalkaisi         ###   ########.fr       */
+/*   Updated: 2023/12/25 14:19:19 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*ft_substr_block2(char *s, unsigned int i,
 	return (p);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+char	*ft_substrr(char *s, unsigned int start, size_t len)
 {
 	char			*p;
 	unsigned int	i;
@@ -115,7 +115,7 @@ char	**save_results(char *s, char c, int num, char **res)
 			}
 			z.end = z.i;
 		}
-		res[num] = ft_substr(s, z.start, (size_t)(z.end - z.start));
+		res[num] = ft_substrr(s, z.start, (size_t)(z.end - z.start));
 		printf("res[%d]=%s,\n", num, res[num]);
 		printf("1 res = %s.\n", res[num]);
 		if (res[num] == NULL)
@@ -126,7 +126,7 @@ char	**save_results(char *s, char c, int num, char **res)
 	return (res);
 }
 
-char	**ft_split(char *s, char c, t_execution *z)
+char	**ft_splitt(char *s, char c, t_execution *z)
 {
 	int				num;
 	char			**res;
