@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:32:58 by mabdelsa          #+#    #+#             */
-/*   Updated: 2023/12/26 17:33:13 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2023/12/28 14:07:01 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,10 @@ void	handle_args(char **arr, t_dict **dictionary)
 
 void	export_built_in(char **arr, t_dict **dictionary)
 {
-	t_dict	*current;
+	// t_dict	*current_out;
+	// t_dict	*current_in;
 	// t_dict	*temp1;
-    // t_dict  *temp2;
-    t_dict	*first;
-	t_dict	*second;
+	// t_dict	*temp2;
 
 	if (arr[0] != NULL)
 	{
@@ -126,21 +125,40 @@ void	export_built_in(char **arr, t_dict **dictionary)
 			else
 				handle_args(arr, dictionary);
 		}
-		current = *dictionary;
-		while (current != NULL && current->next != NULL)
-		{
-            // printf("1%s\n", current->key);
-            // printf("%d\n", ft_strcmp(current->key, current->next->key));
-			if (ft_strcmp(current->key, current->next->key) > 0)
-			{
-				first = current;
-	            second = first->next;
-                first->next = second->next;
-	            second->next = first;
-                current = second;
-				// swapped = 1; // Set swapped flag if elements are swapped
-			}   
-            current = current->next;
-		}
+		// current_out = *dictionary;
+		// while (current_out != NULL)
+		// {
+		// 	current_in = *dictionary;
+		// 	while (current_in != NULL && current_in->next != NULL)
+		// 	{
+		// 		if (ft_strcmp(current_in->key, current_in->next->key) > 0)
+		// 		{
+		// 			temp1 = current_in;
+		// 			temp2 = temp1->next;
+		// 			temp1->next = temp2->next;
+		// 			temp2->next = temp1;
+		// 			current_in = temp2;
+
+		// 		}
+		// 		current_in = current_in->next;
+		// 	}
+		// 	current_out = current_out->next;
+		// }
+
+		// while (current != NULL && current->next != NULL)
+		// {
+		//     // printf("1%s\n", current->key);
+		//     // printf("%d\n", ft_strcmp(current->key, current->next->key));
+		// 	if (ft_strcmp(current->key, current->next->key) > 0)
+		// 	{
+		// 		first = current;
+		//         second = first->next;
+		//         first->next = second->next;
+		//         second->next = first;
+		//         current = second;
+		// 		// swapped = 1; // Set swapped flag if elements are swapped
+		// 	}
+		//     current = current->next;
+		// }
 	}
 }

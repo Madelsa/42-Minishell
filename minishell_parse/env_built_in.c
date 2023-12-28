@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:28:12 by mahmoud           #+#    #+#             */
-/*   Updated: 2023/12/26 16:13:34 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2023/12/28 13:57:00 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	env_built_in(char **arr, t_dict **dictionary)
 				ft_putstr_fd("env: No such file or directory\n", 2);
 				return ;
 			}
-			// fill_dictionary(envp, dictionary);
 			print_dictionary(dictionary);
 		}
 	}

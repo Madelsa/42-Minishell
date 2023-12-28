@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 18:55:17 by aalkaisi          #+#    #+#             */
-/*   Updated: 2023/12/26 15:53:01 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2023/12/28 16:40:12 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -915,11 +915,15 @@ int	main(int ac, char **av, char **envp)
 		// echo_built_in(cmd);
 		// pwd_built_in(cmd);
 		// t_dict *dictionary = NULL;
-		fill_dictionary(envp, &dictionary);
+		// fill_dictionary(envp, &dictionary);
 		exit_built_in(cmd);
 		env_built_in(cmd, &dictionary);
 		export_built_in(cmd, &dictionary);
+		unset_built_in(cmd, &dictionary);
+		cd_built_in(cmd, &dictionary);
 		///////
+
 		free(str);
+		// ft_dict_lstclear(&dictionary, free);
 	}
 }
