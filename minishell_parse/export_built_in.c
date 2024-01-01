@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_built_in.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:32:58 by mabdelsa          #+#    #+#             */
-/*   Updated: 2023/12/28 14:07:01 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/01 11:48:57 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,56 +109,64 @@ void	handle_args(char **arr, t_dict **dictionary)
 	}
 }
 
+// void sort_stack(t_dict **dictionary) {
+//     int swapped = 1;
+
+//     while (swapped) {
+//         swapped = 0;
+//         t_dict **current_ptr = dictionary;
+
+//         while (*current_ptr && (*current_ptr)->next) {
+//             t_dict *current = *current_ptr;
+//             t_dict *next = current->next;
+
+//             if (ft_strcmp(current->key, next->key) > 0) {
+//                 current->next = next->next;
+//                 next->next = current;
+//                 *current_ptr = next;
+//                 swapped = 1;
+//             }
+//             current_ptr = &((*current_ptr)->next);
+//         }
+//     }
+// }
+
+
+void sort_stack(t_dict **dictionary) {
+    int swapped = 1;
+
+    while (swapped) {
+        swapped = 0;
+        t_dict **current_ptr = dictionary;
+
+        while (*current_ptr && (*current_ptr)->next) {
+            t_dict *current = *current_ptr;
+            t_dict *next = current->next;
+
+            if (ft_strcmp(current->key, next->key) > 0) {
+                current->next = next->next;
+                next->next = current;
+                *current_ptr = next;
+                swapped = 1;
+            }
+            current_ptr = &((*current_ptr)->next);
+        }
+    }
+}
+
 void	export_built_in(char **arr, t_dict **dictionary)
 {
-	// t_dict	*current_out;
-	// t_dict	*current_in;
-	// t_dict	*temp1;
-	// t_dict	*temp2;
-
 	if (arr[0] != NULL)
 	{
 		if (ft_strncmp(arr[0], "export", 7) == 0)
 		{
 			if (arr[1] == NULL)
+			{
+				sort_stack(dictionary);
 				print_dict_export(dictionary);
+			}
 			else
 				handle_args(arr, dictionary);
 		}
-		// current_out = *dictionary;
-		// while (current_out != NULL)
-		// {
-		// 	current_in = *dictionary;
-		// 	while (current_in != NULL && current_in->next != NULL)
-		// 	{
-		// 		if (ft_strcmp(current_in->key, current_in->next->key) > 0)
-		// 		{
-		// 			temp1 = current_in;
-		// 			temp2 = temp1->next;
-		// 			temp1->next = temp2->next;
-		// 			temp2->next = temp1;
-		// 			current_in = temp2;
-
-		// 		}
-		// 		current_in = current_in->next;
-		// 	}
-		// 	current_out = current_out->next;
-		// }
-
-		// while (current != NULL && current->next != NULL)
-		// {
-		//     // printf("1%s\n", current->key);
-		//     // printf("%d\n", ft_strcmp(current->key, current->next->key));
-		// 	if (ft_strcmp(current->key, current->next->key) > 0)
-		// 	{
-		// 		first = current;
-		//         second = first->next;
-		//         first->next = second->next;
-		//         second->next = first;
-		//         current = second;
-		// 		// swapped = 1; // Set swapped flag if elements are swapped
-		// 	}
-		//     current = current->next;
-		// }
 	}
 }
