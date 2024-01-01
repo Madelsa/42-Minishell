@@ -6,11 +6,11 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 15:07:28 by mahmoud           #+#    #+#             */
-/*   Updated: 2023/12/28 14:11:22 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/01 13:32:45 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 size_t	ft_dict_lstsize(t_dict *lst)
 {
@@ -83,20 +83,13 @@ t_dict	*ft_dict_lstnew(char *key, char *value)
 	{
 		node->key = ft_strdup(key);
 		if (!node->key)
-		{
-			free(node);
-			return (NULL);
-		}
+			return (free(node), NULL);
 	}
 	if (value)
 	{
 		node->value = ft_strdup(value);
 		if (!node->value)
-		{
-			free(node->key);
-			free(node);
-			return (NULL);
-		}
+			return (free(node), NULL);
 	}
 	node->next = NULL;
 	return (node);

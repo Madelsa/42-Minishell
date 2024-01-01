@@ -6,11 +6,11 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 15:52:48 by mabdelsa          #+#    #+#             */
-/*   Updated: 2023/12/28 16:43:35 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/01 16:30:26 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	update_pwds(char *directory_prev, char *directory_current,
 		t_dict **dictionary)
@@ -39,37 +39,22 @@ void	check_file_exist(char *str, t_dict **dictionary)
 	char	*directory_prev;
 	char	*directory_current;
 
-    printf("HERE!!!!\n");
 	directory_prev = NULL;
 	directory_current = NULL;
 	directory_prev = getcwd(directory_prev, 0);
 	if (directory_prev == NULL)
-	{
-		ft_putstr_fd("Error: cannot retrieve current directory\n", 2);
-		return ;
-	}
+		return (ft_putstr_fd("Error: cannot retrieve current directory\n", 2));
 	if (chdir(str) == -1)
-	{
-		ft_putstr_fd("bash: cd: No such file or directory\n", 2);
-		return ;
-	}
+		return (ft_putstr_fd("minishell: cd: ", 2), ft_putstr_fd(str, 2),
+			ft_putstr_fd(": No such file or directory\n", 2));
 	directory_current = getcwd(directory_current, 0);
 	if (directory_current == NULL)
-	{
-		ft_putstr_fd("Error: cannot retrieve current directory\n", 2);
-		return ;
-	}
+		return (ft_putstr_fd("Error: cannot retrieve current directory\n", 2));
 	update_pwds(directory_prev, directory_current, dictionary);
 }
 
 void	cd_built_in(char **arr, t_dict **dictionary)
 {
-	if (arr[0] != NULL)
-	{
-		if (ft_strncmp(arr[0], "cd", 3) == 0)
-		{
-			if (arr[1] != NULL)
-				check_file_exist(arr[1], dictionary);
-		}
-	}
+	if (arr[1] != NULL)
+		check_file_exist(arr[1], dictionary);
 }

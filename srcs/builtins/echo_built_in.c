@@ -6,11 +6,11 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:47 by mahmoud           #+#    #+#             */
-/*   Updated: 2023/12/24 15:43:37 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/01 15:56:32 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../../includes/minishell.h"
 
 void	write_with_line(char **arr, int i)
 {
@@ -48,23 +48,17 @@ int	check_repeat_n(char *str, int i)
 
 void	echo_built_in(char **arr)
 {
-	if (arr[0] != NULL)
+	if (arr[1] == NULL)
+		write(1, "\n", 1);
+	else if (arr[1] != NULL && ft_strncmp(arr[1], "-n", 3) != 0)
 	{
-		if (ft_strncmp(arr[0], "echo", 5) == 0)
+		if (ft_strlen(arr[1]) > 1 && check_repeat_n(arr[1], 2) == 0)
 		{
-			if (arr[1] == NULL)
-				write(1, "\n", 1);
-			else if (arr[1] != NULL && ft_strncmp(arr[1], "-n", 3) != 0)
-			{
-				if (ft_strlen(arr[1]) > 1 && check_repeat_n(arr[1], 2) == 0)
-				{
-					write_without_line(arr, 1);
-					return ;
-				}
-				write_with_line(arr, 1);
-			}
-			else if (arr[1] != NULL && ft_strncmp(arr[1], "-n", 3) == 0)
-				write_without_line(arr, 2);
+			write_without_line(arr, 1);
+			return ;
 		}
+		write_with_line(arr, 1);
 	}
+	else if (arr[1] != NULL && ft_strncmp(arr[1], "-n", 3) == 0)
+		write_without_line(arr, 2);
 }

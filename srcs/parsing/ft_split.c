@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_splitt.c                                        :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:45:25 by aalkaisi          #+#    #+#             */
-/*   Updated: 2023/12/25 14:19:19 by mahmoud          ###   ########.fr       */
+/*   Updated: 2023/10/30 19:02:27 by aalkaisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 char	*ft_substr_block2(char *s, unsigned int i, 
 	unsigned int start, size_t len)
@@ -63,7 +63,7 @@ int	num_of_strs(char *s, char c)
 	num = 0;
 	qut_num[0] = 0;
 	qut_num[1] = 0;
-	printf("xxxxxxs[0] = %d\n", s[i]);
+	// printf("xxxxxxs[0] = %d\n", s[i]);
 	while (s[i] != '\0')
 	{
 		while (inside_qut(s, i, qut_num, 1) == 0 && s[i] == c)
@@ -78,10 +78,10 @@ int	num_of_strs(char *s, char c)
 						i, qut_num, 2) == 0 && s[i] != c && s[i] != '\0'))
 				i++;
 		}
-		printf("xxxxxxxxxxxxxxxxxxxi: %d\n", num);
+		// printf("xxxxxxxxxxxxxxxxxxxi: %d\n", num);
 		num++;
 	}
-	printf("final: %d\n", num);
+	// printf("final: %d\n", num);
 	return (num);
 }
 
@@ -116,8 +116,8 @@ char	**save_results(char *s, char c, int num, char **res)
 			z.end = z.i;
 		}
 		res[num] = ft_substrr(s, z.start, (size_t)(z.end - z.start));
-		printf("res[%d]=%s,\n", num, res[num]);
-		printf("1 res = %s.\n", res[num]);
+		// printf("res[%d]=%s,\n", num, res[num]);
+		// printf("1 res = %s.\n", res[num]);
 		if (res[num] == NULL)
 			return (NULL);
 		num++;
@@ -135,13 +135,13 @@ char	**ft_splitt(char *s, char c, t_execution *z)
 		exit(1);
 	num = num_of_strs(s, c);
 	z->cmds_num = num;
-	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>num: %d\n", num);
+	// printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>num: %d\n", num);
 	res = (char **)malloc(sizeof(char *) * (num + 1));
 	if (res == NULL)
 		exit(1);
-	printf("44444.%c,%s.\n", c, s);
+	// printf("44444.%c,%s.\n", c, s);
 	save_results(s, c, num, res);
-	printf("44444.%s,\n", res[0]);
+	// printf("44444.%s,\n", res[0]);
 	if (res == NULL)
 		exit(1);
 	return (res);

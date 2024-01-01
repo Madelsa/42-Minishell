@@ -6,11 +6,11 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:48:28 by mabdelsa          #+#    #+#             */
-/*   Updated: 2023/12/28 14:24:40 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/01 15:56:09 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	check_errors(char **arr)
 {
@@ -74,15 +74,9 @@ void	check_in_dictionary(char **arr, t_dict **dictionary)
 
 void	unset_built_in(char **arr, t_dict **dictionary)
 {
-	if (arr[0] != NULL)
+	if (arr[1] != NULL)
 	{
-		if (ft_strncmp(arr[0], "unset", 6) == 0)
-		{
-			if (arr[1] != NULL)
-			{
-				check_errors(arr);
-				check_in_dictionary(arr, dictionary);
-			}
-		}
+		check_errors(arr);
+		check_in_dictionary(arr, dictionary);
 	}
 }

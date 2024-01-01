@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export_built_in.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:32:58 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/01 11:48:57 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/01 16:30:50 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 int	check_overwrite_entry(char *key, char *value, t_dict **dictionary)
 {
@@ -89,14 +89,14 @@ void	handle_args(char **arr, t_dict **dictionary)
 	i = 1;
 	while (arr[i] != NULL)
 	{
-		j = 0;
-		if (ft_isalpha(arr[i][0]) == 1)
+		j = 1;
+		if (ft_isalpha(arr[i][0]) == 1 || arr[i][0] == '_')
 		{
 			while (arr[i][j] != '\0' && arr[i][j] != '=')
 			{
 				if (ft_isalnum(arr[i][j]) == 0)
 				{
-					printf("bash: export: not a valid identifier\n");
+					ft_putstr_fd("bash: export: not a valid identifier\n", 2);
 					break ;
 				}
 				j++;
@@ -104,69 +104,18 @@ void	handle_args(char **arr, t_dict **dictionary)
 			append_dict(dictionary, arr, i, j);
 		}
 		else
-			printf("bash: export: not a valid identifier\n");
+			ft_putstr_fd("bash: export: not a valid identifier\n", 2);
 		i++;
 	}
 }
 
-// void sort_stack(t_dict **dictionary) {
-//     int swapped = 1;
-
-//     while (swapped) {
-//         swapped = 0;
-//         t_dict **current_ptr = dictionary;
-
-//         while (*current_ptr && (*current_ptr)->next) {
-//             t_dict *current = *current_ptr;
-//             t_dict *next = current->next;
-
-//             if (ft_strcmp(current->key, next->key) > 0) {
-//                 current->next = next->next;
-//                 next->next = current;
-//                 *current_ptr = next;
-//                 swapped = 1;
-//             }
-//             current_ptr = &((*current_ptr)->next);
-//         }
-//     }
-// }
-
-
-void sort_stack(t_dict **dictionary) {
-    int swapped = 1;
-
-    while (swapped) {
-        swapped = 0;
-        t_dict **current_ptr = dictionary;
-
-        while (*current_ptr && (*current_ptr)->next) {
-            t_dict *current = *current_ptr;
-            t_dict *next = current->next;
-
-            if (ft_strcmp(current->key, next->key) > 0) {
-                current->next = next->next;
-                next->next = current;
-                *current_ptr = next;
-                swapped = 1;
-            }
-            current_ptr = &((*current_ptr)->next);
-        }
-    }
-}
-
 void	export_built_in(char **arr, t_dict **dictionary)
 {
-	if (arr[0] != NULL)
+	if (arr[1] == NULL)
 	{
-		if (ft_strncmp(arr[0], "export", 7) == 0)
-		{
-			if (arr[1] == NULL)
-			{
-				sort_stack(dictionary);
-				print_dict_export(dictionary);
-			}
-			else
-				handle_args(arr, dictionary);
-		}
+		sort_dict(dictionary);
+		print_dict_export(dictionary);
 	}
+	else
+		handle_args(arr, dictionary);
 }

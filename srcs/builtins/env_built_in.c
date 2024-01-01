@@ -6,11 +6,11 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:28:12 by mahmoud           #+#    #+#             */
-/*   Updated: 2023/12/28 13:57:00 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/01 15:50:22 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	fill_dictionary(char **envp, t_dict **dictionary)
 {
@@ -51,16 +51,16 @@ void	print_dictionary(t_dict **dictionary)
 
 void	env_built_in(char **arr, t_dict **dictionary)
 {
-	if (arr[0] != NULL)
-	{
-		if (ft_strncmp(arr[0], "env", 4) == 0)
-		{
+	// if (arr[0] != NULL)
+	// {
+	// 	if (ft_strncmp(arr[0], "env", 4) == 0)
+	// 	{
 			if (arr[1] != NULL)
 			{
 				ft_putstr_fd("env: No such file or directory\n", 2);
 				return ;
 			}
 			print_dictionary(dictionary);
-		}
-	}
+	// 	}
+	// }
 }

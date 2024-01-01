@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   extra.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:28:49 by aalkaisi          #+#    #+#             */
-/*   Updated: 2023/12/26 16:53:53 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2023/10/30 13:45:01 by aalkaisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-size_t	ft_strlenn(const char *s)
-{
-	size_t	count;
-
-	count = 0;
-	while (s[count] != '\0')
-		count++;
-	return (count);
-}
+#include "../../includes/minishell.h"
 
 int	start_index(char *s1, char *set)
 {
@@ -80,10 +70,11 @@ char	*ft_strtrimm(char *s1, char *set)
 	if (s1 == NULL || set == NULL)
 		return (NULL);
 	start = start_index(s1, set);
-	end = ft_strlenn(s1) - 1;
+	end = ft_strlen(s1) - 1;
 	if (s1[start] == '\0')
 		start = 0;
 	end = end_index(end, s1, set);
+	// printf("--------------------------------------->malloc: %d", end - start + 1);
 	res = (char *)malloc(end - start + 2);
 	if (res == NULL)
 		return (NULL);
@@ -94,6 +85,7 @@ char	*ft_strtrimm(char *s1, char *set)
 		i++;
 	}
 	res[i] = '\0';
+	// printf("--------------------------------------->res: %s,", res);
 	free(s1);
 	return (res);
 }
@@ -110,20 +102,4 @@ int	str_cmp(char *str, char *str2)
 	if (str[i] == '\0' && str2[i] == '\0')
 		return (1);
 	return (0);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	if (!s1 || !s2)
-		return (0);
-	while (s1[i] != '\0' && s2[i] != '\0')
-	{
-		if (s1[i] != s2[i])
-			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
-		i++;
-	}
-	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
 }
