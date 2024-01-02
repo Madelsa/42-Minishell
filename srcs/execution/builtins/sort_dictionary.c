@@ -6,11 +6,11 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 12:47:44 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/01 13:33:04 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/01 18:04:54 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include  "../../../includes/minishell.h"
 
 void	sort_dict(t_dict **dictionary)
 {

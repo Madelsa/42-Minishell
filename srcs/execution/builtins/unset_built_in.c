@@ -6,11 +6,12 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:48:28 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/01 15:56:09 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/01 18:04:57 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include  "../../../includes/minishell.h"
+
 
 void	check_errors(char **arr)
 {
@@ -21,12 +22,18 @@ void	check_errors(char **arr)
 	while (arr[i] != NULL)
 	{
 		j = 0;
+		if (!ft_isalpha(arr[i][0]))
+		{
+			error_msg_unset(arr[i]);
+			i++;
+			continue ;
+		}
 		while (arr[i][j] != '\0')
 		{
-			if (ft_isalpha(arr[i][0]) == 0 || ft_isalnum(arr[i][j] == 0))
+			if (!ft_isalnum(arr[i][j]))
 			{
-				ft_putstr_fd("bash: unset: not a valid identifier\n", 2);
-				return ;
+				error_msg_unset(arr[i]);
+				break ;
 			}
 			j++;
 		}

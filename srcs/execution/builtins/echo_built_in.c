@@ -6,11 +6,11 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:47 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/01/01 15:56:32 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/01 18:04:37 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include  "../../../includes/minishell.h"
 
 void	write_with_line(char **arr, int i)
 {

@@ -6,11 +6,11 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:32:58 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/01 16:30:50 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:23:39 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include  "../../../includes/minishell.h"
 
 int	check_overwrite_entry(char *key, char *value, t_dict **dictionary)
 {
@@ -19,7 +19,7 @@ int	check_overwrite_entry(char *key, char *value, t_dict **dictionary)
 	current = *dictionary;
 	while (current != NULL)
 	{
-		if (ft_strncmp(current->key, key, ft_strlen(current->key)) == 0)
+		if (ft_strcmp(current->key, key) == 0) 
 		{
 			if (current->value != NULL)
 				free(current->value);
@@ -96,7 +96,7 @@ void	handle_args(char **arr, t_dict **dictionary)
 			{
 				if (ft_isalnum(arr[i][j]) == 0)
 				{
-					ft_putstr_fd("bash: export: not a valid identifier\n", 2);
+					error_msg_export(arr[i]);
 					break ;
 				}
 				j++;
@@ -104,7 +104,7 @@ void	handle_args(char **arr, t_dict **dictionary)
 			append_dict(dictionary, arr, i, j);
 		}
 		else
-			ft_putstr_fd("bash: export: not a valid identifier\n", 2);
+			error_msg_export(arr[i]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/01 16:04:07 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:33:45 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,10 +179,13 @@ void					fill_dictionary(char **envp, t_dict **dictionary);
 void					print_dictionary(t_dict **dictionary);
 void					export_built_in(char **arr, t_dict **dictionary);
 void					unset_built_in(char **arr, t_dict **dictionary);
-int						ft_strcmp(const char *s1, const char *s2);
 void					cd_built_in(char **arr, t_dict **dictionary);
 void					sort_dict(t_dict **dictionary);
 void					search_command_builtins(char **arr, t_dict **dictionary);
-void 					error_message(char *message, char *error_string);
+void 					error_msg_export(char *error_string);
+void 					error_msg_exit(char *error_string);
+void 					error_msg_cd(char *error_arg);
+void 					error_msg_unset(char *error_arg);
+
 
 #endif

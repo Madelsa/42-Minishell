@@ -6,11 +6,11 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 15:52:48 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/01 16:30:26 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/01 18:04:27 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include  "../../../includes/minishell.h"
 
 void	update_pwds(char *directory_prev, char *directory_current,
 		t_dict **dictionary)
@@ -43,13 +43,12 @@ void	check_file_exist(char *str, t_dict **dictionary)
 	directory_current = NULL;
 	directory_prev = getcwd(directory_prev, 0);
 	if (directory_prev == NULL)
-		return (ft_putstr_fd("Error: cannot retrieve current directory\n", 2));
+		return (ft_putstr_fd("error: cannot retrieve current directory\n", 2));
 	if (chdir(str) == -1)
-		return (ft_putstr_fd("minishell: cd: ", 2), ft_putstr_fd(str, 2),
-			ft_putstr_fd(": No such file or directory\n", 2));
+		return (error_msg_cd(str));
 	directory_current = getcwd(directory_current, 0);
 	if (directory_current == NULL)
-		return (ft_putstr_fd("Error: cannot retrieve current directory\n", 2));
+		return (ft_putstr_fd("error: cannot retrieve current directory\n", 2));
 	update_pwds(directory_prev, directory_current, dictionary);
 }
 

@@ -6,11 +6,11 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 15:07:28 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/01/01 13:32:45 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/01 18:04:34 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include  "../../../includes/minishell.h"
 
 size_t	ft_dict_lstsize(t_dict *lst)
 {
