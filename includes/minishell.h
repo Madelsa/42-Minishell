@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/02 14:34:12 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:02:12 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_env
 }	t_env;
 
 
-typedef struct execution
+typedef struct s_execution
 {
 	char	***cmds_name;       	/* cmd[0] = **args // cmd[0][0] = *cmd */ 
 	char	***infile_name; 	 	/*  infile[0] = **variables before the pipe | infile[1] = after 	
@@ -140,7 +140,7 @@ char	**ft_splitt(char *s, char c, t_execution *z);
 // size_t	ft_strlen(const char *s);
 int		inside_qut(char *str, int i, int qut_num[], int time);
 char	*ft_strtrimm(char *s1, char *set);
-int		str_cmp(char *str, char *str2);
+// int		str_cmp(char *str, char *str2);
 void	redirections(char *str, t_execution *z);
 void	identify_file_type(char	*str, t_execution *z);
 void	size_of_all_redirections(char *str, t_execution *z);
@@ -186,6 +186,8 @@ void 					error_msg_export(char *error_string);
 void 					error_msg_exit(char *error_string);
 void 					error_msg_cd(char *error_arg);
 void 					error_msg_unset(char *error_arg);
+void					handle_out_file(t_execution *exec);
+
 
 
 #endif

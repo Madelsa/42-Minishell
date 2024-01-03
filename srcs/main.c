@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/01 15:52:06 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:40:37 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ int main (int ac, char **av, char **envp)
 		rl = readline("minishell$ ");
 		if (rl == NULL || rl[0] == '\0')
 			continue ;
+		add_history(rl);
 		str = ft_strdup(rl);
 		// dollar(str);
 		// if (str_cmp(str, "exit") == 1)
@@ -150,6 +151,7 @@ int main (int ac, char **av, char **envp)
 		////////////
 		char **cmd = *exec.cmds_name;
 		search_command_builtins(cmd, &dictionary);
+		handle_out_file(&exec);
 		// echo_built_in(cmd);
 		// pwd_built_in(cmd);
 		// exit_built_in(cmd);
