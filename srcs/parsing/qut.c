@@ -19,6 +19,23 @@ int	inside_qut(char *str, int i, int qut_num[], int time)
 	return (qut_num[0] | qut_num[1]);
 }
 
+int	inside_single_or_double_qut(char *str, int i, int qut_num[], int time)
+{
+	if (time == 1)
+	{
+		if (str[i] == '\'' && qut_num[0] == 1)
+			qut_num[0] = 0;
+		else if (str[i] == '\'' && qut_num[1] == 0)
+			qut_num[0] = 1;
+		if (str[i] == '"' && qut_num[1] == 1)
+			qut_num[1] = 0;
+		else if (str[i] == '"' && qut_num[0] == 0)
+			qut_num[1] = 1;
+	}
+	// printf(">>>%d, %d, %c\n", time, qut_num[0] | qut_num[1], str[i]);
+	return (qut_num[0] + qut_num[1] * 2);
+}
+
 int	check_qut_error(char *str)
 {
 	int	i;
@@ -55,9 +72,6 @@ int	check_qut_error(char *str)
 
 void	skip_qut(char *str, int *i)
 {
-	int	i_init;
-
-	i_init = *i;
 	if (str[*i] == '\'')
 	{
 		(*i)++;

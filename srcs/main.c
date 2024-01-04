@@ -13,6 +13,155 @@
 #include "../includes/minishell.h"
 // #include "../srcs/parsing/minishell_parse.h"
 
+char	*ft_strjoin3(char *s1, char *s2, char *s3)
+{
+	int		i[3];
+	char	*res;
+
+	i[0] = 0;
+	i[1] = 0;
+	i[2] = 0;
+	if (s1 == NULL || s2 == NULL || s3 == NULL)
+		return (NULL);
+	i[0] = ft_strlen(s1);
+	i[1] = ft_strlen(s2);
+	i[2] = ft_strlen(s3);
+	res = malloc(i[0] + i[1] + i[2] + 1);
+	if (res == NULL)
+		return (NULL);
+	i[0] = -1;
+	i[1] = -1;
+	i[2] = -1;
+	while (s1[++i[0]] != '\0')
+		res[i[0]] = s1[i[0]];
+	while (s2[++i[1]] != '\0')
+		res[i[0] + i[1]] = s2[i[1]];
+	while (s3[++i[2]] != '\0')
+		res[i[0] + i[1] + i[2]] = s3[i[2]];
+	res[i[0] + i[1] + i[2]] = '\0';
+	return (free(s2), res);
+}
+
+char	*find_value_from_key(char	*key, t_dict *dictionary)
+{
+	char	*value;
+
+	value = NULL;
+	while (dictionary != NULL)
+	{
+		if (ft_strcmp(dictionary->key, key) == 0)
+		{
+			value = ft_strdup(dictionary->value);
+		}
+		dictionary = dictionary->next;
+	}
+	if (value == NULL)
+		value = ft_strdup("");
+	return (value);
+}
+
+
+char	*ft_replace(char *str, char *dollar_word, int i, int j, t_dict *dictionary, int is_value, int is_double_qut)
+{
+	char	*str1;
+	char	*str2;
+	char	*value;
+
+	str1 = ft_substr(str, 0, i);
+	str2 = ft_substr(str, i + j + 1, ft_strlen(str) - i - j - 1);
+	free(str);
+	if (is_value == 0)
+		str = ft_strjoin(str1, str2);
+	else
+	{
+		value = find_value_from_key(dollar_word, dictionary);
+		i = 0;
+		while (value[i] != '\0')
+		{
+			if ((value[i] == '<' || value[i] == '>' || value[i] == '|') && is_double_qut == 0)
+			{
+				value = ft_strjoin3("\"", value, "\"");
+				break;
+			}
+			i++;
+		}
+		str = ft_strjoin3(str1, value, str2);
+		free(dollar_word);
+	}
+	return (free(str1), free(str2), str);
+}
+
+char	*dollar(char *str, t_dict *dictionary)
+{
+	int		i;
+	int		j;
+	int		hash_flag;
+	int		qut_num[2];
+	char	*dollar_word;
+	int		del_dollar_flag;
+
+	i = 0;
+	qut_num[0] = 0;
+	qut_num[1] = 0;
+	while (str[i] != '\0')
+	{
+		del_dollar_flag = 0;
+		if ((inside_single_or_double_qut(str, i, qut_num, 1) == 2 && str[i] == '$') || 
+		(inside_single_or_double_qut(str, i, qut_num, 2) == 0 && str[i] == '$'))
+		{
+			del_dollar_flag = 2;
+			i++;
+			j = 0;
+			hash_flag = 0;
+			while ((str[j + i] == '_' || ft_isalnum(str[j + i]) == 1))
+				j++;
+			if (str[i] == '#')
+			{
+				str[i] = '0';
+			}
+			if ((str[i] == '\'' || str[i] == '"') && inside_single_or_double_qut(str, i, qut_num, 2) == 0)
+			{
+				str[i - 1] = ' ';
+				del_dollar_flag = 1;
+			}
+			else if (str[i] == ' ' || str[i] == '\'' || str[i] == '"' || str[i] == '\0')
+			{
+				continue ;
+			}
+			else
+			{
+				if (j == 0)
+				{
+					str = ft_replace(str, "", i - 1, j, dictionary, 0, 0);
+					del_dollar_flag = 1;
+				}
+				else if (str[i] >= '0' && str[i] <= '9' && hash_flag == 0)
+				{
+					str = ft_replace(str, "", i - 1, 1, dictionary, 0, 0);
+					del_dollar_flag = 1;
+				}
+				else
+				{
+					del_dollar_flag = 1;
+					dollar_word = ft_substr(str, i, j);
+					str = ft_replace(str, dollar_word, i - 1, j, dictionary, 1, inside_single_or_double_qut(str, i, qut_num, 2));
+				}
+			}
+			printf("str: %s,\n", str);
+		}
+		if (del_dollar_flag == 1)
+		{
+			i = i - 2;
+			if (i < 0)
+				i = 0;
+		}
+		else if (del_dollar_flag == 2)
+			i--;
+		i++;
+	}
+	return (str);
+}
+
 void	free_all(t_execution *exec)
 {
 	int i = 0;
@@ -136,6 +285,7 @@ int main (int ac, char **av, char **envp)
 		// printf("lol--->%s.\n", str);
 		if (check_qut_error(str) == 1)
 			continue ;
+		str = dollar(str, dictionary);
 		// printf("1--->%s.\n", str);
 		tab_to_space(str);
 		// printf("2--->%s.\n", str);
