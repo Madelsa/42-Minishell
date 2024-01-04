@@ -162,6 +162,7 @@ void	put_commands(char **str, t_execution *z);
 void	remove_qut(t_execution *z);
 void	check_solution(t_execution *z);
 void	tab_to_space(char *str);
+int		inside_single_or_double_qut(char *str, int i, int qut_num[], int time);
 
 ///////////////////////////////////////////////////
 
