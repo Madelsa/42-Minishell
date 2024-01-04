@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/03 13:40:37 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/04 18:22:49 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,19 +232,23 @@ void	parse(t_execution *exec, char *str)
 	i = -1;
 	while (res[++i] != NULL)
 		res[i] = ft_strtrimm(res[i], " ");
+	printf("TEST_8\n");
 	many_malloc(exec);
+	printf("TEST_8\n");
 	// printf("%s, %s.\n", res[0], res[1]);
 	// printf("11111.\n");
 	num_of_files_in_each_part(res, exec);
-	// printf("11111.\n");
+	printf("11111.\n");
 	num_of_chars_in_each_file(res, exec);
-	// printf("11111.\n");
+	printf("11111.\n");
 	put_chars_in_each_file(res, exec);
+	printf("TEST_9\n");
 	put_commands(res, exec);
 	i = -1;
 	while (res[++i] != NULL)
 		free(res[i]);
 	free(res);
+	printf("TEST_9\n");
 	remove_qut(exec);
 	check_solution(exec);
 
@@ -297,11 +301,15 @@ int main (int ac, char **av, char **envp)
 		// printf("11111.\n");
 		if (find_syntax_error(str) == 1)
 			continue ;
+		printf("TEST_7\n");
 		parse(&exec, str);
+		printf("TEST_7\n");
+		check_func_path_acess(envp,  &exec);
 		////////////
 		char **cmd = *exec.cmds_name;
 		search_command_builtins(cmd, &dictionary);
 		handle_out_file(&exec);
+		// handle_in_file(&exec);
 		// echo_built_in(cmd);
 		// pwd_built_in(cmd);
 		// exit_built_in(cmd);

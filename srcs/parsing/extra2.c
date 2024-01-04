@@ -89,9 +89,10 @@ void	many_malloc(t_execution *z)
 	z->outfile_name = malloc(sizeof(char **) * (z->cmds_num + 1));
 	z->fd_infile = malloc(sizeof(int) * z->cmds_num);
 	z->fd_outfile = malloc(sizeof(int) * z->cmds_num);
+	z->full_path = malloc(sizeof(char *) * (z->cmds_num + 1));
 	if (z->cmds_name == NULL || z->infile_name == NULL || 
 		z->outfile_name == NULL || z->fd_infile == NULL ||
-		z->fd_outfile == NULL)
+		z->fd_outfile == NULL || z->full_path == NULL)
 		exit(1);
 	i = 0;
 	while (i < z->cmds_num)

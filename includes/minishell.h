@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/03 17:02:12 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/04 17:54:00 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_execution
 	int		*is_file_or_append;  	/* is_file zero ... */
 	int		*fd_infile;
 	int		*fd_outfile;
+	char	**full_path;
 	int		*fd_pipe[2]; 				/* 0 read | 1 write */
 	int		*infile_num; 				/* number of infile in each pipe */
 	int		*outfile_num; 			 	/* number of outfile in each pipe */
@@ -163,6 +164,7 @@ void	remove_qut(t_execution *z);
 void	check_solution(t_execution *z);
 void	tab_to_space(char *str);
 int		inside_single_or_double_qut(char *str, int i, int qut_num[], int time);
+void	free_all(t_execution *exec);
 
 ///////////////////////////////////////////////////
 
@@ -188,6 +190,11 @@ void 					error_msg_exit(char *error_string);
 void 					error_msg_cd(char *error_arg);
 void 					error_msg_unset(char *error_arg);
 void					handle_out_file(t_execution *exec);
+void					handle_in_file(t_execution *exec);
+char					*ft_strjoin3(char *s1, char *s2, char *s3);
+void					check_func_path_acess(char **envp, t_execution *exec);
+
+
 
 
 

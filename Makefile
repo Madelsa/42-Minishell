@@ -6,7 +6,7 @@
 #    By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/01 22:17:03 by mohammoh          #+#    #+#              #
-#    Updated: 2024/01/03 16:00:30 by mabdelsa         ###   ########.fr        #
+#    Updated: 2024/01/04 17:55:19 by mabdelsa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC = 	srcs/main.c srcs/parsing/main.c srcs/parsing/ft_split.c srcs/parsing/extr
 		srcs/execution/builtins/env_built_in.c srcs/execution/builtins/dict_utils.c srcs/execution/builtins/export_built_in.c \
 		srcs/execution/builtins/unset_built_in.c srcs/execution/builtins/cd_built_in.c srcs/execution/builtins/sort_dictionary.c \
 		srcs/execution/builtins/execute_built_ins.c srcs/execution/builtins/args_error_msgs.c srcs/execution/handle_out_file.c \
+		srcs/execution/handle_in_file.c srcs/execution/check_func_path_acess.c \
 
 
 NAME = minishell
