@@ -35,10 +35,9 @@ void	size_of_all_redirections(char *str, t_execution *z)
 	}
 	z->is_file_or_here_doc = malloc(sizeof(int) * (size[0] + 1));
 	z->is_file_or_append = malloc(sizeof(int) * (size[1] + 1));
-	z->fd_infile = malloc(sizeof(int) * size[0]);
-	z->fd_outfile = malloc(sizeof(int) * size[1]);
-	if (z->is_file_or_here_doc == NULL || z->is_file_or_append == NULL || 
-		z->fd_infile == NULL || z->fd_outfile == NULL)
+	// z->fd_infile = malloc(sizeof(int) * size[0]);
+	// z->fd_outfile = malloc(sizeof(int) * size[1]);
+	if (z->is_file_or_here_doc == NULL || z->is_file_or_append == NULL)
 		exit(1);
 }
 

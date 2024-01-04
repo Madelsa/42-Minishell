@@ -82,12 +82,24 @@ int	know_symbol(char c)
 
 void	many_malloc(t_execution *z)
 {
+	int	i;
+
 	z->cmds_name = malloc(sizeof(char **) * (z->cmds_num + 1));
 	z->infile_name = malloc(sizeof(char **) * (z->cmds_num + 1));
 	z->outfile_name = malloc(sizeof(char **) * (z->cmds_num + 1));
+	z->fd_infile = malloc(sizeof(int) * z->cmds_num);
+	z->fd_outfile = malloc(sizeof(int) * z->cmds_num);
 	if (z->cmds_name == NULL || z->infile_name == NULL || 
-		z->outfile_name == NULL)
+		z->outfile_name == NULL || z->fd_infile == NULL ||
+		z->fd_outfile == NULL)
 		exit(1);
+	i = 0;
+	while (i < z->cmds_num)
+	{
+		z->fd_infile[i] = -1;
+		z->fd_outfile[i] = -1;
+		i++;
+	}
 }
 
 
