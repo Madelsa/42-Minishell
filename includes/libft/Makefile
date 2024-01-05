@@ -6,7 +6,7 @@
 #    By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/09 13:08:57 by mabdelsa          #+#    #+#              #
-#    Updated: 2024/01/02 13:32:56 by mabdelsa         ###   ########.fr        #
+#    Updated: 2024/01/04 19:44:05 by mabdelsa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,6 @@ AR		= ar rs
 RM		= rm -f
 GCC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-
 OBJS	= $(SRC:.c=.o)
 
 all: $(NAME)
