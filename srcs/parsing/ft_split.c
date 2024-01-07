@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:45:25 by aalkaisi          #+#    #+#             */
-/*   Updated: 2023/10/30 19:02:27 by aalkaisi         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:12:09 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char	**save_results(char *s, char c, int num, char **res)
 	return (res);
 }
 
-char	**ft_splitt(char *s, char c, t_execution *z)
+char	**ft_splitt(char *s, char c, t_execution *z, int is_cmds_num)
 {
 	int				num;
 	char			**res;
@@ -134,7 +134,8 @@ char	**ft_splitt(char *s, char c, t_execution *z)
 	if (s == NULL)
 		exit(1);
 	num = num_of_strs(s, c);
-	z->cmds_num = num;
+	if (is_cmds_num == 1)
+		z->cmds_num = num;
 	// printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>num: %d\n", num);
 	res = (char **)malloc(sizeof(char *) * (num + 1));
 	if (res == NULL)

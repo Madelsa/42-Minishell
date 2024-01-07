@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/04 17:54:00 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/05 18:49:11 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 #include <readline/history.h>
 
 
-// int g_var;
+int g_exit_code;
 
-# define BUFF_SIZE 4096
+// # define BUFF_SIZE 4096
 
 
 typedef struct s_env
@@ -43,16 +43,13 @@ typedef struct s_execution
 	int		*fd_infile;
 	int		*fd_outfile;
 	char	**full_path;
-	int		*fd_pipe[2]; 				/* 0 read | 1 write */
-	int		*infile_num; 				/* number of infile in each pipe */
-	int		*outfile_num; 			 	/* number of outfile in each pipe */
+	int		**fd_pipe; 				/* 0 read | 1 write */
+	// int		*infile_num; 				/* number of infile in each pipe */
+	// int		*outfile_num; 			 	/* number of outfile in each pipe */
 	// int		*cmds_num_in_part;
 	int		cmds_num;
-	int		ret;
-	int		no_exec;
-	int		pid;
-	int		parent;
-	int		last;
+	int		*process_id;
+	int		*in_file_error;
 	t_env			*env;
 	//how many pipes?
 		//loop until null (cmd[i])
@@ -137,7 +134,7 @@ void	ft_close(int fd);
 
 //parsing
 int		num_of_strs(char *s, char c);
-char	**ft_splitt(char *s, char c, t_execution *z);
+char	**ft_splitt(char *s, char c, t_execution *z, int is_cmds_num);
 // size_t	ft_strlen(const char *s);
 int		inside_qut(char *str, int i, int qut_num[], int time);
 char	*ft_strtrimm(char *s1, char *set);
@@ -193,6 +190,13 @@ void					handle_out_file(t_execution *exec);
 void					handle_in_file(t_execution *exec);
 char					*ft_strjoin3(char *s1, char *s2, char *s3);
 void					check_func_path_acess(char **envp, t_execution *exec);
+void					open_pipes(t_execution *exec);
+void					create_children(char **envp, t_execution *exec);
+void					close_all_fds(t_execution *exec, int a);
+void					open_heredoc_files(t_execution *exec);
+
+
+
 
 
 

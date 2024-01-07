@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/04 18:22:49 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/05 18:48:37 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_strjoin3(char *s1, char *s2, char *s3)
 	while (s3[++i[2]] != '\0')
 		res[i[0] + i[1] + i[2]] = s3[i[2]];
 	res[i[0] + i[1] + i[2]] = '\0';
-	return (free(s2), res);
+	return (res);
 }
 
 char	*find_value_from_key(char	*key, t_dict *dictionary)
@@ -66,7 +66,9 @@ char	*ft_replace(char *str, char *dollar_word, int i, int j, t_dict *dictionary,
 	char	*str1;
 	char	*str2;
 	char	*value;
+	char	*value2;
 
+	value2 = NULL;
 	str1 = ft_substr(str, 0, i);
 	str2 = ft_substr(str, i + j + 1, ft_strlen(str) - i - j - 1);
 	free(str);
@@ -80,12 +82,14 @@ char	*ft_replace(char *str, char *dollar_word, int i, int j, t_dict *dictionary,
 		{
 			if ((value[i] == '<' || value[i] == '>' || value[i] == '|') && is_double_qut == 0)
 			{
-				value = ft_strjoin3("\"", value, "\"");
+				value2 = ft_strjoin3("\"", value, "\"");
+				free(value);
 				break;
 			}
 			i++;
 		}
-		str = ft_strjoin3(str1, value, str2);
+		str = ft_strjoin3(str1, value2, str2);
+		free(value2);
 		free(dollar_word);
 	}
 	return (free(str1), free(str2), str);
@@ -226,7 +230,7 @@ void	parse(t_execution *exec, char *str)
 	redirections(str, exec);
 	// // printf("%s..\n", str);
 	// printf("11111.\n");
-	res = ft_splitt(str, '|', exec);
+	res = ft_splitt(str, '|', exec, 1);
 	free(str);
 	// printf("77777.\n");
 	i = -1;
@@ -255,13 +259,26 @@ void	parse(t_execution *exec, char *str)
 	// free_all(exec);
 	// re_order(res, &z);
 }
+int	skip_spaces(char *str)
+{
+	int	i;
 
+	i = 0;
+	while (str[i] == ' ')
+	{
+		i++;
+	}
+	if (str[i] == '\0')
+		return(1);
+	return(0);
+}
 
 int main (int ac, char **av, char **envp)
 {
 	t_execution exec;
 	char		*str;
 	char		*rl;
+	int			i;
 	///////////
 	t_dict *dictionary = NULL;
 	fill_dictionary(envp, &dictionary);
@@ -292,6 +309,8 @@ int main (int ac, char **av, char **envp)
 		str = dollar(str, dictionary);
 		// printf("1--->%s.\n", str);
 		tab_to_space(str);
+		if (skip_spaces(str) == 1)
+			continue ;
 		// printf("2--->%s.\n", str);
 		// printf("3--->%zu.\n", ft_strlen(str));
 		str = ft_strtrim_all(str);
@@ -304,19 +323,27 @@ int main (int ac, char **av, char **envp)
 		printf("TEST_7\n");
 		parse(&exec, str);
 		printf("TEST_7\n");
-		check_func_path_acess(envp,  &exec);
+		// check_func_path_acess(envp,  &exec);
 		////////////
 		char **cmd = *exec.cmds_name;
 		search_command_builtins(cmd, &dictionary);
 		handle_out_file(&exec);
-		// handle_in_file(&exec);
-		// echo_built_in(cmd);
-		// pwd_built_in(cmd);
-		// exit_built_in(cmd);
-		// env_built_in(cmd, &dictionary);
-		// export_built_in(cmd, &dictionary);
-		// unset_built_in(cmd, &dictionary);
-		// cd_built_in(cmd, &dictionary);
+		handle_in_file(&exec);
+		open_heredoc_files(&exec);
+		check_func_path_acess(envp, &exec);
+		open_pipes( &exec);
+		create_children(envp, &exec);
+		i = -1;
+		while (exec.full_path[++i])
+		{
+			// waitpid(exec.process_id[i], &status[0], 0);
+			waitpid(exec.process_id[i], &g_exit_code, 0);
+			// if (status[0] != 0)
+			// 	status[1] = 1;
+		}
+		close_all_fds(&exec, 1);
+		// if (str_cmp("here_doc", argv[1], 0))
+		// 	unlink("here_doc");
 		/////////////
 		// printf("%d\n", 42);
 		// redir_and_exec(&exec);

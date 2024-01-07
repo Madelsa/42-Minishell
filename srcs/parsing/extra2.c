@@ -90,9 +90,14 @@ void	many_malloc(t_execution *z)
 	z->fd_infile = malloc(sizeof(int) * z->cmds_num);
 	z->fd_outfile = malloc(sizeof(int) * z->cmds_num);
 	z->full_path = malloc(sizeof(char *) * (z->cmds_num + 1));
+	z->fd_pipe = malloc(sizeof(int *) * z->cmds_num);
+	z->process_id = malloc(sizeof(int) * z->cmds_num);
+	z->in_file_error = malloc(sizeof(int) * z->cmds_num);
 	if (z->cmds_name == NULL || z->infile_name == NULL || 
 		z->outfile_name == NULL || z->fd_infile == NULL ||
-		z->fd_outfile == NULL || z->full_path == NULL)
+		z->fd_outfile == NULL || z->full_path == NULL || 
+		z->fd_pipe == NULL || z->process_id == NULL ||
+		z->in_file_error == NULL)
 		exit(1);
 	i = 0;
 	while (i < z->cmds_num)
@@ -101,6 +106,13 @@ void	many_malloc(t_execution *z)
 		z->fd_outfile[i] = -1;
 		i++;
 	}
+	i = -1;
+	while (++i < z->cmds_num - 1)
+		z->fd_pipe[i] = malloc(sizeof(int) * 2);
+	z->fd_pipe[i] = NULL;
+	i = -1;
+	while (++i < z->cmds_num)
+		z->in_file_error[i] = 0;
 }
 
 
@@ -126,7 +138,7 @@ void	put_commands(char **str, t_execution *z)
 	i = 0;
 	while (str[i] != NULL)
 	{
-		z->cmds_name[i] = ft_splitt(str[i], ' ', z);
+		z->cmds_name[i] = ft_splitt(str[i], ' ', z, 0);
 		i++;
 	}
 	z->cmds_name[i] = NULL;

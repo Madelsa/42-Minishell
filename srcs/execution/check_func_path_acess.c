@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:21:12 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/04 18:01:11 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:37:46 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ void	check_func_path_acess(char **envp, t_execution *exec)
 	char	**paths;
 
 	i = 0;
-    printf("TEST_5\n");
+    // printf("TEST_5\n");
 	while (envp[i] != NULL && ft_strnstr(envp[i], "PATH=",
 			(size_t)5) == NULL)
-    printf("TEST_3\n");
 		i++;
 	if (envp[i] == NULL)
 	{
@@ -61,23 +60,18 @@ void	check_func_path_acess(char **envp, t_execution *exec)
         free_all(exec);
 		exit(1);
 	}
-    printf("TEST_4\n");
+    // printf("TEST_4\n");
 	paths = ft_split(envp[i] + 5, ':');
-    printf("TEST_1\n");
+    // printf("TEST_1\n");
 	if (paths == NULL)
 		exit(1);
 	j = 0;
 	while (exec->cmds_name[j] != NULL)
 	{
-        printf("TEST_2\n");
+        // printf("TEST_2\n");
 		check_func_path_acess_2(i, j, exec, paths);
         j++;
 	}
-    i = 0;
-    while (exec->full_path[i])
-    {
-        printf("paths: %s\n", exec->full_path[i]);
-        i++;
-    }
+	exec->full_path[j] = NULL;
     free_double_pointer(paths);
 }
