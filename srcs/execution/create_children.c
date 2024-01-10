@@ -12,9 +12,9 @@
 
 #include "../../includes/minishell.h"
 
-void	close_all_fds(t_execution *exec, int a)
+void close_all_fds(t_execution *exec, int a)
 {
-	int	j;
+	int j;
 	(void)a;
 	// if (a == 0)
 	// {
@@ -40,7 +40,7 @@ void	close_all_fds(t_execution *exec, int a)
 	// }
 }
 
-void	dup2_func(t_execution *exec, int i)
+void dup2_func(t_execution *exec, int i)
 {
 	if (i == 0)
 	{
@@ -75,17 +75,20 @@ void	dup2_func(t_execution *exec, int i)
 
 void create_children(char **envp, t_execution *exec)
 {
-    int i;
+	int i;
+	// int	fd_prev_pipe[2];
+	// int	fd_next_pipe[2];
 
-    i = 0;
+	// i = 0;
+	// while (exec->full_path[i] != NULL)
+	// {
+	// 	printf("infile Error: %d\n", exec->in_file_error[i]);
+	// 	i++;
+	// }
+	i = 0;
 	while (exec->full_path[i] != NULL)
 	{
-		printf("infile Error: %d\n", exec->in_file_error[i]);
-		i++;
-	}
-	i = 0;
-   	while (exec->full_path[i] != NULL)
-	{
+		// printf("TEST_%d\n", i);
 		// printf("full path: %s\n", exec->full_path[i]);
 		exec->process_id[i] = fork();
 		if (exec->process_id[i] < 0)
@@ -98,16 +101,16 @@ void create_children(char **envp, t_execution *exec)
 			if (exec->in_file_error[i] == 1)
 			{
 				ft_putstr_fd("error: No such file or directory\n", 2);
-				//freeall
+				// freeall
 				exit(1);
 			}
 			// printf("2full path: %s\n", exec->full_path[i]);
 			dup2_func(exec, i);
 			// printf("3full path: %s\n", exec->full_path[i]);
 			close_all_fds(exec, 1);
-			// printf("3full path: %s\n", exec->full_path[i]);
+			// printf("3full path: %s, i: %d\n", exec->full_path[i], i);
 			execve(exec->full_path[i], exec->cmds_name[i], envp);
-			write(2, "Error\n", 6);
+			ft_putstr_fd("command not found\n", 2);
 			// while (exec->full_path[exec->i[0]] != NULL)
 			// {
 			// 	free(exec->full_path[exec->i[0]]);
@@ -119,12 +122,12 @@ void create_children(char **envp, t_execution *exec)
 			exit(1);
 		}
 		i++;
-	} 
+	}
 }
 
 void open_pipes(t_execution *exec)
 {
-    int	i;
+	int i;
 
 	i = 0;
 	while (i < exec->cmds_num - 1)
@@ -142,5 +145,3 @@ void open_pipes(t_execution *exec)
 		i++;
 	}
 }
-
-

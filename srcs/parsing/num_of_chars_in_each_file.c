@@ -63,7 +63,6 @@ void	num_of_chars_in_each_file(char **str, t_execution *z)
 	v.qut_symbol = 'N';
 	while (str[v.j] != NULL)
 	{
-		printf("z->infile_name[%d] = %p\n", v.j + 1, z->infile_name[v.j + 1]);
 		v.i = 0;
 		v.size[0] = 0;
 		v.size[1] = 0;
@@ -74,7 +73,8 @@ void	num_of_chars_in_each_file(char **str, t_execution *z)
 		}
 		z->infile_name[v.j][v.size[0]] = NULL;
 		z->outfile_name[v.j][v.size[1]] = NULL;
-		printf("z->infile_name[%d][%d]\n", v.j, v.size[0]);
+		printf("z->infile_name[%d][%d] = %s\n", v.j, v.size[0], z->infile_name[v.j][v.size[0]]);
+		printf("z->outfile_name[%d][%d] = %s\n", v.j, v.size[1], z->outfile_name[v.j][v.size[1]]);
 		v.j++;
 	}
 	printf("?????????????????????????\n");

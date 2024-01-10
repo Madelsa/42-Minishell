@@ -18,9 +18,11 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 
-int g_exit_code;
+// int g_exit_code;
 
 // # define BUFF_SIZE 4096
 
@@ -50,7 +52,7 @@ typedef struct s_execution
 	int		cmds_num;
 	int		*process_id;
 	int		*in_file_error;
-	t_env			*env;
+	t_env	*env;
 	//how many pipes?
 		//loop until null (cmd[i])
 		//path to it is connected with cmd[i][0] and the envp
@@ -128,6 +130,7 @@ int			exec_builtin(char **cmd, t_execution *exec);
 void		redir(t_execution *exec, int cmd_index);
 void		input(t_execution *exec, int cmd_index);
 void		redir_and_exec(t_execution *exec);
+char 		*heredoc_file_name(char *str, int i, char *extenstion);
 
 //fd
 void	ft_close(int fd);
