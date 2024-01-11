@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_built_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:48:28 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/01 18:04:57 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/11 10:13:02 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	check_errors(char **arr)
 	while (arr[i] != NULL)
 	{
 		j = 0;
-		if (!ft_isalpha(arr[i][0]))
+		if (ft_isalpha(arr[i][0]) == 0)
 		{
 			error_msg_unset(arr[i]);
 			i++;
@@ -30,7 +30,7 @@ void	check_errors(char **arr)
 		}
 		while (arr[i][j] != '\0')
 		{
-			if (!ft_isalnum(arr[i][j]))
+			if (ft_isalnum(arr[i][j]) == 0)
 			{
 				error_msg_unset(arr[i]);
 				break ;
@@ -79,11 +79,12 @@ void	check_in_dictionary(char **arr, t_dict **dictionary)
 	}
 }
 
-void	unset_built_in(char **arr, t_dict **dictionary)
+int	unset_built_in(char **arr, t_dict **dictionary)
 {
 	if (arr[1] != NULL)
 	{
 		check_errors(arr);
 		check_in_dictionary(arr, dictionary);
 	}
+	return (0);
 }

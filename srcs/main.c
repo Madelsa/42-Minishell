@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/05 18:48:37 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/11 16:36:24 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,7 @@ char	*dollar(char *str, t_dict *dictionary)
 			while ((str[j + i] == '_' || ft_isalnum(str[j + i]) == 1))
 				j++;
 			if (str[i] == '#')
-			{
 				str[i] = '0';
-			}
 			if ((str[i] == '\'' || str[i] == '"') && inside_single_or_double_qut(str, i, qut_num, 2) == 0)
 			{
 				str[i - 1] = ' ';
@@ -164,6 +162,22 @@ char	*dollar(char *str, t_dict *dictionary)
 		i++;
 	}
 	return (str);
+}
+
+void	unlink_func(t_execution *exec)
+{
+	int		i;
+	char	*heredoc_file;
+
+	i = -1;
+	while (exec->full_path[++i] != NULL)
+	{
+		heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
+		if (access(heredoc_file, F_OK) == 0)
+		{
+			unlink(heredoc_file);
+		}
+	}
 }
 
 void	free_all(t_execution *exec)
@@ -236,23 +250,17 @@ void	parse(t_execution *exec, char *str)
 	i = -1;
 	while (res[++i] != NULL)
 		res[i] = ft_strtrimm(res[i], " ");
-	printf("TEST_8\n");
 	many_malloc(exec);
-	printf("TEST_8\n");
 	// printf("%s, %s.\n", res[0], res[1]);
 	// printf("11111.\n");
 	num_of_files_in_each_part(res, exec);
-	printf("11111.\n");
 	num_of_chars_in_each_file(res, exec);
-	printf("11111.\n");
 	put_chars_in_each_file(res, exec);
-	printf("TEST_9\n");
 	put_commands(res, exec);
 	i = -1;
 	while (res[++i] != NULL)
 		free(res[i]);
 	free(res);
-	printf("TEST_9\n");
 	remove_qut(exec);
 	check_solution(exec);
 
@@ -273,12 +281,16 @@ int	skip_spaces(char *str)
 	return(0);
 }
 
+int g_exit_code = 0;
+
 int main (int ac, char **av, char **envp)
 {
 	t_execution exec;
 	char		*str;
 	char		*rl;
 	int			i;
+	// int			std_in;
+	// int			std_out;
 	///////////
 	t_dict *dictionary = NULL;
 	fill_dictionary(envp, &dictionary);
@@ -320,28 +332,29 @@ int main (int ac, char **av, char **envp)
 		// printf("11111.\n");
 		if (find_syntax_error(str) == 1)
 			continue ;
-		printf("TEST_7\n");
+		// printf("TEST_7\n");
 		parse(&exec, str);
-		printf("TEST_7\n");
+		// printf("TEST_7\n");
 		// check_func_path_acess(envp,  &exec);
 		////////////
-		char **cmd = *exec.cmds_name;
-		search_command_builtins(cmd, &dictionary);
+		// char **cmd = *exec.cmds_name;
+		// search_command_builtins(cmd, &dictionary);
 		handle_out_file(&exec);
 		handle_in_file(&exec);
 		open_heredoc_files(&exec);
 		check_func_path_acess(envp, &exec);
 		open_pipes( &exec);
-		create_children(envp, &exec);
+		create_children(envp, &exec, &dictionary);
+		close_all_fds(&exec, 1);
 		i = -1;
-		while (exec.full_path[++i])
+		while (exec.full_path[++i] != NULL)
 		{
 			// waitpid(exec.process_id[i], &status[0], 0);
-			waitpid(exec.process_id[i], &g_exit_code, 0);
+			waitpid(exec.process_id[i], NULL, 0);
 			// if (status[0] != 0)
 			// 	status[1] = 1;
 		}
-		close_all_fds(&exec, 1);
+		unlink_func(&exec);
 		// if (str_cmp("here_doc", argv[1], 0))
 		// 	unlink("here_doc");
 		/////////////

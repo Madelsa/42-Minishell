@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/05 18:49:11 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/11 16:36:07 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,15 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 
-int g_exit_code;
+extern int g_exit_code;
 
 // # define BUFF_SIZE 4096
+
+
 
 
 typedef struct s_env
@@ -50,7 +54,7 @@ typedef struct s_execution
 	int		cmds_num;
 	int		*process_id;
 	int		*in_file_error;
-	t_env			*env;
+	t_env	*env;
 	//how many pipes?
 		//loop until null (cmd[i])
 		//path to it is connected with cmd[i][0] and the envp
@@ -128,6 +132,7 @@ int			exec_builtin(char **cmd, t_execution *exec);
 void		redir(t_execution *exec, int cmd_index);
 void		input(t_execution *exec, int cmd_index);
 void		redir_and_exec(t_execution *exec);
+char 		*heredoc_file_name(char *str, int i, char *extenstion);
 
 //fd
 void	ft_close(int fd);
@@ -167,21 +172,21 @@ void	free_all(t_execution *exec);
 
 
 //builtins funcs
-void					echo_built_in(char **arr);
-void					pwd_built_in(char **arr);
-void					exit_built_in(char **arr);
-void					env_built_in(char **arr, t_dict **dictionary);
+int						echo_built_in(char **arr);
+int						pwd_built_in(char **arr);
+int						exit_built_in(char **arr, int i);
+int						env_built_in(char **arr, t_dict **dictionary);
 t_dict					*ft_dict_lstnew(char *key, char *value);
 void					ft_dict_lstadd_back(t_dict **lst, t_dict *newdict);
 void					ft_dict_lstclear(t_dict **lst, void (*del)(void *));
 void					ft_dict_lstdelone(t_dict *lst, void (*del)(void *));
 void					fill_dictionary(char **envp, t_dict **dictionary);
 void					print_dictionary(t_dict **dictionary);
-void					export_built_in(char **arr, t_dict **dictionary);
-void					unset_built_in(char **arr, t_dict **dictionary);
-void					cd_built_in(char **arr, t_dict **dictionary);
+int						export_built_in(char **arr, t_dict **dictionary);
+int						unset_built_in(char **arr, t_dict **dictionary);
+int						cd_built_in(char **arr, t_dict **dictionary);
 void					sort_dict(t_dict **dictionary);
-void					search_command_builtins(char **arr, t_dict **dictionary);
+int						search_command_builtins(char **arr, t_dict **dictionary, int i);
 void 					error_msg_export(char *error_string);
 void 					error_msg_exit(char *error_string);
 void 					error_msg_cd(char *error_arg);
@@ -191,7 +196,7 @@ void					handle_in_file(t_execution *exec);
 char					*ft_strjoin3(char *s1, char *s2, char *s3);
 void					check_func_path_acess(char **envp, t_execution *exec);
 void					open_pipes(t_execution *exec);
-void					create_children(char **envp, t_execution *exec);
+void					create_children(char **envp, t_execution *exec, t_dict **dictionary);
 void					close_all_fds(t_execution *exec, int a);
 void					open_heredoc_files(t_execution *exec);
 

@@ -75,9 +75,12 @@ int	double_symbol_error(char *str)
 
 int	find_syntax_error(char	*str)
 {
-	if (str[0] == '|' || str[ft_strlen(str) - 1] == '|' || 
-		str[ft_strlen(str) - 1] == '<' || 
-		str[ft_strlen(str) - 1] == '>')
+	int	str_len;
+
+	str_len = ft_strlen(str);
+	if (str[0] == '|' || str[str_len - 1] == '|' || 
+		str[str_len - 1] == '<' || 
+		str[str_len - 1] == '>')
 	{
 		write(2, "Error\n", 6);
 		free(str);

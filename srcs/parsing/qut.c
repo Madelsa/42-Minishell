@@ -50,7 +50,7 @@ int	check_qut_error(char *str)
 				i++;
 			if (str[i] == '\0')
 			{
-				write(2, "Error\n", 6);
+				write(2, "Qut Error\n", 10);
 				return (free(str), 1);
 			}
 		}
@@ -61,7 +61,7 @@ int	check_qut_error(char *str)
 				i++;
 			if (str[i] == '\0')
 			{
-				write(2, "Error\n", 6);
+				write(2, "Qut Error\n", 10);
 				return (free(str), 1);
 			}
 		}

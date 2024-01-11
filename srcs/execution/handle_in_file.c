@@ -103,7 +103,7 @@ void	handle_in_file(t_execution *exec)
 				here_doc(exec->infile_name[i][j], -1);
 			else
 			{
-				heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".txt");
+				heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
 				file_in =	open(heredoc_file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 				exec->fd_infile[i] = file_in;
 				here_doc(exec->infile_name[i][j], file_in);
@@ -123,14 +123,14 @@ void	open_heredoc_files(t_execution *exec)
 	char	*heredoc_file;
 
 	i = -1;
-	while (exec->full_path[++i] == NULL)
+	while (exec->full_path[++i] != NULL)
 	{
 		if (exec->fd_infile[i] == -2)
 		{
 			// j = 0;
 			// while (exec->infile_name[i][j + 1] == NULL)
 			// 	j++;
-			heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".txt");
+			heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
 			exec->fd_infile[i] = open(heredoc_file, O_RDONLY, 0644);
 		}
 	}
