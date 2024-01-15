@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/05 18:48:37 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/11 16:36:24 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*ft_replace(char *str, char *dollar_word, int i, int j, t_dict *dictionary,
 	char	*value2;
 
 	value2 = NULL;
+	value = NULL;
 	str1 = ft_substr(str, 0, i);
 	str2 = ft_substr(str, i + j + 1, ft_strlen(str) - i - j - 1);
 	free(str);
@@ -84,12 +85,19 @@ char	*ft_replace(char *str, char *dollar_word, int i, int j, t_dict *dictionary,
 			{
 				value2 = ft_strjoin3("\"", value, "\"");
 				free(value);
+				value = NULL;
 				break;
 			}
 			i++;
 		}
-		str = ft_strjoin3(str1, value2, str2);
-		free(value2);
+		if (value == NULL)
+			str = ft_strjoin3(str1, value2, str2);
+		else
+			str = ft_strjoin3(str1, value, str2);
+		if (value != NULL)
+			free(value);
+		if (value2 != NULL)
+			free(value2);
 		free(dollar_word);
 	}
 	return (free(str1), free(str2), str);
@@ -281,6 +289,8 @@ int	skip_spaces(char *str)
 	return(0);
 }
 
+int g_exit_code = 0;
+
 int main (int ac, char **av, char **envp)
 {
 	t_execution exec;
@@ -335,14 +345,14 @@ int main (int ac, char **av, char **envp)
 		// printf("TEST_7\n");
 		// check_func_path_acess(envp,  &exec);
 		////////////
-		char **cmd = *exec.cmds_name;
-		search_command_builtins(cmd, &dictionary);
+		// char **cmd = *exec.cmds_name;
+		// search_command_builtins(cmd, &dictionary);
 		handle_out_file(&exec);
 		handle_in_file(&exec);
 		open_heredoc_files(&exec);
 		check_func_path_acess(envp, &exec);
 		open_pipes( &exec);
-		create_children(envp, &exec);
+		create_children(envp, &exec, &dictionary);
 		close_all_fds(&exec, 1);
 		i = -1;
 		while (exec.full_path[++i] != NULL)

@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:58:01 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/05 19:17:57 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/15 12:50:17 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void dup2_func(t_execution *exec, int i)
 	}
 }
 
-void create_children(char **envp, t_execution *exec)
+void create_children(char **envp, t_execution *exec, t_dict **dictionary)
 {
 	int i;
 	// int	fd_prev_pipe[2];
@@ -85,6 +85,29 @@ void create_children(char **envp, t_execution *exec)
 	// 	printf("infile Error: %d\n", exec->in_file_error[i]);
 	// 	i++;
 	// }
+	
+	// if (exec->cmds_name[1] == NULL)
+	// {
+
+	// 	if (search_command_builtins(*exec->cmds_name, dictionary) == 0)
+	// 		exit(g_exit_code);
+	// 	else
+	// 	{
+	// 		execve(exec->full_path[0], exec->cmds_name[0], envp);
+	// 		ft_putstr_fd("command not found\n", 2);
+	// 		// while (exec->full_path[exec->i[0]] != NULL)
+	// 		// {
+	// 		// 	free(exec->full_path[exec->i[0]]);
+	// 		// 	free_list_split(exec->cmds[exec->i[0]]);
+	// 		// 	if (str_cmp("here_doc", argv[1], 0))
+	// 		// 		unlink("here_doc");
+	// 		// 	exec->i[0]++;
+	// 		// }
+	// 		exit(1);
+	// 	}
+	// }
+	if (*exec->cmds_name[0] != NULL && exec->full_path[1] == NULL && ft_strcmp(*exec->cmds_name[0], "exit") == 0)
+			exit_built_in(*exec->cmds_name, 0);
 	i = 0;
 	while (exec->full_path[i] != NULL)
 	{
@@ -109,17 +132,26 @@ void create_children(char **envp, t_execution *exec)
 			// printf("3full path: %s\n", exec->full_path[i]);
 			close_all_fds(exec, 1);
 			// printf("3full path: %s, i: %d\n", exec->full_path[i], i);
-			execve(exec->full_path[i], exec->cmds_name[i], envp);
-			ft_putstr_fd("command not found\n", 2);
-			// while (exec->full_path[exec->i[0]] != NULL)
-			// {
-			// 	free(exec->full_path[exec->i[0]]);
-			// 	free_list_split(exec->cmds[exec->i[0]]);
-			// 	if (str_cmp("here_doc", argv[1], 0))
-			// 		unlink("here_doc");
-			// 	exec->i[0]++;
-			// }
-			exit(1);
+			if (search_command_builtins(exec->cmds_name[i], dictionary, i) != 1)
+			{
+				ft_putstr_fd(ft_itoa(g_exit_code), 2);
+				ft_putstr_fd("\n", 2);
+				exit(g_exit_code);
+			}
+			else
+			{
+				execve(exec->full_path[i], exec->cmds_name[i], envp);
+				ft_putstr_fd("command not found\n", 2);
+				// while (exec->full_path[exec->i[0]] != NULL)
+				// {
+				// 	free(exec->full_path[exec->i[0]]);
+				// 	free_list_split(exec->cmds[exec->i[0]]);
+				// 	if (str_cmp("here_doc", argv[1], 0))
+				// 		unlink("here_doc");
+				// 	exec->i[0]++;
+				// }
+				exit(1);
+			}
 		}
 		i++;
 	}

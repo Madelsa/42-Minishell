@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_built_in.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:32:58 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/02 13:23:39 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/11 10:12:41 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,9 @@ void	handle_args(char **arr, t_dict **dictionary)
 	}
 }
 
-void	export_built_in(char **arr, t_dict **dictionary)
+int	export_built_in(char **arr, t_dict **dictionary)
 {
+	g_exit_code = 0;
 	if (arr[1] == NULL)
 	{
 		sort_dict(dictionary);
@@ -118,4 +119,5 @@ void	export_built_in(char **arr, t_dict **dictionary)
 	}
 	else
 		handle_args(arr, dictionary);
+	return (0);
 }
