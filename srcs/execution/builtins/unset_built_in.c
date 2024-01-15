@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   unset_built_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:48:28 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/11 10:13:02 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/15 12:56:22 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../../../includes/minishell.h"
-
 
 void	check_errors(char **arr)
 {

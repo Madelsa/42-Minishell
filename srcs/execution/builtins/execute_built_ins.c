@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_built_ins.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 15:32:26 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/11 16:35:40 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/15 12:50:03 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ int	search_command_builtins(char **arr, t_dict **dictionary, int i)
 		else if (ft_strcmp(arr[0], "env") == 0)
 			return(env_built_in(arr, dictionary));
 	}
-	return (INT_MAX);
+	return (1);
 }

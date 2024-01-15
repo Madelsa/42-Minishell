@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_children.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:58:01 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/11 16:34:52 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/15 12:50:17 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void create_children(char **envp, t_execution *exec, t_dict **dictionary)
 			// printf("3full path: %s\n", exec->full_path[i]);
 			close_all_fds(exec, 1);
 			// printf("3full path: %s, i: %d\n", exec->full_path[i], i);
-			if (search_command_builtins(exec->cmds_name[i], dictionary, i) != INT_MAX)
+			if (search_command_builtins(exec->cmds_name[i], dictionary, i) != 1)
 			{
 				ft_putstr_fd(ft_itoa(g_exit_code), 2);
 				ft_putstr_fd("\n", 2);

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 15:52:48 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/11 10:12:05 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/15 12:52:53 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 void	update_pwds(char *directory_prev, char *directory_current,
 		t_dict **dictionary)
@@ -32,6 +32,8 @@ void	update_pwds(char *directory_prev, char *directory_current,
 		}
 		current = current->next;
 	}
+	free(directory_current);
+	free(directory_prev);
 }
 
 void	check_file_exist(char *str, t_dict **dictionary)
@@ -45,15 +47,17 @@ void	check_file_exist(char *str, t_dict **dictionary)
 	if (directory_prev == NULL)
 	{
 		g_exit_code = 1;
-		return (ft_putstr_fd("error: cannot retrieve current directory\n", 2), exit(g_exit_code));
+		return (ft_putstr_fd("error: cannot retrieve current directory\n", 2),
+			exit(g_exit_code));
 	}
 	if (chdir(str) == -1)
-		return (error_msg_cd(str));
+		return (free(directory_prev), error_msg_cd(str));
 	directory_current = getcwd(directory_current, 0);
 	if (directory_current == NULL)
 	{
 		g_exit_code = 1;
-		return (ft_putstr_fd("error: cannot retrieve current directory\n", 2), exit(g_exit_code));
+		return (free(directory_prev),
+			ft_putstr_fd("error: cannot retrieve current directory\n", 2));
 	}
 	update_pwds(directory_prev, directory_current, dictionary);
 }
