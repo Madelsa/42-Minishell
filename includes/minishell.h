@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/11 16:36:07 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/15 17:44:29 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,9 @@ void	check_solution(t_execution *z);
 void	tab_to_space(char *str);
 int		inside_single_or_double_qut(char *str, int i, int qut_num[], int time);
 void	free_all(t_execution *exec);
+char	*dollar(char *str, t_dict *dictionary);
+// void	remove_qut_from_dollar(char *dollar_str);
+// void	shift_dollar(int skip, char *dollar_str);
 
 ///////////////////////////////////////////////////
 
@@ -186,23 +189,20 @@ int						export_built_in(char **arr, t_dict **dictionary);
 int						unset_built_in(char **arr, t_dict **dictionary);
 int						cd_built_in(char **arr, t_dict **dictionary);
 void					sort_dict(t_dict **dictionary);
-int						search_command_builtins(char **arr, t_dict **dictionary, int i);
-void 					error_msg_export(char *error_string);
+int						search_command_builtins(char **arr, t_dict **dictionary, int );
+int 					error_msg_export(char *error_string);
 void 					error_msg_exit(char *error_string);
-void 					error_msg_cd(char *error_arg);
-void 					error_msg_unset(char *error_arg);
+int 					error_msg_cd(char *error_arg);
+int 					error_msg_unset(char *error_arg);
+int						error_msg_pwd(char *error_arg);
 void					handle_out_file(t_execution *exec);
-void					handle_in_file(t_execution *exec);
+void					handle_in_file(t_execution *exec, t_dict *dictionary);
 char					*ft_strjoin3(char *s1, char *s2, char *s3);
 void					check_func_path_acess(char **envp, t_execution *exec);
 void					open_pipes(t_execution *exec);
 void					create_children(char **envp, t_execution *exec, t_dict **dictionary);
 void					close_all_fds(t_execution *exec, int a);
 void					open_heredoc_files(t_execution *exec);
-
-
-
-
 
 
 

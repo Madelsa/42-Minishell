@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/11 16:36:24 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/15 17:13:05 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*ft_replace(char *str, char *dollar_word, int i, int j, t_dict *dictionary,
 	char	*value2;
 
 	value2 = NULL;
+	value = NULL;
 	str1 = ft_substr(str, 0, i);
 	str2 = ft_substr(str, i + j + 1, ft_strlen(str) - i - j - 1);
 	free(str);
@@ -84,12 +85,19 @@ char	*ft_replace(char *str, char *dollar_word, int i, int j, t_dict *dictionary,
 			{
 				value2 = ft_strjoin3("\"", value, "\"");
 				free(value);
+				value = NULL;
 				break;
 			}
 			i++;
 		}
-		str = ft_strjoin3(str1, value2, str2);
-		free(value2);
+		if (value == NULL)
+			str = ft_strjoin3(str1, value2, str2);
+		else
+			str = ft_strjoin3(str1, value, str2);
+		if (value != NULL)
+			free(value);
+		if (value2 != NULL)
+			free(value2);
 		free(dollar_word);
 	}
 	return (free(str1), free(str2), str);
@@ -149,7 +157,7 @@ char	*dollar(char *str, t_dict *dictionary)
 					str = ft_replace(str, dollar_word, i - 1, j, dictionary, 1, inside_single_or_double_qut(str, i, qut_num, 2));
 				}
 			}
-			printf("str: %s,\n", str);
+			// printf("str: %s,\n", str);
 		}
 		if (del_dollar_flag == 1)
 		{
@@ -340,7 +348,7 @@ int main (int ac, char **av, char **envp)
 		// char **cmd = *exec.cmds_name;
 		// search_command_builtins(cmd, &dictionary);
 		handle_out_file(&exec);
-		handle_in_file(&exec);
+		handle_in_file(&exec, dictionary);
 		open_heredoc_files(&exec);
 		check_func_path_acess(envp, &exec);
 		open_pipes( &exec);
@@ -350,10 +358,15 @@ int main (int ac, char **av, char **envp)
 		while (exec.full_path[++i] != NULL)
 		{
 			// waitpid(exec.process_id[i], &status[0], 0);
-			waitpid(exec.process_id[i], NULL, 0);
+			printf("HERE %i\n", i);
+			waitpid(exec.process_id[i], &g_exit_code, 0);
+			// if (WIFSIGNALED(g_exit_code))
+			// 	g_exit_code = status;
 			// if (status[0] != 0)
 			// 	status[1] = 1;
+			printf("HERE %i\n", i);
 		}
+		printf("exit code: %d\n", g_exit_code);
 		unlink_func(&exec);
 		// if (str_cmp("here_doc", argv[1], 0))
 		// 	unlink("here_doc");

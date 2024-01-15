@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:58:01 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/15 12:50:17 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/15 17:20:27 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,20 @@ void close_all_fds(t_execution *exec, int a)
 	while (exec->full_path[++j] != NULL)
 	{
 		if (exec->fd_infile[j] != -1)
+		{
+			printf("close in file\n");
 			close(exec->fd_infile[j]);
+		}
 		if (exec->fd_outfile[j] != -1)
+		{
+			printf("close out file\n");
 			close(exec->fd_outfile[j]);
+		}
 	}
 	j = -1;
 	while (exec->full_path[++j + 1] != NULL)
 	{
+		printf("close pipe\n");
 		close(exec->fd_pipe[j][0]);
 		close(exec->fd_pipe[j][1]);
 	}
@@ -76,38 +83,18 @@ void dup2_func(t_execution *exec, int i)
 void create_children(char **envp, t_execution *exec, t_dict **dictionary)
 {
 	int i;
-	// int	fd_prev_pipe[2];
-	// int	fd_next_pipe[2];
-
-	// i = 0;
-	// while (exec->full_path[i] != NULL)
-	// {
-	// 	printf("infile Error: %d\n", exec->in_file_error[i]);
-	// 	i++;
-	// }
 	
-	// if (exec->cmds_name[1] == NULL)
-	// {
-
-	// 	if (search_command_builtins(*exec->cmds_name, dictionary) == 0)
-	// 		exit(g_exit_code);
-	// 	else
-	// 	{
-	// 		execve(exec->full_path[0], exec->cmds_name[0], envp);
-	// 		ft_putstr_fd("command not found\n", 2);
-	// 		// while (exec->full_path[exec->i[0]] != NULL)
-	// 		// {
-	// 		// 	free(exec->full_path[exec->i[0]]);
-	// 		// 	free_list_split(exec->cmds[exec->i[0]]);
-	// 		// 	if (str_cmp("here_doc", argv[1], 0))
-	// 		// 		unlink("here_doc");
-	// 		// 	exec->i[0]++;
-	// 		// }
-	// 		exit(1);
-	// 	}
-	// }
-	if (*exec->cmds_name[0] != NULL && exec->full_path[1] == NULL && ft_strcmp(*exec->cmds_name[0], "exit") == 0)
-			exit_built_in(*exec->cmds_name, 0);
+	// if (*exec->cmds_name[0] != NULL && exec->full_path[1] == NULL && ft_strcmp(*exec->cmds_name[0], "exit") == 0)
+	// 		exit_built_in(*exec->cmds_name, 0);
+	if (exec->cmds_name[1] == NULL)
+	{
+		if (search_command_builtins(exec->cmds_name[0], dictionary, 0) != 1)
+		{
+				ft_putstr_fd(ft_itoa(g_exit_code), 2);
+				ft_putstr_fd("\n", 2);
+				return ;
+		}
+	}
 	i = 0;
 	while (exec->full_path[i] != NULL)
 	{

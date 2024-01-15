@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 15:52:48 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/15 12:52:53 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/15 17:39:43 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,35 +36,53 @@ void	update_pwds(char *directory_prev, char *directory_current,
 	free(directory_prev);
 }
 
-void	check_file_exist(char *str, t_dict **dictionary)
+char	*set_directory(void)
+{
+	char	*directory;
+
+	directory = NULL;
+	directory = getcwd(directory, 0);
+	if (directory == NULL)
+	{
+		g_exit_code = 1;
+		return (ft_putstr_fd("error: cannot retrieve current directory\n", 2)
+			, NULL);
+	}
+	return (directory);
+}
+
+char	*set_directory_home(t_dict **dictionary)
+{
+	char	*home_path;
+
+	home_path = ft_strdup("$HOME");
+	home_path = dollar(home_path, *dictionary);
+	return (home_path);
+}
+
+int	check_file_exist(char *str, t_dict **dictionary)
 {
 	char	*directory_prev;
 	char	*directory_current;
 
-	directory_prev = NULL;
-	directory_current = NULL;
-	directory_prev = getcwd(directory_prev, 0);
+	directory_prev = set_directory();
 	if (directory_prev == NULL)
+		return (g_exit_code = 1);
+	if (str == NULL || ft_strcmp(str, "~") == 0)
 	{
-		g_exit_code = 1;
-		return (ft_putstr_fd("error: cannot retrieve current directory\n", 2),
-			exit(g_exit_code));
+		free(str);
+		str = set_directory_home(dictionary);
 	}
 	if (chdir(str) == -1)
 		return (free(directory_prev), error_msg_cd(str));
-	directory_current = getcwd(directory_current, 0);
-	if (directory_current == NULL)
-	{
-		g_exit_code = 1;
-		return (free(directory_prev),
-			ft_putstr_fd("error: cannot retrieve current directory\n", 2));
-	}
+	directory_current = set_directory();
 	update_pwds(directory_prev, directory_current, dictionary);
+	return (0);
 }
 
 int	cd_built_in(char **arr, t_dict **dictionary)
 {
-	if (arr[1] != NULL)
-		check_file_exist(arr[1], dictionary);
+	if (check_file_exist(arr[1], dictionary) != 0)
+		return (g_exit_code);
 	return (0);
 }
