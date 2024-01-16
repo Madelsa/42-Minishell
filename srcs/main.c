@@ -297,6 +297,7 @@ int main (int ac, char **av, char **envp)
 	char		*str;
 	char		*rl;
 	int			i;
+	int			flag;
 	// int			std_in;
 	// int			std_out;
 	///////////
@@ -352,10 +353,11 @@ int main (int ac, char **av, char **envp)
 		open_heredoc_files(&exec);
 		check_func_path_acess(envp, &exec);
 		open_pipes( &exec);
-		create_children(envp, &exec, &dictionary);
-		close_all_fds(&exec, 1);
+		flag = create_children(envp, &exec, &dictionary);
+		if (flag == 0)
+			close_all_fds(&exec, 1);
 		i = -1;
-		while (exec.full_path[++i] != NULL)
+		while (exec.full_path[++i] != NULL && flag == 0)
 		{
 			// waitpid(exec.process_id[i], &status[0], 0);
 			printf("HERE %i\n", i);

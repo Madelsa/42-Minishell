@@ -189,7 +189,8 @@ int						export_built_in(char **arr, t_dict **dictionary);
 int						unset_built_in(char **arr, t_dict **dictionary);
 int						cd_built_in(char **arr, t_dict **dictionary);
 void					sort_dict(t_dict **dictionary);
-int						search_command_builtins(char **arr, t_dict **dictionary, int );
+int						search_command_builtins(char **arr, t_dict **dictionary, int i);
+int						is_builtin(char *arr);
 int 					error_msg_export(char *error_string);
 void 					error_msg_exit(char *error_string);
 int 					error_msg_cd(char *error_arg);
@@ -200,7 +201,7 @@ void					handle_in_file(t_execution *exec, t_dict *dictionary);
 char					*ft_strjoin3(char *s1, char *s2, char *s3);
 void					check_func_path_acess(char **envp, t_execution *exec);
 void					open_pipes(t_execution *exec);
-void					create_children(char **envp, t_execution *exec, t_dict **dictionary);
+int						create_children(char **envp, t_execution *exec, t_dict **dictionary);
 void					close_all_fds(t_execution *exec, int a);
 void					open_heredoc_files(t_execution *exec);
 

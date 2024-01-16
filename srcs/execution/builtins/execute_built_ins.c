@@ -33,3 +33,13 @@ int	search_command_builtins(char **arr, t_dict **dictionary, int i)
 	}
 	return (1);
 }
+
+int	is_builtin(char *arr)
+{
+	if (ft_strcmp(arr, "exit") == 0 || ft_strcmp(arr, "cd") == 0 || 
+	ft_strcmp(arr, "echo") == 0 || ft_strcmp(arr, "export") == 0 || 
+	ft_strcmp(arr, "pwd") == 0 || ft_strcmp(arr, "unset") == 0 || 
+	ft_strcmp(arr, "env") == 0)
+			return (1);
+	return (0);
+}

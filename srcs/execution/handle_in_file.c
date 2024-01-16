@@ -50,7 +50,7 @@ void	here_doc(char *limiter, int fd, t_dict *dictionary)
 	(void)dictionary;
 	write(1, ">", 1);
 	str = get_next_line(0);
-	// str = dollar(str, dictionary);
+	str = dollar(str, dictionary);
 	printf("dollar: %s\n", str);
 	if (str != NULL && str_cmp(str, limiter, 1) == 0 && fd != -1)
 		write(fd, str, ft_strlen(str));
@@ -59,7 +59,7 @@ void	here_doc(char *limiter, int fd, t_dict *dictionary)
 		free(str);
 		write(1, ">", 1);
 		str = get_next_line(0);
-		// str = dollar(str, dictionary);
+		str = dollar(str, dictionary);
 		printf("dollar: %s\n", str);
 		if (str_cmp(str, limiter, 1) == 0 && fd != -1)
 			write(fd, str, ft_strlen(str));
