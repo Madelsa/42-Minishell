@@ -139,12 +139,14 @@ int	create_children(char **envp, t_execution *exec, t_dict **dictionary)
 			{
 				ft_putstr_fd(ft_itoa(g_exit_code), 2);
 				ft_putstr_fd("\n", 2);
+				free_all(exec);
 				exit(g_exit_code);
 			}
 			else
 			{
 				execve(exec->full_path[i], exec->cmds_name[i], envp);
 				ft_putstr_fd("command not found\n", 2);
+				free_all(exec);
 				// while (exec->full_path[exec->i[0]] != NULL)
 				// {
 				// 	free(exec->full_path[exec->i[0]]);

@@ -74,7 +74,7 @@ OBJECTS = $(SOURCES:%.c=%.o)
 LIBFTBF = ./includes/libft/libft.a
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 
+CFLAGS = -Wall -Wextra -Werror -g3
 
 
 all: $(NAME)

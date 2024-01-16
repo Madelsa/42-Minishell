@@ -192,7 +192,7 @@ void	free_all(t_execution *exec)
 {
 	int i = 0;
 	int j = 0;
-
+	// ft_putstr_fd()
 	while (exec->infile_name[i] != NULL)
 	{
 		j = 0;
@@ -246,7 +246,7 @@ void	free_all(t_execution *exec)
 	}
 	free(exec->full_path);
 	i = 0;
-	while (i < exec->cmds_num)
+	while (i < exec->cmds_num - 1)
 	{
 		free(exec->fd_pipe[i]);
 		i++;
@@ -314,6 +314,7 @@ int main (int ac, char **av, char **envp)
 	char		*rl;
 	int			i;
 	int			flag;
+	int			status;
 	// int			std_in;
 	// int			std_out;
 	///////////
@@ -377,9 +378,9 @@ int main (int ac, char **av, char **envp)
 		{
 			// waitpid(exec.process_id[i], &status[0], 0);
 			// printf("HERE %i\n", i);
-			waitpid(exec.process_id[i], &g_exit_code, 0);
-			// if (WIFSIGNALED(g_exit_code))
-			// 	g_exit_code = status;
+			waitpid(exec.process_id[i], &status, 0);
+			if (WIFEXITED(status))
+				g_exit_code = status;
 			// if (status[0] != 0)
 			// 	status[1] = 1;
 			// printf("HERE %i\n", i);
