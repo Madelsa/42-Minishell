@@ -30,14 +30,20 @@ void	check_func_path_acess_2(int i, int j, t_execution *exec, char	**paths)
 	i = 0;
 	while (paths[i] != NULL)
 	{
-		if (exec->cmds_name[j][0] != NULL && exec->cmds_name[j][0][0] != '/')
+		if (exec->full_path[j] != NULL)
+				free(exec->full_path[j]);
+		if (exec->cmds_name[j][0] != NULL && exec->cmds_name[j][0][0] != '/' && exec->cmds_name[j][0][0] != '.')
+		{
 			exec->full_path[j] = ft_strjoin3(paths[i], "/", 
 					exec->cmds_name[j][0]);
+		}
 		else
+		{
 			exec->full_path[j] = ft_strdup(exec->cmds_name[j][0]);
+			break ;
+		}
 		if (exec->full_path[j] != NULL && access(exec->full_path[j], X_OK) == 0)
 			break ;
-		free(exec->full_path[j]);
 		i++;
 	}
 	// free_complex(i, z, paths);
@@ -69,9 +75,11 @@ void	check_func_path_acess(char **envp, t_execution *exec)
 	while (exec->cmds_name[j] != NULL)
 	{
         // printf("TEST_2\n");
+		exec->full_path[j] = NULL;
 		check_func_path_acess_2(i, j, exec, paths);
         j++;
 	}
+	printf("full path: %s\n", exec->full_path[0]);
 	exec->full_path[j] = NULL;
     free_double_pointer(paths);
 }

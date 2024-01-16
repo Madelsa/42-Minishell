@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:14:04 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/05 19:26:26 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/15 17:52:03 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ int	str_cmp(char *str, char *argv, int c)
 	return (0);
 }
 
-void	here_doc(char *limiter, int fd)
+void	here_doc(char *limiter, int fd, t_dict *dictionary)
 {
 	char	*str;
-
+	(void)dictionary;
 	write(1, ">", 1);
 	str = get_next_line(0);
+	str = dollar(str, dictionary);
+	printf("dollar: %s\n", str);
 	if (str != NULL && str_cmp(str, limiter, 1) == 0 && fd != -1)
 		write(fd, str, ft_strlen(str));
 	while (str_cmp(str, limiter, 1) == 0)
@@ -57,6 +59,8 @@ void	here_doc(char *limiter, int fd)
 		free(str);
 		write(1, ">", 1);
 		str = get_next_line(0);
+		str = dollar(str, dictionary);
+		printf("dollar: %s\n", str);
 		if (str_cmp(str, limiter, 1) == 0 && fd != -1)
 			write(fd, str, ft_strlen(str));
 	}
@@ -74,7 +78,7 @@ int	open_input(char *in_file_name, int *file_in, int i, int *in_file_error)
 	return (0);
 }
 
-void	handle_in_file(t_execution *exec)
+void	handle_in_file(t_execution *exec, t_dict *dictionary)
 {
 	int	file_in;
 	char *heredoc_file;
@@ -100,13 +104,13 @@ void	handle_in_file(t_execution *exec)
 					exec->fd_infile[i] = file_in;
 			}
 			else if (exec->infile_name[i][j + 1] != NULL)
-				here_doc(exec->infile_name[i][j], -1);
+				here_doc(exec->infile_name[i][j], -1, dictionary);
 			else
 			{
 				heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
 				file_in =	open(heredoc_file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 				exec->fd_infile[i] = file_in;
-				here_doc(exec->infile_name[i][j], file_in);
+				here_doc(exec->infile_name[i][j], file_in, dictionary);
 				close(file_in);
 				exec->fd_infile[i] = -2;
 			}
@@ -123,15 +127,20 @@ void	open_heredoc_files(t_execution *exec)
 	char	*heredoc_file;
 
 	i = -1;
-	while (exec->full_path[++i] != NULL)
+	// ft_putstr_fd("2HERE -->\n", 2);
+	while (exec->cmds_name[++i] != NULL)
 	{
+		// ft_putstr_fd("2HERE -->\n", 2);
 		if (exec->fd_infile[i] == -2)
 		{
 			// j = 0;
 			// while (exec->infile_name[i][j + 1] == NULL)
 			// 	j++;
 			heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
+			// ft_putstr_fd("HERE -->\n", 2);
+			ft_putnbr_fd(exec->fd_infile[i], 2);
 			exec->fd_infile[i] = open(heredoc_file, O_RDONLY, 0644);
+			ft_putnbr_fd(exec->fd_infile[i], 2);
 		}
 	}
 }
