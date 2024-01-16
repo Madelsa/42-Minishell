@@ -127,15 +127,20 @@ void	open_heredoc_files(t_execution *exec)
 	char	*heredoc_file;
 
 	i = -1;
-	while (exec->full_path[++i] != NULL)
+	// ft_putstr_fd("2HERE -->\n", 2);
+	while (exec->cmds_name[++i] != NULL)
 	{
+		// ft_putstr_fd("2HERE -->\n", 2);
 		if (exec->fd_infile[i] == -2)
 		{
 			// j = 0;
 			// while (exec->infile_name[i][j + 1] == NULL)
 			// 	j++;
 			heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
+			// ft_putstr_fd("HERE -->\n", 2);
+			ft_putnbr_fd(exec->fd_infile[i], 2);
 			exec->fd_infile[i] = open(heredoc_file, O_RDONLY, 0644);
+			ft_putnbr_fd(exec->fd_infile[i], 2);
 		}
 	}
 }

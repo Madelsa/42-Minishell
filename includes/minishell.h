@@ -134,8 +134,6 @@ void		input(t_execution *exec, int cmd_index);
 void		redir_and_exec(t_execution *exec);
 char 		*heredoc_file_name(char *str, int i, char *extenstion);
 
-//fd
-void	ft_close(int fd);
 
 //parsing
 int		num_of_strs(char *s, char c);

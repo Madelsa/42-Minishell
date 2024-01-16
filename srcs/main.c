@@ -238,6 +238,22 @@ void	free_all(t_execution *exec)
 	free(exec->cmds_name);
 	free(exec->fd_infile);
 	free(exec->fd_outfile);
+	i = 0;
+	while (exec->full_path[i] != NULL)
+	{
+		free(exec->full_path[i]);
+		i++;
+	}
+	free(exec->full_path);
+	i = 0;
+	while (i < exec->cmds_num)
+	{
+		free(exec->fd_pipe[i]);
+		i++;
+	}
+	free(exec->fd_pipe);
+	free(exec->process_id);
+	free(exec->in_file_error);
 }
 
 void	parse(t_execution *exec, char *str)
@@ -360,13 +376,13 @@ int main (int ac, char **av, char **envp)
 		while (exec.full_path[++i] != NULL && flag == 0)
 		{
 			// waitpid(exec.process_id[i], &status[0], 0);
-			printf("HERE %i\n", i);
+			// printf("HERE %i\n", i);
 			waitpid(exec.process_id[i], &g_exit_code, 0);
 			// if (WIFSIGNALED(g_exit_code))
 			// 	g_exit_code = status;
 			// if (status[0] != 0)
 			// 	status[1] = 1;
-			printf("HERE %i\n", i);
+			// printf("HERE %i\n", i);
 		}
 		printf("exit code: %d\n", g_exit_code);
 		unlink_func(&exec);
