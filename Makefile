@@ -67,14 +67,14 @@ SOURCES = \
 		srcs/execution/builtins/env_built_in.c srcs/execution/builtins/dict_utils.c srcs/execution/builtins/export_built_in.c \
 		srcs/execution/builtins/unset_built_in.c srcs/execution/builtins/cd_built_in.c srcs/execution/builtins/sort_dictionary.c \
 		srcs/execution/builtins/execute_built_ins.c srcs/execution/builtins/args_error_msgs.c srcs/execution/handle_out_file.c \
-		srcs/execution/handle_in_file.c srcs/execution/check_func_path_acess.c srcs/execution/create_children.c
+		srcs/execution/handle_in_file.c srcs/execution/check_func_path_acess.c srcs/execution/create_children.c \
 		
 OBJECTS = $(SOURCES:%.c=%.o)
 
 LIBFTBF = ./includes/libft/libft.a
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 
+CFLAGS = -Wall -Wextra -Werror -g3
 
 
 all: $(NAME)

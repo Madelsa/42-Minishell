@@ -6,13 +6,13 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:48:28 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/15 12:56:22 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/15 17:49:32 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
-void	check_errors(char **arr)
+int	check_errors(char **arr)
 {
 	int	i;
 	int	j;
@@ -30,14 +30,12 @@ void	check_errors(char **arr)
 		while (arr[i][j] != '\0')
 		{
 			if (ft_isalnum(arr[i][j]) == 0)
-			{
-				error_msg_unset(arr[i]);
-				break ;
-			}
+				return (error_msg_unset(arr[i]));
 			j++;
 		}
 		i++;
 	}
+	return (0);
 }
 
 int	remove_from_dict(char *str, t_dict **dictionary)
@@ -82,7 +80,8 @@ int	unset_built_in(char **arr, t_dict **dictionary)
 {
 	if (arr[1] != NULL)
 	{
-		check_errors(arr);
+		if (check_errors(arr) != 0)
+			return (g_exit_code);
 		check_in_dictionary(arr, dictionary);
 	}
 	return (0);
