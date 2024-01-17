@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/15 17:13:05 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:39:20 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*ft_replace(char *str, char *dollar_word, int i, int j, t_dict *dictionary,
 	return (free(str1), free(str2), str);
 }
 
-char	*subsitute_exit_code(char *str, int i)
+char	*subsitute_exit_code(char *str, int i, t_execution *exec)
 {
 	char	*str1;
 	char	*str2;
@@ -112,12 +112,12 @@ char	*subsitute_exit_code(char *str, int i)
 	str1 = ft_substr(str, 0, i - 1);
 	str2 = ft_substr(str, i + 1, ft_strlen(str) - i - 1);
 	free(str);
-	str3 = ft_itoa(g_exit_code);
+	str3 = ft_itoa(exec->exit_code);
 	str = ft_strjoin3(str1, str3, str2);
 	return (free(str1), free(str2), free(str3), str);
 }
 
-char	*dollar(char *str, t_dict *dictionary)
+char	*dollar(char *str, t_dict *dictionary, t_execution *exec)
 {
 	int		i;
 	int		j;
@@ -139,7 +139,7 @@ char	*dollar(char *str, t_dict *dictionary)
 			i++;
 			if (str[i] == '?')
 			{
-				str = subsitute_exit_code(str, i);
+				str = subsitute_exit_code(str, i, exec);
 				continue ;
 			}
 			j = 0;
@@ -324,7 +324,7 @@ int	skip_spaces(char *str)
 	return(0);
 }
 
-int g_exit_code = 0;
+int g_signal = 0;
 
 int main (int ac, char **av, char **envp)
 {
@@ -352,8 +352,19 @@ int main (int ac, char **av, char **envp)
 	////////////////////
 	while (1)
 	{
+		signal(SIGINT, is_parent_child_sig);
+		signal(SIGQUIT, is_parent_child_sig);
+		// exec.exit_code = g_signal;
+		if (g_signal != 1)
+			exec.exit_code = g_signal;
+		g_signal = 1;
 		rl = readline("minishell$ ");
-		if (rl == NULL || rl[0] == '\0')
+		if (rl == NULL)
+		{
+			printf("exit\n");
+			exit(0);
+		}
+		if (rl[0] == '\0')
 			continue ;
 		add_history(rl);
 		str = ft_strdup(rl);
@@ -363,7 +374,7 @@ int main (int ac, char **av, char **envp)
 		// printf("lol--->%s.\n", str);
 		if (check_qut_error(str) == 1)
 			continue ;
-		str = dollar(str, dictionary);
+		str = dollar(str, dictionary, &exec);
 		// printf("1--->%s.\n", str);
 		tab_to_space(str);
 		if (skip_spaces(str) == 1)
@@ -375,7 +386,7 @@ int main (int ac, char **av, char **envp)
 		if (str == NULL)
 			continue ;
 		// printf("11111.\n");
-		if (find_syntax_error(str) == 1)
+		if (find_syntax_error(str, &exec) == 1)
 			continue ;
 		// printf("TEST_7\n");
 		parse(&exec, str);
@@ -399,12 +410,12 @@ int main (int ac, char **av, char **envp)
 			// printf("HERE %i\n", i);
 			waitpid(exec.process_id[i], &status, 0);
 			if (WIFEXITED(status))
-				g_exit_code = status;
+				exec.exit_code = status;
 			// if (status[0] != 0)
 			// 	status[1] = 1;
 			// printf("HERE %i\n", i);
 		}
-		printf("exit code: %d\n", g_exit_code);
+		// printf("exit code: %d\n", exec.exit_code);
 		unlink_func(&exec);
 		// if (str_cmp("here_doc", argv[1], 0))
 		// 	unlink("here_doc");

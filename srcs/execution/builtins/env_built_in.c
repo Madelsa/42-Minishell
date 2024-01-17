@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:28:12 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/01/15 17:34:38 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:02:54 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,16 @@ void	print_dictionary(t_dict **dictionary)
 	}
 }
 
-int	env_built_in(char **arr, t_dict **dictionary)
+int	env_built_in(char **arr, t_dict **dictionary, t_execution *exec)
 {
 	if (arr[1] != NULL)
 	{
 		ft_putstr_fd("env: No such file or directory\n", 2);
-		g_exit_code = 127;
-		return (g_exit_code);
+		exec->exit_code = 127;
+		return (exec->exit_code);
 	}
 	print_dictionary(dictionary);
+	exec->exit_code = 0;
 	return (0);
 
 }

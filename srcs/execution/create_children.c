@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:58:01 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/15 17:20:27 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:29:40 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ void dup2_func(t_execution *exec, int i)
 	{
 		if (exec->fd_infile[i] != -1)
 		{
-			ft_putstr_fd("HERE lol\n", 2);
+			// ft_putstr_fd("HERE lol\n", 2);
 			dup2(exec->fd_infile[i], 0);
 		}
 		if (exec->fd_outfile[i] != -1)
 		{
-			ft_putstr_fd("2 HERE lol\n", 2);
+			// ft_putstr_fd("2 HERE lol\n", 2);
 			ft_putnbr_fd(exec->fd_outfile[i], 2);
-			ft_putstr_fd("\n", 2);
+			// ft_putstr_fd("\n", 2);
 			dup2(exec->fd_outfile[i], 1);
 		}
 		else if (exec->full_path[i + 1] != NULL)
@@ -104,9 +104,9 @@ int	create_children(char **envp, t_execution *exec, t_dict **dictionary)
 			fd_stdin = dup(0);
 			fd_stdout = dup(1);
 			dup2_func(exec, i);
-			search_command_builtins(exec->cmds_name[0], dictionary, 0);
-			ft_putstr_fd(ft_itoa(g_exit_code), 2);
-			ft_putstr_fd("\n", 2);
+			search_command_builtins(exec->cmds_name[0], dictionary, 0, exec);
+			// ft_putstr_fd(ft_itoa(g_exit_code), 2);
+			// ft_putstr_fd("\n", 2);
 			dup2(fd_stdin, 0);
 			dup2(fd_stdout, 1);
 			return (1);
@@ -114,6 +114,7 @@ int	create_children(char **envp, t_execution *exec, t_dict **dictionary)
 	}
 	while (exec->full_path[i] != NULL)
 	{
+		g_signal = 0;
 		// printf("TEST_%d\n", i);
 		// printf("full path: %s\n", exec->full_path[i]);
 		exec->process_id[i] = fork();
@@ -135,12 +136,10 @@ int	create_children(char **envp, t_execution *exec, t_dict **dictionary)
 			// printf("3full path: %s\n", exec->full_path[i]);
 			close_all_fds(exec, 1);
 			// printf("3full path: %s, i: %d\n", exec->full_path[i], i);
-			if (search_command_builtins(exec->cmds_name[i], dictionary, i) != 1)
+			if (search_command_builtins(exec->cmds_name[i], dictionary, i, exec) != 1)
 			{
-				ft_putstr_fd(ft_itoa(g_exit_code), 2);
-				ft_putstr_fd("\n", 2);
 				free_all(exec);
-				exit(g_exit_code);
+				exit(exec->exit_code);
 			}
 			else
 			{

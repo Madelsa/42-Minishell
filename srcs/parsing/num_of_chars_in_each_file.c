@@ -73,9 +73,9 @@ void	num_of_chars_in_each_file(char **str, t_execution *z)
 		}
 		z->infile_name[v.j][v.size[0]] = NULL;
 		z->outfile_name[v.j][v.size[1]] = NULL;
-		printf("z->infile_name[%d][%d] = %s\n", v.j, v.size[0], z->infile_name[v.j][v.size[0]]);
-		printf("z->outfile_name[%d][%d] = %s\n", v.j, v.size[1], z->outfile_name[v.j][v.size[1]]);
+		// printf("z->infile_name[%d][%d] = %s\n", v.j, v.size[0], z->infile_name[v.j][v.size[0]]);
+		// printf("z->outfile_name[%d][%d] = %s\n", v.j, v.size[1], z->outfile_name[v.j][v.size[1]]);
 		v.j++;
 	}
-	printf("?????????????????????????\n");
+	// printf("?????????????????????????\n");
 }

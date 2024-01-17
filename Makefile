@@ -68,13 +68,15 @@ SOURCES = \
 		srcs/execution/builtins/unset_built_in.c srcs/execution/builtins/cd_built_in.c srcs/execution/builtins/sort_dictionary.c \
 		srcs/execution/builtins/execute_built_ins.c srcs/execution/builtins/args_error_msgs.c srcs/execution/handle_out_file.c \
 		srcs/execution/handle_in_file.c srcs/execution/check_func_path_acess.c srcs/execution/create_children.c \
+		srcs/execution/signals.c
 		
 OBJECTS = $(SOURCES:%.c=%.o)
 
 LIBFTBF = ./includes/libft/libft.a
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -g3 
+LIBSR = -L$(HOME)/local/lib -lreadline -lncurses
 
 
 all: $(NAME)
@@ -82,11 +84,12 @@ all: $(NAME)
 $(NAME): $(OBJECTS)
 	$(MAKE) -C ./includes/libft
 	echo ${OBJECTS}
-	$(CC) $(CFLAGS) $(SOURCES) $(LIBFTBF) -o $(NAME) -lreadline -L .brew/opt/readline/lib -I .brew/opt/readline/include
+	$(CC) $(CFLAGS) $(SOURCES) $(LIBFTBF) -o $(NAME) -I/Users/mabdelsa/local/include/readline/ $(LIBSR)
+	install_name_tool -change /usr/local/lib/libreadline.8.dylib $(HOME)/local/lib/libreadline.8.dylib $(NAME)
 	
 
 %.o: %.c
-	${CC} ${CFLAGS} -c $< -I/usr/local/opt/readline/include -o $@
+	${CC} ${CFLAGS} -c $< -I/Users/mabdelsa/local/include/readline/ -o $@
 
 clean:
 	$(MAKE) clean -C ./includes/libft
@@ -98,29 +101,29 @@ fclean: clean
 
 re: fclean all
 
-test: all
-	@echo "\033[0;32mRunning in Valgrind.\033[0m"
-	@valgrind \
-	--leak-check=full \
-	--track-fds=yes \
-	--track-origins=yes \
-	--trace-children=yes \
-	--show-leak-kinds=all \
-	--suppressions=supress_new \
-	-s \
-	./minishell
+# test: all
+# 	@echo "\033[0;32mRunning in Valgrind.\033[0m"
+# 	@valgrind \
+# 	--leak-check=full \
+# 	--track-fds=yes \
+# 	--track-origins=yes \
+# 	--trace-children=yes \
+# 	--show-leak-kinds=all \
+# 	--suppressions=supress_new \
+# 	-s \
+# 	./minishell
 
-valgrind: re
-	@clear
-	@echo "\033[0;32mRunning in Valgrind.\033[0m"
-	@valgrind \
-	--leak-check=full \
-	--track-fds=yes \
-	--track-origins=yes \
-	--show-leak-kinds=all \
-	--suppressions=supress_new \
-	--trace-children=yes \
-	./minishell\
+# valgrind: re
+# 	@clear
+# 	@echo "\033[0;32mRunning in Valgrind.\033[0m"
+# 	@valgrind \
+# 	--leak-check=full \
+# 	--track-fds=yes \
+# 	--track-origins=yes \
+# 	--show-leak-kinds=all \
+# 	--suppressions=supress_new \
+# 	--trace-children=yes \
+# 	./minishell\
 
 .PHONY: all clean fclean re valgrind
 ## $(CC) $(CFLAGS) $(SOURCES) $(LIBFTBF) -lreadline -o $(NAME)

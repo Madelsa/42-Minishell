@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:14:04 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/15 17:52:03 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:21:34 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,35 @@ int	str_cmp(char *str, char *argv, int c)
 	return (0);
 }
 
-void	here_doc(char *limiter, int fd, t_dict *dictionary)
+void	here_doc(char *limiter, int fd, t_dict *dictionary, t_execution *exec)
 {
 	char	*str;
-	(void)dictionary;
-	write(1, ">", 1);
-	str = get_next_line(0);
-	str = dollar(str, dictionary);
-	printf("dollar: %s\n", str);
-	if (str != NULL && str_cmp(str, limiter, 1) == 0 && fd != -1)
-		write(fd, str, ft_strlen(str));
-	while (str_cmp(str, limiter, 1) == 0)
+	g_signal = 2;
+	str = readline(">");
+	if (!str)
 	{
-		free(str);
-		write(1, ">", 1);
-		str = get_next_line(0);
-		str = dollar(str, dictionary);
+		// dup2(std_in, 0);
+		open("/dev/tty", O_RDONLY);
+		return;
+	}
+	str = dollar(str, dictionary, exec);
+	printf("dollar: %s\n", str);
+	if (str != NULL && ft_strcmp(str, limiter) != 0 && fd != -1)
+		write(fd, str, ft_strlen(str));
+	while (ft_strcmp(str, limiter) != 0)
+	{
+		// free(str);
+		str = readline(">");
+		if (!str)
+			break;
+		str = dollar(str, dictionary, exec);
 		printf("dollar: %s\n", str);
-		if (str_cmp(str, limiter, 1) == 0 && fd != -1)
+		if (ft_strcmp(str, limiter) != 0 && fd != -1)
 			write(fd, str, ft_strlen(str));
 	}
-	free(str);
+	// dup2(std_in, 0);
+	open("/dev/tty", O_RDONLY);
+	// free(str);
 }
 
 int	open_input(char *in_file_name, int *file_in, int i, int *in_file_error)
@@ -104,13 +112,13 @@ void	handle_in_file(t_execution *exec, t_dict *dictionary)
 					exec->fd_infile[i] = file_in;
 			}
 			else if (exec->infile_name[i][j + 1] != NULL)
-				here_doc(exec->infile_name[i][j], -1, dictionary);
+				here_doc(exec->infile_name[i][j], -1, dictionary, exec);
 			else
 			{
 				heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
 				file_in =	open(heredoc_file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 				exec->fd_infile[i] = file_in;
-				here_doc(exec->infile_name[i][j], file_in, dictionary);
+				here_doc(exec->infile_name[i][j], file_in, dictionary, exec);
 				close(file_in);
 				exec->fd_infile[i] = -2;
 			}

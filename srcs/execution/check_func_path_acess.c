@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:21:12 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/05 15:37:46 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:27:18 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	check_func_path_acess(char **envp, t_execution *exec)
 		check_func_path_acess_2(i, j, exec, paths);
         j++;
 	}
-	printf("full path: %s\n", exec->full_path[0]);
+	// printf("full path: %s\n", exec->full_path[0]);
 	exec->full_path[j] = NULL;
     free_double_pointer(paths);
 }
