@@ -103,6 +103,20 @@ char	*ft_replace(char *str, char *dollar_word, int i, int j, t_dict *dictionary,
 	return (free(str1), free(str2), str);
 }
 
+char	*subsitute_exit_code(char *str, int i)
+{
+	char	*str1;
+	char	*str2;
+	char	*str3;
+	
+	str1 = ft_substr(str, 0, i - 1);
+	str2 = ft_substr(str, i + 1, ft_strlen(str) - i - 1);
+	free(str);
+	str3 = ft_itoa(g_exit_code);
+	str = ft_strjoin3(str1, str3, str2);
+	return (free(str1), free(str2), free(str3), str);
+}
+
 char	*dollar(char *str, t_dict *dictionary)
 {
 	int		i;
@@ -123,6 +137,11 @@ char	*dollar(char *str, t_dict *dictionary)
 		{
 			del_dollar_flag = 2;
 			i++;
+			if (str[i] == '?')
+			{
+				str = subsitute_exit_code(str, i);
+				continue ;
+			}
 			j = 0;
 			hash_flag = 0;
 			while ((str[j + i] == '_' || ft_isalnum(str[j + i]) == 1))
