@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:58:01 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/17 18:29:40 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:51:35 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,27 +91,34 @@ void dup2_func(t_execution *exec, int i)
 int	create_children(char **envp, t_execution *exec, t_dict **dictionary)
 {
 	int i;
-	int	fd_stdin;
-	int fd_stdout;
-	
-	// if (*exec->cmds_name[0] != NULL && exec->full_path[1] == NULL && ft_strcmp(*exec->cmds_name[0], "exit") == 0)
-	// 		exit_built_in(*exec->cmds_name, 0);
+
 	i = 0;
 	if (exec->cmds_name[1] == NULL)
 	{
+		// ft_putstr_fd("HI\n", 2);
 		if (is_builtin(exec->cmds_name[0][0]) == 1)
 		{
-			fd_stdin = dup(0);
-			fd_stdout = dup(1);
+			// ft_putstr_fd("2HI\n", 2);
+			exec->fd_std[0] = dup(0);
+			exec->fd_std[1] = dup(1);
 			dup2_func(exec, i);
 			search_command_builtins(exec->cmds_name[0], dictionary, 0, exec);
 			// ft_putstr_fd(ft_itoa(g_exit_code), 2);
 			// ft_putstr_fd("\n", 2);
-			dup2(fd_stdin, 0);
-			dup2(fd_stdout, 1);
+			dup2(exec->fd_std[0], 0);
+			dup2(exec->fd_std[1], 1);
+			close(exec->fd_std[0]);
+			close(exec->fd_std[1]);
 			return (1);
 		}
 	}
+	while (i < exec->cmds_num)
+	{
+		if (exec->in_file_error[i] == 1)
+			ft_putstr_fd("error: No such file or directory\n", 2);
+		i++;
+	}
+	i = 0;
 	while (exec->full_path[i] != NULL)
 	{
 		g_signal = 0;
@@ -126,11 +133,7 @@ int	create_children(char **envp, t_execution *exec, t_dict **dictionary)
 			// write(2, ft_itoa(exec->in_file_error[i]), 60);
 			// write(2, "\n", 1);
 			if (exec->in_file_error[i] == 1)
-			{
-				ft_putstr_fd("error: No such file or directory\n", 2);
-				// freeall
 				exit(1);
-			}
 			// printf("2full path: %s\n", exec->full_path[i]);
 			dup2_func(exec, i);
 			// printf("3full path: %s\n", exec->full_path[i]);

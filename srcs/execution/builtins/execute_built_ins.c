@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 15:32:26 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/17 18:07:02 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:05:56 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	search_command_builtins(char **arr, t_dict **dictionary, int i, t_execution 
 	if (arr[0] != NULL)
 	{
 		if (ft_strcmp(arr[0], "exit") == 0)
-			exit_built_in(arr, i, exec);
+			exit_built_in(arr, i, exec, dictionary);
 		else if (ft_strcmp(arr[0], "cd") == 0)
 			return (cd_built_in(arr, dictionary, exec));
 		else if (ft_strcmp(arr[0], "echo") == 0)
@@ -36,6 +36,8 @@ int	search_command_builtins(char **arr, t_dict **dictionary, int i, t_execution 
 
 int	is_builtin(char *arr)
 {
+	if (arr == NULL)
+		return (0);
 	if (ft_strcmp(arr, "exit") == 0 || ft_strcmp(arr, "cd") == 0 || 
 	ft_strcmp(arr, "echo") == 0 || ft_strcmp(arr, "export") == 0 || 
 	ft_strcmp(arr, "pwd") == 0 || ft_strcmp(arr, "unset") == 0 || 

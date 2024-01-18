@@ -1,3 +1,3 @@
 #/!bin/bash
 
-valgrind --track-fds=yes --trace-children=yes ./minishell
+valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes ./minishell

@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:14:04 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/17 18:21:34 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:14:02 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char *heredoc_file_name(char *str, int i, char *extenstion)
 
 	index = ft_itoa(i);
 	here_doc_file = ft_strjoin3(str, index, extenstion);
+	free(index);
 	return (here_doc_file);
 }
 
@@ -44,35 +45,57 @@ int	str_cmp(char *str, char *argv, int c)
 	return (0);
 }
 
-void	here_doc(char *limiter, int fd, t_dict *dictionary, t_execution *exec)
+int	here_doc(char *limiter, int fd, t_dict *dictionary, t_execution *exec)
 {
 	char	*str;
 	g_signal = 2;
+	exec->fd_std[0] = dup(0);
+	
 	str = readline(">");
 	if (!str)
 	{
 		// dup2(std_in, 0);
-		open("/dev/tty", O_RDONLY);
-		return;
+		// free_all(exec);
+		// open("/dev/tty", O_RDONLY);
+		dup2(exec->fd_std[0], 0);
+		close(exec->fd_std[0]);
+		return (1);
 	}
+	
 	str = dollar(str, dictionary, exec);
-	printf("dollar: %s\n", str);
+	// printf("dollar: %s\n", str);
 	if (str != NULL && ft_strcmp(str, limiter) != 0 && fd != -1)
+	{
 		write(fd, str, ft_strlen(str));
-	while (ft_strcmp(str, limiter) != 0)
+		write(fd, "\n", 1);
+	}
+	
+	while (str != NULL && ft_strcmp(str, limiter) != 0)
 	{
 		// free(str);
 		str = readline(">");
 		if (!str)
-			break;
+		{
+			// free_all(exec);
+			// open("/dev/tty", O_RDONLY);
+			dup2(exec->fd_std[0], 0);
+			close(exec->fd_std[0]);
+			return (1);
+		}
 		str = dollar(str, dictionary, exec);
-		printf("dollar: %s\n", str);
+		// printf("dollar: %s\n", str);
 		if (ft_strcmp(str, limiter) != 0 && fd != -1)
+		{
 			write(fd, str, ft_strlen(str));
+			write(fd, "\n", 1);
+		}
 	}
 	// dup2(std_in, 0);
-	open("/dev/tty", O_RDONLY);
 	// free(str);
+	// if (fd != -1)
+	// 	close(fd);
+	close(exec->fd_std[0]);
+	return (0);
 }
 
 int	open_input(char *in_file_name, int *file_in, int i, int *in_file_error)
@@ -112,13 +135,23 @@ void	handle_in_file(t_execution *exec, t_dict *dictionary)
 					exec->fd_infile[i] = file_in;
 			}
 			else if (exec->infile_name[i][j + 1] != NULL)
-				here_doc(exec->infile_name[i][j], -1, dictionary, exec);
+			{
+				if (here_doc(exec->infile_name[i][j], -1, dictionary, exec) == 1)
+					return ;
+			}
 			else
 			{
 				heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
-				file_in =	open(heredoc_file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+				file_in = open(heredoc_file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+				free(heredoc_file);
 				exec->fd_infile[i] = file_in;
-				here_doc(exec->infile_name[i][j], file_in, dictionary, exec);
+				if (here_doc(exec->infile_name[i][j], file_in, dictionary, exec) == 1)
+				{
+					ft_putstr_fd("HERE!!!!!\n", 2);
+					close(file_in);
+					exec->fd_infile[i] = -2;
+					return ;
+				}
 				close(file_in);
 				exec->fd_infile[i] = -2;
 			}
@@ -149,6 +182,7 @@ void	open_heredoc_files(t_execution *exec)
 			ft_putnbr_fd(exec->fd_infile[i], 2);
 			exec->fd_infile[i] = open(heredoc_file, O_RDONLY, 0644);
 			ft_putnbr_fd(exec->fd_infile[i], 2);
+			free(heredoc_file);
 		}
 	}
 }

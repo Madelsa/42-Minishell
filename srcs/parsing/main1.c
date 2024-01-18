@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 18:55:17 by aalkaisi          #+#    #+#             */
-/*   Updated: 2024/01/17 18:27:52 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/18 12:56:06 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	check_solution(t_execution *z)
 	i = 0;
 	while (z->is_file_or_here_doc[i] != -1)
 	{
-		printf("z->is_file_or_here_doc[%d]: %d\n", i, z->is_file_or_here_doc[i]);
+		// printf("z->is_file_or_here_doc[%d]: %d\n", i, z->is_file_or_here_doc[i]);
 		i++;
 	}
 	i = 0;

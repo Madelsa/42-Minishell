@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/17 18:24:48 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:51:59 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_execution
 	t_env	*env;
 	int		std_in;
 	int 	exit_code;
+	int 	fd_std[2];
 	//how many pipes?
 		//loop until null (cmd[i])
 		//path to it is connected with cmd[i][0] and the envp
@@ -176,7 +177,7 @@ char	*dollar(char *str, t_dict *dictionary, t_execution *exec);
 //builtins funcs
 int						echo_built_in(char **arr,  t_execution *exec);
 int						pwd_built_in(char **arr,  t_execution *exec);
-void					exit_built_in(char **arr, int i,  t_execution *exec);
+void					exit_built_in(char **arr, int i,  t_execution *exec, t_dict **dictionary);
 int						env_built_in(char **arr, t_dict **dictionary,  t_execution *exec);
 t_dict					*ft_dict_lstnew(char *key, char *value);
 void					ft_dict_lstadd_back(t_dict **lst, t_dict *newdict);

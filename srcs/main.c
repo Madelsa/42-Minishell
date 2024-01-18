@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/17 18:39:20 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:52:51 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,7 @@ void	unlink_func(t_execution *exec)
 		{
 			unlink(heredoc_file);
 		}
+		free(heredoc_file);
 	}
 }
 
@@ -257,13 +258,16 @@ void	free_all(t_execution *exec)
 	free(exec->cmds_name);
 	free(exec->fd_infile);
 	free(exec->fd_outfile);
-	i = 0;
-	while (exec->full_path[i] != NULL)
-	{
-		free(exec->full_path[i]);
-		i++;
-	}
-	free(exec->full_path);
+	// if (flag == 0)
+	// {
+		i = 0;
+		while (exec->full_path[i] != NULL)
+		{
+			free(exec->full_path[i]);
+			i++;
+		}
+		free(exec->full_path);
+	// }
 	i = 0;
 	while (i < exec->cmds_num - 1)
 	{
@@ -352,6 +356,7 @@ int main (int ac, char **av, char **envp)
 	////////////////////
 	while (1)
 	{
+		// exec.full_path = NULL;
 		signal(SIGINT, is_parent_child_sig);
 		signal(SIGQUIT, is_parent_child_sig);
 		// exec.exit_code = g_signal;
@@ -397,8 +402,13 @@ int main (int ac, char **av, char **envp)
 		// search_command_builtins(cmd, &dictionary);
 		handle_out_file(&exec);
 		handle_in_file(&exec, dictionary);
-		open_heredoc_files(&exec);
 		check_func_path_acess(envp, &exec);
+		if (g_signal != 1)
+		{
+			free_all(&exec);
+			continue ;
+		}
+		open_heredoc_files(&exec);
 		open_pipes( &exec);
 		flag = create_children(envp, &exec, &dictionary);
 		if (flag == 0)

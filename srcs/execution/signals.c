@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 15:29:56 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/17 18:40:44 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:13:27 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	exit_heredoc(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 		g_signal = 130;
-		printf("EXIT CODE: %d\n", g_signal);
+		// printf("EXIT CODE: %d\n", g_signal);
 	}
 }
 
