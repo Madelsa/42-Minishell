@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:14:04 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/22 13:42:09 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:17:03 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	here_doc(char *limiter, int fd, t_dict *dictionary, t_execution *exec)
 	// if (fd != -1)
 	// 	close(fd);
 	close(exec->fd_std[0]);
+	g_signal = 1;
 	return (0);
 }
 

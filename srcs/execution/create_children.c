@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:58:01 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/22 18:44:21 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:20:46 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,41 +39,41 @@ void	close_all_fds(t_execution *exec)
 	}
 }
 
-void	dup2_func(t_execution *exec, int i)
-{
-	if (i == 0)
-	{
-		if (exec->fd_infile[i] != -1)
-			dup2(exec->fd_infile[i], 0);
-		if (exec->fd_outfile[i] != -1)
-		{
-			ft_putnbr_fd(exec->fd_outfile[i], 2);
-			dup2(exec->fd_outfile[i], 1);
-		}
-		else if (exec->full_path[i + 1] != NULL)
-			dup2(exec->fd_pipe[i][1], 1);
-	}
-	else if (exec->full_path[i + 1] == NULL)
-	{
-		if (exec->fd_infile[i] != -1)
-			dup2(exec->fd_infile[i], 0);
-		else
-			dup2(exec->fd_pipe[i - 1][0], 0);
-		if (exec->fd_outfile[i] != -1)
-			dup2(exec->fd_outfile[i], 1);
-	}
-	else
-	{
-		if (exec->fd_infile[i] != -1)
-			dup2(exec->fd_infile[i], 0);
-		else
-			dup2(exec->fd_pipe[i - 1][0], 0);
-		if (exec->fd_outfile[i] != -1)
-			dup2(exec->fd_outfile[i], 1);
-		else
-			dup2(exec->fd_pipe[i][1], 1);
-	}
-}
+// void	dup2_func(t_execution *exec, int i)
+// {
+// 	if (i == 0)
+// 	{
+// 		if (exec->fd_infile[i] != -1)
+// 			dup2(exec->fd_infile[i], 0);
+// 		if (exec->fd_outfile[i] != -1)
+// 		{
+// 			ft_putnbr_fd(exec->fd_outfile[i], 2);
+// 			dup2(exec->fd_outfile[i], 1);
+// 		}
+// 		else if (exec->full_path[i + 1] != NULL)
+// 			dup2(exec->fd_pipe[i][1], 1);
+// 	}
+// 	else if (exec->full_path[i + 1] == NULL)
+// 	{
+// 		if (exec->fd_infile[i] != -1)
+// 			dup2(exec->fd_infile[i], 0);
+// 		else
+// 			dup2(exec->fd_pipe[i - 1][0], 0);
+// 		if (exec->fd_outfile[i] != -1)
+// 			dup2(exec->fd_outfile[i], 1);
+// 	}
+// 	else
+// 	{
+// 		if (exec->fd_infile[i] != -1)
+// 			dup2(exec->fd_infile[i], 0);
+// 		else
+// 			dup2(exec->fd_pipe[i - 1][0], 0);
+// 		if (exec->fd_outfile[i] != -1)
+// 			dup2(exec->fd_outfile[i], 1);
+// 		else
+// 			dup2(exec->fd_pipe[i][1], 1);
+// 	}
+// }
 
 int	create_children(t_execution *exec, t_dict **dictionary)
 {
