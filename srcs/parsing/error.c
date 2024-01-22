@@ -73,7 +73,7 @@ int	double_symbol_error(char *str)
 	return (0);
 }
 
-int	find_syntax_error(char	*str)
+int	find_syntax_error(char	*str, t_execution *exec)
 {
 	int	str_len;
 
@@ -82,14 +82,18 @@ int	find_syntax_error(char	*str)
 		str[str_len - 1] == '<' || 
 		str[str_len - 1] == '>')
 	{
-		write(2, "Error\n", 6);
+		ft_putstr_fd("syntax error\n", 2);
+		// write(2, "syntax error\n", 6);
 		free(str);
+		exec->exit_code = 2;
 		return (1);
 	}
 	if (double_pipe_error(str) == 1 || double_symbol_error(str) == 1)
 	{
-		write(2, "Error\n", 6);
+		ft_putstr_fd("syntax error\n", 2);
+		// write(2, "syntax error\n", 6);
 		free(str);
+		exec->exit_code = 2;
 		return (1);
 	}
 	return (0);

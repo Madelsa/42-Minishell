@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_built_in.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:28:12 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/01/11 10:11:46 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/22 18:07:36 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ void	print_dictionary(t_dict **dictionary)
 	}
 }
 
-int	env_built_in(char **arr, t_dict **dictionary)
+int	env_built_in(char **arr, t_dict **dictionary, t_execution *exec)
 {
 	if (arr[1] != NULL)
 	{
 		ft_putstr_fd("env: No such file or directory\n", 2);
-		g_exit_code = 127;
-		exit(g_exit_code);
+		exec->exit_code = 127;
+		return (exec->exit_code);
 	}
 	print_dictionary(dictionary);
+	exec->exit_code = 0;
 	return (0);
-
 }
