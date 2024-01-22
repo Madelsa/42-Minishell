@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 15:29:56 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/18 13:13:27 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 12:50:32 by aalkaisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	exit_heredoc(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", 1);
-		// rl_replace_line("", 1);
+		rl_replace_line("", 1);
 		close(0);
 		rl_on_new_line();
 		rl_redisplay();

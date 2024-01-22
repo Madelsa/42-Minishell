@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_func_path_acess.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:21:12 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/22 12:27:15 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 12:45:21 by aalkaisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,11 @@ void	check_func_path_acess(t_execution *exec,  t_dict **dictionary)
 	// }
     // printf("TEST_4\n");
 	i = 0;
-	exec->paths = ft_split(path + 5, ':');
+	if (path != NULL)
+		exec->paths = ft_split(path + 5, ':');
     // printf("TEST_1\n");
-	if (exec->paths == NULL)
-		exit(1);
+	// if (exec->paths == NULL)
+	// 	exit(1);
 	j = 0;
 	while (exec->cmds_name[j] != NULL)
 	{
