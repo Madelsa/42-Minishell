@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/21 16:13:38 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:13:19 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,6 +351,7 @@ void prompt(t_execution *exec, t_dict *dictionary)
 		if (rl == NULL)
 		{
 			printf("exit\n");
+			rl_clear_history();
 			exit(0);
 		}
 		if (rl[0] == '\0')

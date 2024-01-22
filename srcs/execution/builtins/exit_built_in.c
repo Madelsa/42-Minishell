@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:37:04 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/01/18 17:51:32 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 13:58:21 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	exit_built_in(char **arr, int i, t_execution *exec, t_dict **dictionary)
 		free_all(exec);
 		close(exec->fd_std[0]);
 		close(exec->fd_std[1]);
-		exit(exec->exit_code);
 	}
 	else
 	{
@@ -54,6 +53,7 @@ void	exit_built_in(char **arr, int i, t_execution *exec, t_dict **dictionary)
 		free_all(exec);
 		close(exec->fd_std[0]);
 		close(exec->fd_std[1]);
-		exit(exec->exit_code);
 	}
+	rl_clear_history();
+	exit(exec->exit_code);
 }

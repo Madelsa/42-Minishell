@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/22 12:21:02 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 13:53:34 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ void					close_all_fds(t_execution *exec, int a);
 void					open_heredoc_files(t_execution *exec);
 void					is_parent_child_sig(int sig);
 void 					rl_replace_line(const char *text, int clear_undo);
+void					rl_clear_history(void);
 char					*search_dict(t_dict **dictionary, char *key);
 int 					error_msg_cd_home(t_execution *exec);
 void 					prompt(t_execution *exec, t_dict *dictionary);

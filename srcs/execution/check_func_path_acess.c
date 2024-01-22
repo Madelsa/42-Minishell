@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_func_path_acess.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:21:12 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/22 12:45:21 by aalkaisi         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:57:31 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,13 @@ void	check_func_path_acess(t_execution *exec,  t_dict **dictionary)
 			ft_putstr_fd(*exec->cmds_name[i], 2);
 			ft_putstr_fd(" No such file or directory\n", 2);
 			exec->exit_code = 127;
-		i++;
-		if (i == exec->cmds_num)
-			prompt(exec, *dictionary);
-			
+			// free_all(exec);
+			i++;
+			if (i == exec->cmds_num)
+			{
+				// free_all(exec);
+				prompt(exec, *dictionary);
+			}
 		}
 	}
 	

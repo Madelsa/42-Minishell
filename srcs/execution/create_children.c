@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:58:01 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/21 16:03:22 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 13:37:41 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,19 @@ void close_all_fds(t_execution *exec, int a)
 	{
 		if (exec->fd_infile[j] != -1)
 		{
-			// printf("close in file\n");
+			printf("close in file\n");
 			close(exec->fd_infile[j]);
 		}
 		if (exec->fd_outfile[j] != -1)
 		{
-			// printf("close out file\n");
+			printf("close out file\n");
 			close(exec->fd_outfile[j]);
 		}
 	}
 	j = -1;
 	while (exec->full_path[++j + 1] != NULL)
 	{
-		// printf("close pipe\n");
+		printf("close pipe\n");
 		close(exec->fd_pipe[j][0]);
 		close(exec->fd_pipe[j][1]);
 	}
@@ -97,7 +97,7 @@ int	create_children(t_execution *exec, t_dict **dictionary)
 		// ft_putstr_fd("HI\n", 2);
 		if (is_builtin(exec->cmds_name[0][0]) == 1)
 		{
-			// ft_putstr_fd("2HI\n", 2);
+			ft_putstr_fd("2HI\n", 2);
 			exec->fd_std[0] = dup(0);
 			exec->fd_std[1] = dup(1);
 			dup2_func(exec, i);

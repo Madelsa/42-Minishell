@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:14:04 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/18 17:14:02 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 13:42:09 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,10 @@ void	handle_in_file(t_execution *exec, t_dict *dictionary)
 				
 				open_input(exec->infile_name[i][j], &file_in, i, exec->in_file_error);
 				if (exec->infile_name[i][j + 1] != NULL)
+				{
+					printf("---->%d", file_in);
 					close(file_in);
+				}
 				else
 					exec->fd_infile[i] = file_in;
 			}
@@ -152,6 +155,7 @@ void	handle_in_file(t_execution *exec, t_dict *dictionary)
 					exec->fd_infile[i] = -2;
 					return ;
 				}
+				ft_putstr_fd("HERE!!!!!\n", 2);
 				close(file_in);
 				exec->fd_infile[i] = -2;
 			}
@@ -169,6 +173,7 @@ void	open_heredoc_files(t_execution *exec)
 
 	i = -1;
 	// ft_putstr_fd("2HERE -->\n", 2);
+	
 	while (exec->cmds_name[++i] != NULL)
 	{
 		// ft_putstr_fd("2HERE -->\n", 2);

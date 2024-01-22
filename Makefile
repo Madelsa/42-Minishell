@@ -75,7 +75,7 @@ OBJECTS = $(SOURCES:%.c=%.o)
 LIBFTBF = ./includes/libft/libft.a
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3
 LIBSR = -L$(HOME)/local/lib -lreadline -lncurses
 
 
