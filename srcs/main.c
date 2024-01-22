@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/22 14:13:19 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 17:17:21 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,8 +258,9 @@ void	free_all(t_execution *exec)
 	free(exec->cmds_name);
 	free(exec->fd_infile);
 	free(exec->fd_outfile);
-	// if (flag == 0)
-	// {
+	if (exec->full_path != NULL)
+	{
+		// printf("%s\n", exec->cmds_name[0][0]);
 		i = 0;
 		while (exec->full_path[i] != NULL)
 		{
@@ -267,12 +268,22 @@ void	free_all(t_execution *exec)
 			i++;
 		}
 		free(exec->full_path);
-	// }
+	}
 	i = 0;
 	while (i < exec->cmds_num - 1)
 	{
 		free(exec->fd_pipe[i]);
 		i++;
+	}
+	i = 0;
+	if (exec->paths != NULL)
+	{
+		while (exec->paths[i] != NULL)
+		{
+			free(exec->paths[i]);
+			i++;
+		}
+		free(exec->paths);
 	}
 	free(exec->fd_pipe);
 	free(exec->process_id);
@@ -343,6 +354,9 @@ void prompt(t_execution *exec, t_dict *dictionary)
 		// exec.full_path = NULL;
 		signal(SIGINT, is_parent_child_sig);
 		signal(SIGQUIT, is_parent_child_sig);
+
+		// exec->full_path = NULL;
+		// exec->paths = NULL;
 		// exec.exit_code = g_signal;
 		if (g_signal != 1)
 			exec->exit_code = g_signal;
@@ -351,6 +365,7 @@ void prompt(t_execution *exec, t_dict *dictionary)
 		if (rl == NULL)
 		{
 			printf("exit\n");
+			ft_dict_lstclear(&dictionary, free);
 			rl_clear_history();
 			exit(0);
 		}
@@ -384,7 +399,7 @@ void prompt(t_execution *exec, t_dict *dictionary)
 		// check_func_path_acess(envp,  &exec);
 		////////////
 		// char **cmd = *exec.cmds_name;
-		// search_command_builtins(cmd, &dictionary);
+		// search_command_builtins(cmd, dictionary);
 		handle_out_file(exec);
 		handle_in_file(exec, dictionary);
 		check_func_path_acess(exec, &dictionary);
@@ -394,7 +409,7 @@ void prompt(t_execution *exec, t_dict *dictionary)
 			continue ;
 		}
 		open_heredoc_files(exec);
-		open_pipes( exec);
+		open_pipes(exec, &dictionary);
 		flag = create_children(exec, &dictionary);
 		if (flag == 0)
 			close_all_fds(exec, 1);
@@ -417,6 +432,7 @@ void prompt(t_execution *exec, t_dict *dictionary)
 		/////////////
 		// printf("%d\n", 42);
 		// redir_and_exec(&exec);
+		// ft_dict_lstclear(dictionary, free);
 		free_all(exec);
 	}
 }
@@ -446,7 +462,7 @@ int main (int ac, char **av, char **envp)
 	// check the arugments if its valid	
 	////////////////////
 	////////////////////
-		prompt(&exec, dictionary);
+	prompt(&exec, dictionary);
 	// while (1)
 	// {
 	// 	// exec.full_path = NULL;

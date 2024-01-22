@@ -6,16 +6,15 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:58:01 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/22 13:37:41 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 18:39:55 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void close_all_fds(t_execution *exec, int a)
+void close_all_fds(t_execution *exec)
 {
 	int j;
-	(void)a;
 	// if (a == 0)
 	// {
 	// 	close(exec->fd_files[0]);
@@ -94,7 +93,6 @@ int	create_children(t_execution *exec, t_dict **dictionary)
 	i = 0;
 	if (exec->cmds_name[1] == NULL)
 	{
-		// ft_putstr_fd("HI\n", 2);
 		if (is_builtin(exec->cmds_name[0][0]) == 1)
 		{
 			ft_putstr_fd("2HI\n", 2);
@@ -102,8 +100,6 @@ int	create_children(t_execution *exec, t_dict **dictionary)
 			exec->fd_std[1] = dup(1);
 			dup2_func(exec, i);
 			search_command_builtins(exec->cmds_name[0], dictionary, 0, exec);
-			// ft_putstr_fd(ft_itoa(g_exit_code), 2);
-			// ft_putstr_fd("\n", 2);
 			dup2(exec->fd_std[0], 0);
 			dup2(exec->fd_std[1], 1);
 			close(exec->fd_std[0]);
@@ -121,46 +117,39 @@ int	create_children(t_execution *exec, t_dict **dictionary)
 	while (exec->full_path[i] != NULL)
 	{
 		g_signal = 0;
-		// printf("TEST_%d\n", i);
-		// printf("full path: %s\n", exec->full_path[i]);
 		exec->process_id[i] = fork();
 		if (exec->process_id[i] < 0)
+		{
+			free_all(exec);
+			ft_dict_lstclear(dictionary, free);
+			rl_clear_history();
 			exit(1);
+		}
 		if (exec->process_id[i] == 0)
 		{
-			// write(2, "infile Error: ", 20);
-			// write(2, ft_itoa(exec->in_file_error[i]), 60);
-			// write(2, "\n", 1);
 			if (exec->in_file_error[i] == 1)
+			{
+				free_all(exec);
+				ft_dict_lstclear(dictionary, free);
+				rl_clear_history();
 				exit(1);
-			// printf("2full path: %s\n", exec->full_path[i]);
+			}
 			dup2_func(exec, i);
-			// printf("3full path: %s\n", exec->full_path[i]);
-			close_all_fds(exec, 1);
-			// printf("3full path: %s, i: %d\n", exec->full_path[i], i);
-			// int i = 0;
-			// while (exec->paths[i])
-			// {
-			// 	printf("paths: %s\n", exec->paths[i]);
-			// }
+			close_all_fds(exec);
 			if (search_command_builtins(exec->cmds_name[i], dictionary, i, exec) != 1)
 			{
 				free_all(exec);
+				ft_dict_lstclear(dictionary, free);
+				rl_clear_history();
 				exit(exec->exit_code);
 			}
 			else
 			{
 				execve(exec->full_path[i], exec->cmds_name[i], exec->paths);
+				rl_clear_history();
 				ft_putstr_fd("command not found\n", 2);
 				free_all(exec);
-				// while (exec->full_path[exec->i[0]] != NULL)
-				// {
-				// 	free(exec->full_path[exec->i[0]]);
-				// 	free_list_split(exec->cmds[exec->i[0]]);
-				// 	if (str_cmp("here_doc", argv[1], 0))
-				// 		unlink("here_doc");
-				// 	exec->i[0]++;
-				// }
+				ft_dict_lstclear(dictionary, free);
 				exit(1);
 			}
 		}
@@ -169,7 +158,7 @@ int	create_children(t_execution *exec, t_dict **dictionary)
 	return (0);
 }
 
-void open_pipes(t_execution *exec)
+void open_pipes(t_execution *exec, t_dict **dictionary)
 {
 	int i;
 
@@ -179,6 +168,9 @@ void open_pipes(t_execution *exec)
 		if (pipe(exec->fd_pipe[i]) == -1)
 		{
 			write(2, "Error in pipes\n", 15);
+			free_all(exec);
+			ft_dict_lstclear(dictionary, free);
+			rl_clear_history();
 			// free_list(z->full_path);
 			// free_cmds(z->cmds);
 			// close_all_fds(z, 0, i);

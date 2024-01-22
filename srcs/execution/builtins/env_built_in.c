@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:28:12 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/01/17 18:02:54 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 18:07:36 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,4 @@ int	env_built_in(char **arr, t_dict **dictionary, t_execution *exec)
 	print_dictionary(dictionary);
 	exec->exit_code = 0;
 	return (0);
-
 }

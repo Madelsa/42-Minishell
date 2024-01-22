@@ -6,13 +6,14 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 15:32:26 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/18 16:05:56 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 18:07:18 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	search_command_builtins(char **arr, t_dict **dictionary, int i, t_execution *exec)
+int	search_command_builtins(char **arr, t_dict **dictionary, int i,
+		t_execution *exec)
 {
 	if (arr[0] != NULL)
 	{
@@ -38,10 +39,10 @@ int	is_builtin(char *arr)
 {
 	if (arr == NULL)
 		return (0);
-	if (ft_strcmp(arr, "exit") == 0 || ft_strcmp(arr, "cd") == 0 || 
-	ft_strcmp(arr, "echo") == 0 || ft_strcmp(arr, "export") == 0 || 
-	ft_strcmp(arr, "pwd") == 0 || ft_strcmp(arr, "unset") == 0 || 
-	ft_strcmp(arr, "env") == 0)
-			return (1);
+	if (ft_strcmp(arr, "exit") == 0 || ft_strcmp(arr, "cd") == 0
+		|| ft_strcmp(arr, "echo") == 0 || ft_strcmp(arr, "export") == 0
+		|| ft_strcmp(arr, "pwd") == 0 || ft_strcmp(arr, "unset") == 0
+		|| ft_strcmp(arr, "env") == 0)
+		return (1);
 	return (0);
 }

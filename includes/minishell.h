@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/22 13:53:34 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 18:38:36 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ void					sort_dict(t_dict **dictionary);
 int						search_command_builtins(char **arr, t_dict **dictionary, int i, t_execution *exec);
 int						is_builtin(char *arr);
 int 					error_msg_export(char *error_arg, t_execution *exec);
-void 					error_msg_exit(char *error_arg, t_execution *exec);
+void 					error_msg_exit(char *error_arg, t_execution *exec, t_dict **dictionary);
 int 					error_msg_cd(char *error_arg, t_execution *exec);
 int 					error_msg_unset(char *error_arg, t_execution *exec);
 int						error_msg_pwd(char *error_arg, t_execution *exec);
@@ -201,15 +201,16 @@ void					handle_out_file(t_execution *exec);
 void					handle_in_file(t_execution *exec, t_dict *dictionary);
 char					*ft_strjoin3(char *s1, char *s2, char *s3);
 void					check_func_path_acess(t_execution *exec, t_dict **dictionary);
-void					open_pipes(t_execution *exec);
+void					open_pipes(t_execution *exec, t_dict **dictionary);
 int						create_children(t_execution *exec, t_dict **dictionary);
-void					close_all_fds(t_execution *exec, int a);
+void					close_all_fds(t_execution *exec);
 void					open_heredoc_files(t_execution *exec);
 void					is_parent_child_sig(int sig);
 void 					rl_replace_line(const char *text, int clear_undo);
 void					rl_clear_history(void);
 char					*search_dict(t_dict **dictionary, char *key);
 int 					error_msg_cd_home(t_execution *exec);
+int						error_msg_no_path(char *error_string, t_execution *exec);
 void 					prompt(t_execution *exec, t_dict *dictionary);
 
 #endif
