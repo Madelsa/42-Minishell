@@ -89,7 +89,7 @@ void	many_malloc(t_execution *z)
 	z->outfile_name = malloc(sizeof(char **) * (z->cmds_num + 1));
 	z->fd_infile = malloc(sizeof(int) * z->cmds_num);
 	z->fd_outfile = malloc(sizeof(int) * z->cmds_num);
-	z->full_path = malloc(sizeof(char *) * (z->cmds_num + 1));
+	z->full_path = ft_calloc((z->cmds_num + 1), sizeof(char *));
 	z->fd_pipe = malloc(sizeof(int *) * z->cmds_num);
 	z->process_id = malloc(sizeof(int) * z->cmds_num);
 	z->in_file_error = malloc(sizeof(int) * z->cmds_num);

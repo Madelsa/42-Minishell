@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:37:04 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/01/11 16:35:24 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/22 17:20:30 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../../../includes/minishell.h"
 
-void	check_numeric(char *str)
+void	check_numeric(char *str, t_execution *exec)
 {
 	int	i;
 
@@ -23,30 +23,36 @@ void	check_numeric(char *str)
 		{
 			if (i == 0)
 				write(1, "exit\n", 5);
-			error_msg_exit(str);
+			error_msg_exit(str, exec);
 		}
 		i++;
 	}
 }
 
-int		exit_built_in(char **arr, int i)
+void	exit_built_in(char **arr, int i, t_execution *exec, t_dict **dictionary)
 {
 	if (arr[1] != NULL)
-		check_numeric(arr[1]);
+		check_numeric(arr[1], exec);
 	if (arr[1] != NULL && arr[2] != NULL)
 	{
 		if (i == 0)
 			write(1, "exit\n", 5);
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		g_exit_code = 1;
-		exit(g_exit_code);
+		exec->exit_code = 1;
+		free_all(exec);
+		close(exec->fd_std[0]);
+		close(exec->fd_std[1]);
 	}
 	else
 	{
 		if (i == 0)
 			write(1, "exit\n", 5);
-		g_exit_code = 0;
-		exit(g_exit_code);
+		exec->exit_code = 0;
+		free_all(exec);
+		close(exec->fd_std[0]);
+		close(exec->fd_std[1]);
 	}
-	return (0);
+	ft_dict_lstclear(dictionary, free);
+	rl_clear_history();
+	exit(exec->exit_code);
 }

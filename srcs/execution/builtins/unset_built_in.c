@@ -6,13 +6,13 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:48:28 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/15 12:56:22 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:15:02 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
-void	check_errors(char **arr)
+int	check_errors(char **arr, t_execution *exec)
 {
 	int	i;
 	int	j;
@@ -23,24 +23,22 @@ void	check_errors(char **arr)
 		j = 0;
 		if (ft_isalpha(arr[i][0]) == 0)
 		{
-			error_msg_unset(arr[i]);
+			error_msg_unset(arr[i], exec);
 			i++;
 			continue ;
 		}
 		while (arr[i][j] != '\0')
 		{
 			if (ft_isalnum(arr[i][j]) == 0)
-			{
-				error_msg_unset(arr[i]);
-				break ;
-			}
+				return (error_msg_unset(arr[i], exec));
 			j++;
 		}
 		i++;
 	}
+	return (0);
 }
 
-int	remove_from_dict(char *str, t_dict **dictionary)
+void	remove_from_dict(char *str, t_dict **dictionary)
 {
 	t_dict	*current;
 	t_dict	*prev;
@@ -58,12 +56,12 @@ int	remove_from_dict(char *str, t_dict **dictionary)
 			free(current->key);
 			free(current->value);
 			free(current);
-			return (1);
+			return ;
 		}
 		prev = current;
 		current = current->next;
 	}
-	return (0);
+	return ;
 }
 
 void	check_in_dictionary(char **arr, t_dict **dictionary)
@@ -78,11 +76,12 @@ void	check_in_dictionary(char **arr, t_dict **dictionary)
 	}
 }
 
-int	unset_built_in(char **arr, t_dict **dictionary)
+int	unset_built_in(char **arr, t_dict **dictionary, t_execution *exec)
 {
 	if (arr[1] != NULL)
 	{
-		check_errors(arr);
+		if (check_errors(arr, exec) != 0)
+			return (exec->exit_code);
 		check_in_dictionary(arr, dictionary);
 	}
 	return (0);
