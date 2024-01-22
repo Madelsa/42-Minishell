@@ -68,14 +68,14 @@ SOURCES = \
 		srcs/execution/builtins/unset_built_in.c srcs/execution/builtins/cd_built_in.c srcs/execution/builtins/sort_dictionary.c \
 		srcs/execution/builtins/execute_built_ins.c srcs/execution/builtins/args_error_msgs.c srcs/execution/handle_out_file.c \
 		srcs/execution/handle_in_file.c srcs/execution/check_func_path_acess.c srcs/execution/create_children.c \
-		srcs/execution/signals.c
+		srcs/execution/signals.c srcs/execution/search_dictionary.c srcs/execution/builtins/args_error_msgs2.c
 		
 OBJECTS = $(SOURCES:%.c=%.o)
 
 LIBFTBF = ./includes/libft/libft.a
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 LIBSR = -L$(HOME)/local/lib -lreadline -lncurses
 
 

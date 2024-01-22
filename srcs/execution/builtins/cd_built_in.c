@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 15:52:48 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/18 18:01:18 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/21 15:58:29 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,8 @@ int	check_file_exist(char *str, t_dict **dictionary, t_execution *exec)
 	flag = 0;
 	if (str == NULL || ft_strcmp(str, "~") == 0)
 	{
-		// free(str);
+		if (search_dict(dictionary, "HOME") == NULL)
+			return (error_msg_cd_home(exec));
 		str = set_directory_home(dictionary, exec);
 		flag = 1;
 	}

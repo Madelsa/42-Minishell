@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:58:01 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/18 17:51:35 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:03:22 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,9 @@ void dup2_func(t_execution *exec, int i)
 	}
 }
 
-int	create_children(char **envp, t_execution *exec, t_dict **dictionary)
+int	create_children(t_execution *exec, t_dict **dictionary)
 {
 	int i;
-
 	i = 0;
 	if (exec->cmds_name[1] == NULL)
 	{
@@ -139,6 +138,11 @@ int	create_children(char **envp, t_execution *exec, t_dict **dictionary)
 			// printf("3full path: %s\n", exec->full_path[i]);
 			close_all_fds(exec, 1);
 			// printf("3full path: %s, i: %d\n", exec->full_path[i], i);
+			// int i = 0;
+			// while (exec->paths[i])
+			// {
+			// 	printf("paths: %s\n", exec->paths[i]);
+			// }
 			if (search_command_builtins(exec->cmds_name[i], dictionary, i, exec) != 1)
 			{
 				free_all(exec);
@@ -146,7 +150,7 @@ int	create_children(char **envp, t_execution *exec, t_dict **dictionary)
 			}
 			else
 			{
-				execve(exec->full_path[i], exec->cmds_name[i], envp);
+				execve(exec->full_path[i], exec->cmds_name[i], exec->paths);
 				ft_putstr_fd("command not found\n", 2);
 				free_all(exec);
 				// while (exec->full_path[exec->i[0]] != NULL)

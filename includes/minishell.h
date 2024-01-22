@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/18 17:51:59 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/22 12:21:02 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_execution
 	int		std_in;
 	int 	exit_code;
 	int 	fd_std[2];
+	char	**paths;
 	//how many pipes?
 		//loop until null (cmd[i])
 		//path to it is connected with cmd[i][0] and the envp
@@ -199,13 +200,15 @@ int						error_msg_pwd(char *error_arg, t_execution *exec);
 void					handle_out_file(t_execution *exec);
 void					handle_in_file(t_execution *exec, t_dict *dictionary);
 char					*ft_strjoin3(char *s1, char *s2, char *s3);
-void					check_func_path_acess(char **envp, t_execution *exec);
+void					check_func_path_acess(t_execution *exec, t_dict **dictionary);
 void					open_pipes(t_execution *exec);
-int						create_children(char **envp, t_execution *exec, t_dict **dictionary);
+int						create_children(t_execution *exec, t_dict **dictionary);
 void					close_all_fds(t_execution *exec, int a);
 void					open_heredoc_files(t_execution *exec);
 void					is_parent_child_sig(int sig);
 void 					rl_replace_line(const char *text, int clear_undo);
-
+char					*search_dict(t_dict **dictionary, char *key);
+int 					error_msg_cd_home(t_execution *exec);
+void 					prompt(t_execution *exec, t_dict *dictionary);
 
 #endif

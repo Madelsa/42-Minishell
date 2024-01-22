@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/18 17:52:51 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:13:38 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,30 +330,14 @@ int	skip_spaces(char *str)
 
 int g_signal = 0;
 
-int main (int ac, char **av, char **envp)
+void prompt(t_execution *exec, t_dict *dictionary)
 {
-	t_execution exec;
 	char		*str;
 	char		*rl;
 	int			i;
 	int			flag;
 	int			status;
-	// int			std_in;
-	// int			std_out;
-	///////////
-	t_dict *dictionary = NULL;
-	fill_dictionary(envp, &dictionary);
-	(void)ac;
-	(void)av;
-	///////////
-	//parent the rest is children
-	//while loop that doesnt break untill theres a signal to quit the loop
-	//to check the initaite the env and fill struct 
-	//heredoc will always be the first to be executed
-	//all the commands will be executed toghter
-	// check the arugments if its valid	
-	////////////////////
-	////////////////////
+
 	while (1)
 	{
 		// exec.full_path = NULL;
@@ -361,7 +345,7 @@ int main (int ac, char **av, char **envp)
 		signal(SIGQUIT, is_parent_child_sig);
 		// exec.exit_code = g_signal;
 		if (g_signal != 1)
-			exec.exit_code = g_signal;
+			exec->exit_code = g_signal;
 		g_signal = 1;
 		rl = readline("minishell$ ");
 		if (rl == NULL)
@@ -379,7 +363,7 @@ int main (int ac, char **av, char **envp)
 		// printf("lol--->%s.\n", str);
 		if (check_qut_error(str) == 1)
 			continue ;
-		str = dollar(str, dictionary, &exec);
+		str = dollar(str, dictionary, exec);
 		// printf("1--->%s.\n", str);
 		tab_to_space(str);
 		if (skip_spaces(str) == 1)
@@ -391,49 +375,158 @@ int main (int ac, char **av, char **envp)
 		if (str == NULL)
 			continue ;
 		// printf("11111.\n");
-		if (find_syntax_error(str, &exec) == 1)
+		if (find_syntax_error(str, exec) == 1)
 			continue ;
 		// printf("TEST_7\n");
-		parse(&exec, str);
+		parse(exec, str);
 		// printf("TEST_7\n");
 		// check_func_path_acess(envp,  &exec);
 		////////////
 		// char **cmd = *exec.cmds_name;
 		// search_command_builtins(cmd, &dictionary);
-		handle_out_file(&exec);
-		handle_in_file(&exec, dictionary);
-		check_func_path_acess(envp, &exec);
+		handle_out_file(exec);
+		handle_in_file(exec, dictionary);
+		check_func_path_acess(exec, &dictionary);
 		if (g_signal != 1)
 		{
-			free_all(&exec);
+			free_all(exec);
 			continue ;
 		}
-		open_heredoc_files(&exec);
-		open_pipes( &exec);
-		flag = create_children(envp, &exec, &dictionary);
+		open_heredoc_files(exec);
+		open_pipes( exec);
+		flag = create_children(exec, &dictionary);
 		if (flag == 0)
-			close_all_fds(&exec, 1);
+			close_all_fds(exec, 1);
 		i = -1;
-		while (exec.full_path[++i] != NULL && flag == 0)
+		while (exec->full_path[++i] != NULL && flag == 0)
 		{
 			// waitpid(exec.process_id[i], &status[0], 0);
 			// printf("HERE %i\n", i);
-			waitpid(exec.process_id[i], &status, 0);
+			waitpid(exec->process_id[i], &status, 0);
 			if (WIFEXITED(status))
-				exec.exit_code = status;
+				exec->exit_code = status;
 			// if (status[0] != 0)
 			// 	status[1] = 1;
 			// printf("HERE %i\n", i);
 		}
 		// printf("exit code: %d\n", exec.exit_code);
-		unlink_func(&exec);
+		unlink_func(exec);
 		// if (str_cmp("here_doc", argv[1], 0))
 		// 	unlink("here_doc");
 		/////////////
 		// printf("%d\n", 42);
 		// redir_and_exec(&exec);
-		free_all(&exec);
+		free_all(exec);
 	}
+}
+
+
+int main (int ac, char **av, char **envp)
+{
+	t_execution exec;
+	// char		*str;
+	// char		*rl;
+	// int			i;
+	// int			flag;
+	// int			status;
+	// int			std_in;
+	// int			std_out;
+	///////////
+	t_dict *dictionary = NULL;
+	fill_dictionary(envp, &dictionary);
+	(void)ac;
+	(void)av;
+	///////////
+	//parent the rest is children
+	//while loop that doesnt break untill theres a signal to quit the loop
+	//to check the initaite the env and fill struct 
+	//heredoc will always be the first to be executed
+	//all the commands will be executed toghter
+	// check the arugments if its valid	
+	////////////////////
+	////////////////////
+		prompt(&exec, dictionary);
+	// while (1)
+	// {
+	// 	// exec.full_path = NULL;
+	// 	signal(SIGINT, is_parent_child_sig);
+	// 	signal(SIGQUIT, is_parent_child_sig);
+	// 	// exec.exit_code = g_signal;
+	// 	if (g_signal != 1)
+	// 		exec.exit_code = g_signal;
+	// 	g_signal = 1;
+	// 	rl = readline("minishell$ ");
+	// 	if (rl == NULL)
+	// 	{
+	// 		printf("exit\n");
+	// 		exit(0);
+	// 	}
+	// 	if (rl[0] == '\0')
+	// 		continue ;
+	// 	add_history(rl);
+	// 	str = ft_strdup(rl);
+	// 	// dollar(str);
+	// 	// if (str_cmp(str, "exit") == 1)
+	// 	// 	break ;
+	// 	// printf("lol--->%s.\n", str);
+	// 	if (check_qut_error(str) == 1)
+	// 		continue ;
+	// 	str = dollar(str, dictionary, &exec);
+	// 	// printf("1--->%s.\n", str);
+	// 	tab_to_space(str);
+	// 	if (skip_spaces(str) == 1)
+	// 		continue ;
+	// 	// printf("2--->%s.\n", str);
+	// 	// printf("3--->%zu.\n", ft_strlen(str));
+	// 	str = ft_strtrim_all(str);
+	// 	// printf("--->%s.%d\n", str, ft_strlen(str));
+	// 	if (str == NULL)
+	// 		continue ;
+	// 	// printf("11111.\n");
+	// 	if (find_syntax_error(str, &exec) == 1)
+	// 		continue ;
+	// 	// printf("TEST_7\n");
+	// 	parse(&exec, str);
+	// 	// printf("TEST_7\n");
+	// 	// check_func_path_acess(envp,  &exec);
+	// 	////////////
+	// 	// char **cmd = *exec.cmds_name;
+	// 	// search_command_builtins(cmd, &dictionary);
+	// 	handle_out_file(&exec);
+	// 	handle_in_file(&exec, dictionary);
+	// 	check_func_path_acess(&exec, &dictionary);
+	// 	if (g_signal != 1)
+	// 	{
+	// 		free_all(&exec);
+	// 		continue ;
+	// 	}
+	// 	open_heredoc_files(&exec);
+	// 	open_pipes( &exec);
+	// 	flag = create_children(&exec, &dictionary);
+	// 	if (flag == 0)
+	// 		close_all_fds(&exec, 1);
+	// 	i = -1;
+	// 	while (exec.full_path[++i] != NULL && flag == 0)
+	// 	{
+	// 		// waitpid(exec.process_id[i], &status[0], 0);
+	// 		// printf("HERE %i\n", i);
+	// 		waitpid(exec.process_id[i], &status, 0);
+	// 		if (WIFEXITED(status))
+	// 			exec.exit_code = status;
+	// 		// if (status[0] != 0)
+	// 		// 	status[1] = 1;
+	// 		// printf("HERE %i\n", i);
+	// 	}
+	// 	// printf("exit code: %d\n", exec.exit_code);
+	// 	unlink_func(&exec);
+	// 	// if (str_cmp("here_doc", argv[1], 0))
+	// 	// 	unlink("here_doc");
+	// 	/////////////
+	// 	// printf("%d\n", 42);
+	// 	// redir_and_exec(&exec);
+	// 	free_all(&exec);
+	// }
+	
 	//redir and execute
 	//filled struct
 	//if it true then start executing
