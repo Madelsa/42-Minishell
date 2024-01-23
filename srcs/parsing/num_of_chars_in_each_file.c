@@ -34,7 +34,7 @@ static int num_of_chars_in_each_file3(char **str, t_execution *z, t_vars *v)
 		v->symbol = know_symbol(str[v->j][v->i]);
 		v->i++;
 		num_of_chars_in_each_file2(str, v);
-		printf("---------------------------------------------- %d, %d\n", v->num_of_chars, v->j);
+		// printf("---------------------------------------------- %d, %d\n", v->num_of_chars, v->j);
 		if (v->symbol == 1 || v->symbol == 2)
 			z->infile_name[v->j][v->size[0]] = malloc(v->num_of_chars + 1);
 		else
@@ -43,7 +43,7 @@ static int num_of_chars_in_each_file3(char **str, t_execution *z, t_vars *v)
 			v->size[0]++;
 		else
 			v->size[1]++;
-		printf("v->num_of_chars: %d\n", v->num_of_chars);
+		// printf("v->num_of_chars: %d\n", v->num_of_chars);
 	}
 	if (inside_qut(str[v->j], v->i, v->qut_num, 2) == 1 || (str[v->j][v->i] != '<' && str[v->j][v->i] != '>' && str[v->j][v->i] != '\0'))
 		v->i++;
@@ -73,9 +73,9 @@ void	num_of_chars_in_each_file(char **str, t_execution *z)
 		}
 		z->infile_name[v.j][v.size[0]] = NULL;
 		z->outfile_name[v.j][v.size[1]] = NULL;
-		printf("z->infile_name[%d][%d] = %s\n", v.j, v.size[0], z->infile_name[v.j][v.size[0]]);
-		printf("z->outfile_name[%d][%d] = %s\n", v.j, v.size[1], z->outfile_name[v.j][v.size[1]]);
+		// printf("z->infile_name[%d][%d] = %s\n", v.j, v.size[0], z->infile_name[v.j][v.size[0]]);
+		// printf("z->outfile_name[%d][%d] = %s\n", v.j, v.size[1], z->outfile_name[v.j][v.size[1]]);
 		v.j++;
 	}
-	printf("?????????????????????????\n");
+	// printf("?????????????????????????\n");
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_built_in.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:32:58 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/11 10:12:41 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/17 18:22:39 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	append_dict(t_dict **dictionary, char **arr, int i, int j)
 	}
 }
 
-void	handle_args(char **arr, t_dict **dictionary)
+int	handle_args(char **arr, t_dict **dictionary, t_execution *exec)
 {
 	int	i;
 	int	j;
@@ -95,29 +95,27 @@ void	handle_args(char **arr, t_dict **dictionary)
 			while (arr[i][j] != '\0' && arr[i][j] != '=')
 			{
 				if (ft_isalnum(arr[i][j]) == 0)
-				{
-					error_msg_export(arr[i]);
-					break ;
-				}
+					return (error_msg_export(arr[i], exec));
 				j++;
 			}
 			append_dict(dictionary, arr, i, j);
 		}
 		else
-			error_msg_export(arr[i]);
+			return (error_msg_export(arr[i], exec));
 		i++;
 	}
+	return (0);
 }
 
-int	export_built_in(char **arr, t_dict **dictionary)
+int	export_built_in(char **arr, t_dict **dictionary, t_execution *exec)
 {
-	g_exit_code = 0;
 	if (arr[1] == NULL)
 	{
 		sort_dict(dictionary);
 		print_dict_export(dictionary);
 	}
 	else
-		handle_args(arr, dictionary);
+		if (handle_args(arr, dictionary, exec) != 0)
+			return (exec->exit_code);
 	return (0);
 }

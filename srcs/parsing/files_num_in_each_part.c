@@ -48,6 +48,6 @@ void	num_of_files_in_each_part(char **str, t_execution *z)
 		j++;
 	}
 	z->infile_name[j] = NULL;
-	printf("NULL: %d\n", j);
+	// printf("NULL: %d\n", j);
 	z->outfile_name[j] = NULL;
 }
