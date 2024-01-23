@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:14:04 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/22 19:17:03 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:51:12 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,16 +147,22 @@ void	handle_in_file(t_execution *exec, t_dict *dictionary)
 			{
 				heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
 				file_in = open(heredoc_file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+				if (file_in == -1)
+				{
+					free(heredoc_file);
+					j++;
+					continue ;
+				}
 				free(heredoc_file);
 				exec->fd_infile[i] = file_in;
 				if (here_doc(exec->infile_name[i][j], file_in, dictionary, exec) == 1)
 				{
-					ft_putstr_fd("HERE!!!!!\n", 2);
+					// ft_putstr_fd("HERE!!!!!\n", 2);
 					close(file_in);
 					exec->fd_infile[i] = -2;
 					return ;
 				}
-				ft_putstr_fd("HERE!!!!!\n", 2);
+				// ft_putstr_fd("HERE!!!!!\n", 2);
 				close(file_in);
 				exec->fd_infile[i] = -2;
 			}

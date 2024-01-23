@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/22 19:19:05 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:16:31 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -358,10 +358,14 @@ void prompt(t_execution *exec, t_dict *dictionary)
 		// exec->full_path = NULL;
 		// exec->paths = NULL;
 		// exec.exit_code = g_signal;
+		// printf("sig: %d\n", g_signal);
 		if (g_signal != 1)
 			exec->exit_code = g_signal;
 		g_signal = 1;
 		rl = readline("minishell$ ");
+		if (g_signal == 99)
+			exec->exit_code = 1;
+		g_signal = 1;
 		if (rl == NULL)
 		{
 			printf("exit\n");
@@ -403,7 +407,7 @@ void prompt(t_execution *exec, t_dict *dictionary)
 		handle_out_file(exec);
 		handle_in_file(exec, dictionary);
 		check_func_path_acess(exec, &dictionary);
-		printf("sig: %d\n", g_signal);
+		// printf("sig: %d\n", g_signal);
 		if (g_signal != 1)
 		{
 			free_all(exec);

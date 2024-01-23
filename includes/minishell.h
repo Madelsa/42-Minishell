@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/22 18:55:31 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:16:00 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,5 +213,6 @@ int 					error_msg_cd_home(t_execution *exec);
 int						error_msg_no_path(char *error_string, t_execution *exec);
 void 					prompt(t_execution *exec, t_dict *dictionary);
 void					dup2_func(t_execution *exec, int i);
+void					infile_error_print(t_execution *exec, int i);
 
 #endif

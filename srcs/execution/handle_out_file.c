@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 13:26:50 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/22 13:42:34 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:04:04 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,14 @@ void	handle_out_file(t_execution *exec)
 				file_out = open_trunc(exec->outfile_name[i][j]);
 			else
 				file_out = open_append(exec->outfile_name[i][j]);
-			if (exec->outfile_name[i][j + 1] != NULL)
+			if (file_out == -1)
 			{
-				close(file_out);
-				ft_putstr_fd("22HERE!!!!!\n", 2);
+				j++;
+				k++;
+				continue ;
 			}
+			if (exec->outfile_name[i][j + 1] != NULL)
+				close(file_out);
 			else
 				exec->fd_outfile[i] = file_out;
 			j++;
@@ -52,5 +55,4 @@ void	handle_out_file(t_execution *exec)
 		}
 		i++;
 	}
-	
 }
