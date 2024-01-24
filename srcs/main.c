@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/23 12:16:31 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:22:41 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,15 +196,29 @@ void	unlink_func(t_execution *exec)
 	int		i;
 	char	*heredoc_file;
 
-	i = -1;
-	while (exec->full_path[++i] != NULL)
+	i = 0;
+	int j;
+	// while (exec->full_path[++i] != NULL)
+	// {
+	// 	heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
+	// 	if (access(heredoc_file, F_OK) == 0)
+	// 	{
+	// 		unlink(heredoc_file);
+	// 	}
+	// 	free(heredoc_file);
+	// }
+	while (exec->infile_name[i] != NULL)
 	{
-		heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
-		if (access(heredoc_file, F_OK) == 0)
+		j = 0;
+		while (exec->infile_name[i][j] != NULL)
 		{
-			unlink(heredoc_file);
+			heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
+			if (exec->infile_name[i][j + 1] == NULL && exec->is_file_or_here_doc[i] == 1)
+				unlink(heredoc_file);
+			free(heredoc_file);
+			j++;
 		}
-		free(heredoc_file);
+		i++;
 	}
 }
 
