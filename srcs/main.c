@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:33:26 by aalkaisi          #+#    #+#             */
-/*   Updated: 2024/01/25 18:26:10 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:46:19 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ void	prompt(t_execution *exec, t_dict *dictionary)
 		prompt3(exec, dictionary);
 	}
 }
-
 
 int		g_signal = 0;
 

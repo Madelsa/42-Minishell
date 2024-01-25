@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:14:04 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/25 18:44:31 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:46:34 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,3 @@ void	handle_in_file(t_execution *exec, t_dict *dictionary)
 		data.i++;
 	}
 }
-

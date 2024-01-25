@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 17:53:10 by aalkaisi          #+#    #+#             */
-/*   Updated: 2024/01/25 16:46:18 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:46:54 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	dollar4(t_dollar *d)
 		d->i--;
 	d->i++;
 }
-
 
 char	*dollar3(char *str, t_dollar *d, t_dict *dictionary)
 {

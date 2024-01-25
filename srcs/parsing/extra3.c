@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:35:13 by aalkaisi          #+#    #+#             */
-/*   Updated: 2024/01/25 18:42:33 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:47:34 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int	skip_spaces(char *str)
 		i++;
 	}
 	if (str[i] == '\0')
-		return(1);
-	return(0);
+		return (1);
+	return (0);
 }
 
 void	unlink_func(t_execution *exec)
