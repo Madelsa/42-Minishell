@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:13:32 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/24 18:31:03 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:43:05 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	close_all_fds(t_execution *exec)
 	int	j;
 
 	j = -1;
-	while (exec->full_path[++j] != NULL)
+	while (exec->cmds_name[++j] != NULL)
 	{
 		if (exec->fd_infile[j] != -1)
 			close(exec->fd_infile[j]);
@@ -44,7 +44,7 @@ void	close_all_fds(t_execution *exec)
 			close(exec->fd_outfile[j]);
 	}
 	j = -1;
-	while (exec->full_path[++j + 1] != NULL)
+	while (exec->cmds_name[++j + 1] != NULL)
 	{
 		close(exec->fd_pipe[j][0]);
 		close(exec->fd_pipe[j][1]);

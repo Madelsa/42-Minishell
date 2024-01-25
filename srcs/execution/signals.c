@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 15:29:56 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/25 13:13:49 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:32:20 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handle_parent_sig(int sig)
 	}
 	else if (sig == SIGQUIT)
 	{
-		rl_on_new_line();
+		printf("Quit: 3\n");
 		rl_redisplay();
 		return ;
 	}

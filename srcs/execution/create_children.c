@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:58:01 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/25 11:12:56 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:21:15 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	execute_non_builtin(t_execution *exec, t_dict **dictionary, int i)
 	ft_putstr_fd("Command not found\n", 2);
 	free_all(exec);
 	ft_dict_lstclear(dictionary, free);
-	exit(1);
+	exit(127);
 }
 
 void	handle_child_process(t_execution *exec, t_dict **dictionary, int i)
@@ -47,22 +47,17 @@ void	handle_child_process(t_execution *exec, t_dict **dictionary, int i)
 	if (exec->process_id[i] == 0)
 	{
 		if (exec->in_file_error[i] == 1)
-		{
-			free_all(exec);
-			ft_dict_lstclear(dictionary, free);
-			rl_clear_history();
-			exit(1);
-		}
+			return (free_all(exec), ft_dict_lstclear(dictionary, free),
+				rl_clear_history(), exit(1));
 		dup2_func(exec, i);
 		close_all_fds(exec);
+		if (exec->full_path[i] == NULL)
+			return (free_all(exec), ft_dict_lstclear(dictionary, free),
+				rl_clear_history(), exit(0));
 		if (search_command_builtins(exec->cmds_name[i], dictionary, i,
 				exec) != 1)
-		{
-			free_all(exec);
-			ft_dict_lstclear(dictionary, free);
-			rl_clear_history();
-			exit(exec->exit_code);
-		}
+			return (free_all(exec), ft_dict_lstclear(dictionary, free),
+				rl_clear_history(), exit(exec->exit_code));
 		else
 			execute_non_builtin(exec, dictionary, i);
 	}
@@ -77,7 +72,7 @@ int	create_children(t_execution *exec, t_dict **dictionary)
 		return (1);
 	infile_error_print(exec, i);
 	i = 0;
-	while (exec->full_path[i] != NULL)
+	while (exec->cmds_name[i] != NULL)
 	{
 		g_signal = 3;
 		exec->process_id[i] = fork();
@@ -91,5 +86,6 @@ int	create_children(t_execution *exec, t_dict **dictionary)
 		handle_child_process(exec, dictionary, i);
 		i++;
 	}
+	g_signal = 1;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:50:38 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/25 13:15:17 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:44:07 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ int	here_doc2(t_execution *exec, t_dict *dictionary, t_inside_heredoc *in_hdoc)
 			in_hdoc->limiter) != 0)
 	{
 		in_hdoc->str = readline(">");
-		if (!in_hdoc->str)
+		if (in_hdoc->str == NULL)
 		{
 			dup2(exec->fd_std[0], 0);
 			close(exec->fd_std[0]);
+			unlink_func(exec);
 			return (1);
 		}
 		in_hdoc->str = dollar(in_hdoc->str, dictionary, exec);
@@ -57,10 +58,11 @@ int	here_doc(char *limiter, int fd, t_dict *dictionary, t_execution *exec)
 	in_hdoc.fd = fd;
 	exec->fd_std[0] = dup(0);
 	in_hdoc.str = readline(">");
-	if (!in_hdoc.str)
+	if (in_hdoc.str == NULL)
 	{
 		dup2(exec->fd_std[0], 0);
 		close(exec->fd_std[0]);
+		unlink_func(exec);
 		return (1);
 	}
 	in_hdoc.str = dollar(in_hdoc.str, dictionary, exec);
