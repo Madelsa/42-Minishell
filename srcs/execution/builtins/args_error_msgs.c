@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 16:49:43 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/22 18:28:18 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:20:47 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	error_msg_export(char *error_arg, t_execution *exec)
 	return (exec->exit_code);
 }
 
-void	error_msg_exit(char *error_arg, t_execution *exec, t_dict **dictionary)
+void	error_msg_exit(char *error_arg, t_execution *exec, t_dict **dictionary,
+		int j)
 {
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(error_arg, 2);
@@ -30,8 +31,11 @@ void	error_msg_exit(char *error_arg, t_execution *exec, t_dict **dictionary)
 	free_all(exec);
 	ft_dict_lstclear(dictionary, free);
 	rl_clear_history();
-	close(exec->fd_std[0]);
-	close(exec->fd_std[1]);
+	if (j == -1)
+	{
+		close(exec->fd_std[0]);
+		close(exec->fd_std[1]);
+	}
 	exit(exec->exit_code);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/24 14:22:41 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/24 18:43:03 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,12 +384,13 @@ void prompt(t_execution *exec, t_dict *dictionary)
 		{
 			printf("exit\n");
 			ft_dict_lstclear(&dictionary, free);
-			rl_clear_history();
+			// rl_clear_history();
 			exit(0);
 		}
 		if (rl[0] == '\0')
 			continue ;
 		add_history(rl);
+		// exit(0);
 		str = ft_strdup(rl);
 		// dollar(str);
 		// if (str_cmp(str, "exit") == 1)

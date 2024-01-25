@@ -6,7 +6,7 @@
 #    By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/01 22:17:03 by mohammoh          #+#    #+#              #
-#    Updated: 2024/01/23 16:51:38 by mabdelsa         ###   ########.fr        #
+#    Updated: 2024/01/24 17:50:12 by mabdelsa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ LIBFT_P = ./includes/libft
 LIBFT_AR = ./includes/libft/libft.a
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3
 LIBSR = -L$(HOME)/local/lib -lreadline -lncurses
 
 

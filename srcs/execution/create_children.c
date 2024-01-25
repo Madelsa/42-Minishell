@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:58:01 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/23 17:05:21 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:12:56 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	single_command_and_builtin(t_execution *exec, t_dict **dictionary, int i)
 			exec->fd_std[0] = dup(0);
 			exec->fd_std[1] = dup(1);
 			dup2_func(exec, i);
-			search_command_builtins(exec->cmds_name[0], dictionary, 0, exec);
+			search_command_builtins(exec->cmds_name[0], dictionary, -1, exec);
 			dup2(exec->fd_std[0], 0);
 			dup2(exec->fd_std[1], 1);
 			close(exec->fd_std[0]);
