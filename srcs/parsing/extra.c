@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extra.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 16:28:49 by aalkaisi          #+#    #+#             */
-/*   Updated: 2024/01/04 14:33:41 by mabdelsa         ###   ########.fr       */
+/*   Created: 2024/01/23 13:30:02 by aalkaisi          #+#    #+#             */
+/*   Updated: 2024/01/23 14:24:00 by aalkaisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ char	*ft_strtrimm(char *s1, char *set)
 	if (s1[start] == '\0')
 		start = 0;
 	end = end_index(end, s1, set);
-	// printf("--------------------------------------->malloc: %d", end - start + 1);
 	res = (char *)malloc(end - start + 2);
 	if (res == NULL)
 		return (NULL);
@@ -85,21 +84,6 @@ char	*ft_strtrimm(char *s1, char *set)
 		i++;
 	}
 	res[i] = '\0';
-	// printf("--------------------------------------->res: %s,", res);
 	free(s1);
 	return (res);
 }
-
-// int	str_cmp(char *str, char *str2)
-// {
-// 	int	i;
-
-// 	if (str == NULL || str2 == NULL)
-// 		return (0);
-// 	i = 0;
-// 	while (str[i] != '\0' && str2[i] != '\0' && str[i] == str2[i])
-// 		i++;
-// 	if (str[i] == '\0' && str2[i] == '\0')
-// 		return (1);
-// 	return (0);
-// }

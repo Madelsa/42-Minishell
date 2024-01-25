@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 15:29:56 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/23 13:19:41 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:28:06 by aalkaisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handle_parent_sig(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", 1);
-		rl_replace_line("", 1);
+		// rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
 		g_signal = 99;
@@ -25,7 +25,7 @@ void	handle_parent_sig(int sig)
 	}
 	else if (sig == SIGQUIT)
 	{
-		rl_replace_line("", 1);
+		// rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
 		return ;
@@ -37,7 +37,7 @@ void	handle_child_sig(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", 1);
-		rl_replace_line("", 1);
+		// rl_replace_line("", 1);
 		rl_on_new_line();
 		g_signal = 130;
 		return ;
@@ -55,7 +55,7 @@ void	exit_heredoc(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", 1);
-		rl_replace_line("", 1);
+		// rl_replace_line("", 1);
 		close(0);
 		rl_on_new_line();
 		rl_redisplay();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:37:04 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/01/22 18:28:06 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:27:31 by aalkaisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ void	exit_built_in(char **arr, int i, t_execution *exec, t_dict **dictionary)
 		close(exec->fd_std[1]);
 	}
 	ft_dict_lstclear(dictionary, free);
-	rl_clear_history();
+	// rl_clear_history();
 	exit(exec->exit_code);
 }

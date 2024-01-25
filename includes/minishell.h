@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/23 13:16:00 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/23 20:31:16 by aalkaisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct split
 	int				i;
 	unsigned int	start;
 	unsigned int	end;
+	int				qut_num[2];
 }	t_split;
 
 typedef struct s_vars {
@@ -88,7 +89,17 @@ typedef struct s_vars {
 	char	qut_symbol;
 	int		size[2];
 	int		qut_num[2];
-} t_vars;
+}	t_vars;
+
+typedef struct s_dollar {
+	int		i;
+	int		i2;
+	int		j;
+	int		qut_num[2];
+	char	*dollar_word;
+	int		del_dollar_flag;
+	int		is_value;
+}	t_dollar;
 
 typedef struct s_dict
 {
@@ -141,10 +152,9 @@ char 		*heredoc_file_name(char *str, int i, char *extenstion);
 //parsing
 int		num_of_strs(char *s, char c);
 char	**ft_splitt(char *s, char c, t_execution *z, int is_cmds_num);
-// size_t	ft_strlen(const char *s);
+void	save_results_init(int *i, int *num, int qut_num[]);
 int		inside_qut(char *str, int i, int qut_num[], int time);
 char	*ft_strtrimm(char *s1, char *set);
-// int		str_cmp(char *str, char *str2);
 void	redirections(char *str, t_execution *z);
 void	identify_file_type(char	*str, t_execution *z);
 void	size_of_all_redirections(char *str, t_execution *z);
@@ -164,11 +174,15 @@ void	num_of_chars_in_each_file(char **str, t_execution *z);
 void	put_chars_in_each_file(char **str, t_execution *z);
 void	put_commands(char **str, t_execution *z);
 void	remove_qut(t_execution *z);
-void	check_solution(t_execution *z);
 void	tab_to_space(char *str);
-int		inside_single_or_double_qut(char *str, int i, int qut_num[], int time);
+int		in_single_or_double_qut(char *str, int i, int qut_num[], int time);
 void	free_all(t_execution *exec);
 char	*dollar(char *str, t_dict *dictionary, t_execution *exec);
+char	*subsitute_exit_code(char *str, int i, t_execution *exec);
+char	*ft_replace(char *str, t_dollar *d, t_dict *dictionary, int is_double_qut);
+char	*dollar3(char *str, t_dollar *d, t_dict *dictionary);
+char	*dollar6(char *str, t_dollar *d, t_dict *dictionary);
+void	dollar_init(t_dollar *d);
 // void	remove_qut_from_dollar(char *dollar_str);
 // void	shift_dollar(int skip, char *dollar_str);
 

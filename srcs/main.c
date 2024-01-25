@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/23 12:16:31 by mabdelsa         ###   ########.fr       */
+/*   Created: 2024/01/23 13:33:26 by aalkaisi          #+#    #+#             */
+/*   Updated: 2024/01/25 10:05:04 by aalkaisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-// #include "../srcs/parsing/minishell_parse.h"
 
 char	*ft_strjoin3(char *s1, char *s2, char *s3)
 {
@@ -42,154 +41,7 @@ char	*ft_strjoin3(char *s1, char *s2, char *s3)
 	return (res);
 }
 
-char	*find_value_from_key(char	*key, t_dict *dictionary)
-{
-	char	*value;
 
-	value = NULL;
-	while (dictionary != NULL)
-	{
-		if (ft_strcmp(dictionary->key, key) == 0)
-		{
-			value = ft_strdup(dictionary->value);
-		}
-		dictionary = dictionary->next;
-	}
-	if (value == NULL)
-		value = ft_strdup("");
-	return (value);
-}
-
-
-char	*ft_replace(char *str, char *dollar_word, int i, int j, t_dict *dictionary, int is_value, int is_double_qut)
-{
-	char	*str1;
-	char	*str2;
-	char	*value;
-	char	*value2;
-
-	value2 = NULL;
-	value = NULL;
-	str1 = ft_substr(str, 0, i);
-	str2 = ft_substr(str, i + j + 1, ft_strlen(str) - i - j - 1);
-	free(str);
-	if (is_value == 0)
-		str = ft_strjoin(str1, str2);
-	else
-	{
-		value = find_value_from_key(dollar_word, dictionary);
-		i = 0;
-		while (value[i] != '\0')
-		{
-			if ((value[i] == '<' || value[i] == '>' || value[i] == '|') && is_double_qut == 0)
-			{
-				value2 = ft_strjoin3("\"", value, "\"");
-				free(value);
-				value = NULL;
-				break;
-			}
-			i++;
-		}
-		if (value == NULL)
-			str = ft_strjoin3(str1, value2, str2);
-		else
-			str = ft_strjoin3(str1, value, str2);
-		if (value != NULL)
-			free(value);
-		if (value2 != NULL)
-			free(value2);
-		free(dollar_word);
-	}
-	return (free(str1), free(str2), str);
-}
-
-char	*subsitute_exit_code(char *str, int i, t_execution *exec)
-{
-	char	*str1;
-	char	*str2;
-	char	*str3;
-	
-	str1 = ft_substr(str, 0, i - 1);
-	str2 = ft_substr(str, i + 1, ft_strlen(str) - i - 1);
-	free(str);
-	str3 = ft_itoa(exec->exit_code);
-	str = ft_strjoin3(str1, str3, str2);
-	return (free(str1), free(str2), free(str3), str);
-}
-
-char	*dollar(char *str, t_dict *dictionary, t_execution *exec)
-{
-	int		i;
-	int		j;
-	int		hash_flag;
-	int		qut_num[2];
-	char	*dollar_word;
-	int		del_dollar_flag;
-
-	i = 0;
-	qut_num[0] = 0;
-	qut_num[1] = 0;
-	while (str[i] != '\0')
-	{
-		del_dollar_flag = 0;
-		if ((inside_single_or_double_qut(str, i, qut_num, 1) == 2 && str[i] == '$') || 
-		(inside_single_or_double_qut(str, i, qut_num, 2) == 0 && str[i] == '$'))
-		{
-			del_dollar_flag = 2;
-			i++;
-			if (str[i] == '?')
-			{
-				str = subsitute_exit_code(str, i, exec);
-				continue ;
-			}
-			j = 0;
-			hash_flag = 0;
-			while ((str[j + i] == '_' || ft_isalnum(str[j + i]) == 1))
-				j++;
-			if (str[i] == '#')
-				str[i] = '0';
-			if ((str[i] == '\'' || str[i] == '"') && inside_single_or_double_qut(str, i, qut_num, 2) == 0)
-			{
-				str[i - 1] = ' ';
-				del_dollar_flag = 1;
-			}
-			else if (str[i] == ' ' || str[i] == '\'' || str[i] == '"' || str[i] == '\0')
-			{
-				continue ;
-			}
-			else
-			{
-				if (j == 0)
-				{
-					str = ft_replace(str, "", i - 1, j, dictionary, 0, 0);
-					del_dollar_flag = 1;
-				}
-				else if (str[i] >= '0' && str[i] <= '9' && hash_flag == 0)
-				{
-					str = ft_replace(str, "", i - 1, 1, dictionary, 0, 0);
-					del_dollar_flag = 1;
-				}
-				else
-				{
-					del_dollar_flag = 1;
-					dollar_word = ft_substr(str, i, j);
-					str = ft_replace(str, dollar_word, i - 1, j, dictionary, 1, inside_single_or_double_qut(str, i, qut_num, 2));
-				}
-			}
-			// printf("str: %s,\n", str);
-		}
-		if (del_dollar_flag == 1)
-		{
-			i = i - 2;
-			if (i < 0)
-				i = 0;
-		}
-		else if (del_dollar_flag == 2)
-			i--;
-		i++;
-	}
-	return (str);
-}
 
 void	unlink_func(t_execution *exec)
 {
@@ -197,9 +49,9 @@ void	unlink_func(t_execution *exec)
 	char	*heredoc_file;
 
 	i = -1;
-	while (exec->full_path[++i] != NULL)
+	while (exec->cmds_name[++i] != NULL)
 	{
-		heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
+		heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".txt");
 		if (access(heredoc_file, F_OK) == 0)
 		{
 			unlink(heredoc_file);
@@ -212,7 +64,7 @@ void	free_all(t_execution *exec)
 {
 	int i = 0;
 	int j = 0;
-	// ft_putstr_fd()
+
 	while (exec->infile_name[i] != NULL)
 	{
 		j = 0;
@@ -242,6 +94,18 @@ void	free_all(t_execution *exec)
 	i = 0;
 	free(exec->is_file_or_here_doc);
 	free(exec->is_file_or_append);
+	if (exec->full_path != NULL)
+	{
+		// printf("%s\n", exec->cmds_name[0][0]);
+		i = 0;
+		while (exec->cmds_name[i] != NULL)
+		{
+			if (exec->full_path[i] != NULL)
+				free(exec->full_path[i]);
+			i++;
+		}
+		free(exec->full_path);
+	}
 	i = 0;
 	j = 0;
 	while (exec->cmds_name[i] != NULL)
@@ -258,17 +122,6 @@ void	free_all(t_execution *exec)
 	free(exec->cmds_name);
 	free(exec->fd_infile);
 	free(exec->fd_outfile);
-	if (exec->full_path != NULL)
-	{
-		// printf("%s\n", exec->cmds_name[0][0]);
-		i = 0;
-		while (exec->full_path[i] != NULL)
-		{
-			free(exec->full_path[i]);
-			i++;
-		}
-		free(exec->full_path);
-	}
 	i = 0;
 	while (i < exec->cmds_num - 1)
 	{
@@ -320,7 +173,6 @@ void	parse(t_execution *exec, char *str)
 		free(res[i]);
 	free(res);
 	remove_qut(exec);
-	check_solution(exec);
 
 	// free_all(exec);
 	// re_order(res, &z);
@@ -370,7 +222,7 @@ void prompt(t_execution *exec, t_dict *dictionary)
 		{
 			printf("exit\n");
 			ft_dict_lstclear(&dictionary, free);
-			rl_clear_history();
+			// rl_clear_history();
 			exit(0);
 		}
 		if (rl[0] == '\0')
@@ -419,7 +271,7 @@ void prompt(t_execution *exec, t_dict *dictionary)
 		if (flag == 0)
 			close_all_fds(exec);
 		i = -1;
-		while (exec->full_path[++i] != NULL && flag == 0)
+		while (exec->cmds_name[++i] != NULL && flag == 0)
 		{
 			// waitpid(exec.process_id[i], &status[0], 0);
 			// printf("HERE %i\n", i);

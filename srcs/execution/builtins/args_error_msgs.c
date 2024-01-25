@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_error_msgs.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 16:49:43 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/22 18:28:18 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:27:27 by aalkaisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	error_msg_exit(char *error_arg, t_execution *exec, t_dict **dictionary)
 	exec->exit_code = 255;
 	free_all(exec);
 	ft_dict_lstclear(dictionary, free);
-	rl_clear_history();
+	// rl_clear_history();
 	close(exec->fd_std[0]);
 	close(exec->fd_std[1]);
 	exit(exec->exit_code);
