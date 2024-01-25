@@ -6,7 +6,7 @@
 /*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/23 20:31:16 by aalkaisi         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:39:01 by aalkaisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,14 @@ typedef struct s_dollar {
 	int		is_value;
 }	t_dollar;
 
+typedef struct s_replace {
+	char	*str1;
+	char	*str2;
+	char	*value;
+	char	*value2;
+	int		i;
+}	t_replace;
+
 typedef struct s_dict
 {
 	char				*key;
@@ -183,6 +191,9 @@ char	*ft_replace(char *str, t_dollar *d, t_dict *dictionary, int is_double_qut);
 char	*dollar3(char *str, t_dollar *d, t_dict *dictionary);
 char	*dollar6(char *str, t_dollar *d, t_dict *dictionary);
 void	dollar_init(t_dollar *d);
+char	*find_value_from_key(char *key, t_dict *dictionary);
+int		skip_spaces(char *str);
+void	unlink_func(t_execution *exec);
 // void	remove_qut_from_dollar(char *dollar_str);
 // void	shift_dollar(int skip, char *dollar_str);
 

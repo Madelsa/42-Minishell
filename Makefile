@@ -6,7 +6,7 @@
 #    By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/01 22:17:03 by mohammoh          #+#    #+#              #
-#    Updated: 2024/01/25 10:11:09 by aalkaisi         ###   ########.fr        #
+#    Updated: 2024/01/25 12:36:45 by aalkaisi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SOURCES = \
 		srcs/parsing/extra2.c srcs/parsing/file_type.c srcs/parsing/files_num_in_each_part.c \
 		srcs/parsing/load_files_names.c srcs/parsing/num_of_chars_in_each_file.c srcs/parsing/qut.c \
 		srcs/parsing/remove_qut_from_cmds.c srcs/parsing/trim_all.c srcs/parsing/dollar.c srcs/parsing/dollar2.c\
+		srcs/parsing/dollar3.c srcs/parsing/extra3.c srcs/parsing/free.c\
 		srcs/execution/builtins/echo_built_in.c srcs/execution/builtins/pwd_built_in.c srcs/execution/builtins/exit_built_in.c \
 		srcs/execution/builtins/env_built_in.c srcs/execution/builtins/dict_utils.c srcs/execution/builtins/export_built_in.c \
 		srcs/execution/builtins/unset_built_in.c srcs/execution/builtins/cd_built_in.c srcs/execution/builtins/sort_dictionary.c \
