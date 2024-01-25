@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:59:53 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/24 18:43:03 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:29:20 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ void	unlink_func(t_execution *exec)
 		j = 0;
 		while (exec->infile_name[i][j] != NULL)
 		{
-			heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".tmp");
+			heredoc_file = heredoc_file_name("/tmp/here_doc_", i, ".txt");
 			if (exec->infile_name[i][j + 1] == NULL && exec->is_file_or_here_doc[i] == 1)
 				unlink(heredoc_file);
 			free(heredoc_file);

@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:14:04 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/24 14:37:00 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:22:07 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	process_regular_file(t_execution *exec, t_create_heredoc *data)
 		exec->fd_infile[data->i] = data->file_in;
 }
 
-void	process_here_doc(t_execution *exec, t_dict *dictionary,
+int	process_here_doc(t_execution *exec, t_dict *dictionary,
 		t_create_heredoc *data)
 {
 	data->heredoc_file = heredoc_file_name("/tmp/here_doc_", data->i, ".tmp");
@@ -32,7 +32,7 @@ void	process_here_doc(t_execution *exec, t_dict *dictionary,
 	{
 		free(data->heredoc_file);
 		data->j++;
-		return ;
+		return (1);
 	}
 	free(data->heredoc_file);
 	exec->fd_infile[data->i] = data->file_in;
@@ -41,10 +41,11 @@ void	process_here_doc(t_execution *exec, t_dict *dictionary,
 	{
 		close(data->file_in);
 		exec->fd_infile[data->i] = -2;
-		return ;
+		return (1);
 	}
 	close(data->file_in);
 	exec->fd_infile[data->i] = -2;
+	return (0);
 }
 
 void	handle_in_file(t_execution *exec, t_dict *dictionary)
@@ -61,10 +62,13 @@ void	handle_in_file(t_execution *exec, t_dict *dictionary)
 			if (exec->is_file_or_here_doc[data.k++] == 0)
 				process_regular_file(exec, &data);
 			else if (exec->infile_name[data.i][data.j + 1] != NULL)
-				here_doc(exec->infile_name[data.i][data.j], -1, dictionary,
-					exec);
-			else
-				process_here_doc(exec, dictionary, &data);
+			{
+				if (here_doc(exec->infile_name[data.i][data.j], -1, dictionary,
+					exec) == 1)
+					return ;
+			}
+			else if (process_here_doc(exec, dictionary, &data) == 1)
+				return ;
 			data.j++;
 		}
 		data.i++;
