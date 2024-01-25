@@ -6,7 +6,7 @@
 /*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:14:04 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/25 09:58:13 by aalkaisi         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:30:19 by aalkaisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,9 @@ void	handle_in_file(t_execution *exec, t_dict *dictionary)
 		{
 			if (exec->is_file_or_here_doc[k++] == 0)
 			{
-				printf("file: %s\n", exec->infile_name[i][j]);
-				
 				open_input(exec->infile_name[i][j], &file_in, i, exec->in_file_error);
 				if (exec->infile_name[i][j + 1] != NULL)
-				{
-					printf("---->%d", file_in);
 					close(file_in);
-				}
 				else
 					exec->fd_infile[i] = file_in;
 			}

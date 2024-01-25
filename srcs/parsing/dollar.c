@@ -6,7 +6,7 @@
 /*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 17:53:10 by aalkaisi          #+#    #+#             */
-/*   Updated: 2024/01/23 20:28:41 by aalkaisi         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:15:57 by aalkaisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,24 @@ char	*dollar3(char *str, t_dollar *d, t_dict *dictionary)
 	return (str);
 }
 
-int	dollar2(char *str, t_dollar *d, t_execution *exec)
+int	dollar2(char **str, t_dollar *d, t_execution *exec)
 {
+	char	*string;
+
 	d->del_dollar_flag = 2;
 	d->i++;
-	if (str[d->i] == '?')
+	string = ft_strdup(*str);
+	free(*str);
+	if (string[d->i] == '?')
 	{
-		str = subsitute_exit_code(str, d->i, exec);
+		*str = subsitute_exit_code(string, d->i, exec);
 		return (1);
 	}
 	d->j = 0;
-	while ((str[d->j + d->i] == '_' || ft_isalnum(str[d->j + d->i]) == 1))
+	while ((*str[d->j + d->i] == '_' || ft_isalnum(*str[d->j + d->i]) == 1))
 		d->j++;
-	if (str[d->i] == '#')
-		str[d->i] = '0';
+	if (*str[d->i] == '#')
+		*str[d->i] = '0';
 	return (0);
 }
 
@@ -90,7 +94,7 @@ char	*dollar(char *str, t_dict *dictionary, t_execution *exec)
 				&& str[d.i] == '$') || (in_single_or_double_qut(str, d.i, 
 					d.qut_num, 2) == 0 && str[d.i] == '$'))
 		{
-			if (dollar2(str, &d, exec) == 1)
+			if (dollar2(&str, &d, exec) == 1)
 				continue ;
 			if ((str[d.i] == '\'' || str[d.i] == '"') 
 				&& in_single_or_double_qut(str, d.i, d.qut_num, 2) == 0)
