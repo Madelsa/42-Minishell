@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:29:44 by aalkaisi          #+#    #+#             */
-/*   Updated: 2024/01/23 14:20:51 by aalkaisi         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:54:26 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,14 @@ int	find_syntax_error(char	*str, t_execution *exec)
 	{
 		ft_putstr_fd("syntax error\n", 2);
 		free(str);
-		exec->exit_code = 2;
+		exec->exit_code = 258;
 		return (1);
 	}
 	if (double_pipe_error(str) == 1 || double_symbol_error(str) == 1)
 	{
 		ft_putstr_fd("syntax error\n", 2);
 		free(str);
-		exec->exit_code = 2;
+		exec->exit_code = 258;
 		return (1);
 	}
 	return (0);
