@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:58:01 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/26 11:15:34 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:59:22 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,5 @@ int	create_children(t_execution *exec, t_dict **dictionary)
 		handle_child_process(exec, dictionary, i);
 		i++;
 	}
-	// g_signal = 1;
 	return (0);
 }

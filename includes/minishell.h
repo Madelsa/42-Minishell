@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/25 16:59:21 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:11:40 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,4 +217,5 @@ int						open_input(char *in_file_name, int *file_in, int i,
 int						here_doc(char *limiter, int fd, t_dict *dictionary,
 							t_execution *exec);
 char					*heredoc_file_name(char *str, int i, char *extenstion);
+size_t					ft_dict_lstsize(t_dict *lst);
 #endif

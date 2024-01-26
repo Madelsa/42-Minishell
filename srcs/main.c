@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:33:26 by aalkaisi          #+#    #+#             */
-/*   Updated: 2024/01/26 11:15:46 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:10:35 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	main(int ac, char **av, char **envp)
 	t_execution	exec;
 	t_dict		*dictionary;
 
-	dictionary = NULL;
+	dictionary = NULL; 
 	fill_dictionary(envp, &dictionary);
 	(void)ac;
 	(void)av;
