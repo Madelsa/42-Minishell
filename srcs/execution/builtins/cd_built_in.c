@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   cd_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 15:52:48 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/15 17:39:43 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:34:02 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void	update_pwds(char *directory_prev, char *directory_current,
-		t_dict **dictionary)
+void	update_pwds(char *directory_prev, char *directory_current, t_execution *exec)
 {
 	t_dict	*current;
 
-	current = *dictionary;
+	current = exec->dictionary;
 	while (current != NULL)
 	{
 		if (ft_strcmp(current->key, "PWD") == 0)
@@ -36,7 +35,7 @@ void	update_pwds(char *directory_prev, char *directory_current,
 	free(directory_prev);
 }
 
-char	*set_directory(void)
+char	*set_directory(t_execution *exec)
 {
 	char	*directory;
 
@@ -44,45 +43,51 @@ char	*set_directory(void)
 	directory = getcwd(directory, 0);
 	if (directory == NULL)
 	{
-		g_exit_code = 1;
-		return (ft_putstr_fd("error: cannot retrieve current directory\n", 2)
-			, NULL);
+		exec->exit_code = 1;
+		return (ft_putstr_fd("error: cannot retrieve current directory\n", 2),
+			NULL);
 	}
 	return (directory);
 }
 
-char	*set_directory_home(t_dict **dictionary)
+char	*set_directory_home( t_execution *exec)
 {
 	char	*home_path;
 
 	home_path = ft_strdup("$HOME");
-	home_path = dollar(home_path, *dictionary);
+	home_path = dollar(home_path, exec);
 	return (home_path);
 }
 
-int	check_file_exist(char *str, t_dict **dictionary)
+int	check_file_exist(char *str,  t_execution *exec)
 {
 	char	*directory_prev;
 	char	*directory_current;
+	int		flag;
 
-	directory_prev = set_directory();
-	if (directory_prev == NULL)
-		return (g_exit_code = 1);
+	directory_current = NULL;
+	directory_prev = set_directory(exec);
+	flag = 0;
 	if (str == NULL || ft_strcmp(str, "~") == 0)
 	{
-		free(str);
-		str = set_directory_home(dictionary);
+		if (search_dict(exec, "HOME") == NULL)
+			return (free(directory_current), free(directory_prev),
+				error_msg_cd_home(exec));
+		str = set_directory_home(exec);
+		flag = 1;
 	}
-	if (chdir(str) == -1)
-		return (free(directory_prev), error_msg_cd(str));
-	directory_current = set_directory();
-	update_pwds(directory_prev, directory_current, dictionary);
+	if (chdir(str) != -1)
+		directory_current = set_directory(exec);
+	if (flag == 1)
+		free(str);
+	update_pwds(directory_prev, directory_current, exec);
 	return (0);
 }
 
-int	cd_built_in(char **arr, t_dict **dictionary)
+int	cd_built_in(char **arr,  t_execution *exec)
 {
-	if (check_file_exist(arr[1], dictionary) != 0)
-		return (g_exit_code);
+	if (check_file_exist(arr[1], exec) != 0)
+		return (exec->exit_code);
+	exec->exit_code = 0;
 	return (0);
 }

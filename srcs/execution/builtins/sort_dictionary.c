@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sort_dictionary.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 12:47:44 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/01 18:04:54 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:35:27 by mahmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../../../includes/minishell.h"
 
-void	sort_dict(t_dict **dictionary)
+void	sort_dict(t_execution *exec)
 {
 	int		swapped;
 	t_dict	**current_head;
@@ -23,7 +23,7 @@ void	sort_dict(t_dict **dictionary)
 	while (swapped > 0)
 	{
 		swapped = 0;
-		current_head = dictionary;
+		current_head = &exec->dictionary;
 		while (*current_head != NULL && (*current_head)->next != NULL)
 		{
 			current = *current_head;

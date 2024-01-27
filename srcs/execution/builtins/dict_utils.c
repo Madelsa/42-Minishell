@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 15:07:28 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/01/01 18:04:34 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:01:55 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	ft_dict_lstclear(t_dict **lst, void (*del)(void *))
 	while (node)
 	{
 		next = node->next;
+		free(node->key);
+		free(node->value);
 		free(node);
 		node = next;
 	}
