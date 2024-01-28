@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:38:18 by mohammoh          #+#    #+#             */
-/*   Updated: 2024/01/28 00:36:19 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/28 19:34:12 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@
 # include <sys/wait.h>
 
 extern int				g_signal;
-
-typedef struct s_env
-{
-	char				*value;
-	struct s_env		*next;
-}						t_env;
 
 typedef struct s_dict
 {
@@ -52,11 +46,11 @@ typedef struct s_execution
 	int					*process_id;
 	int					*in_file_error;
 	int					pid;
-	t_env				*env;
 	int					std_in;
 	int					exit_code;
 	int					fd_std[2];
 	char				**paths;
+	char				**envp;
 	t_dict				*dictionary;
 }						t_execution;
 
@@ -87,7 +81,6 @@ typedef struct s_vars
 	int					size[2];
 	int					qut_num[2];
 }						t_vars;
-
 
 typedef struct s_create_heredoc
 {
@@ -154,41 +147,39 @@ void					tab_to_space(char *str);
 int						in_single_or_double_qut(char *str, int i, int qut_num[],
 							int time);
 void					free_all(t_execution *exec);
-char					*dollar(char *str,
+char					*dollar(char *str, t_dict *dictionary,
 							t_execution *exec);
 char					*subsitute_exit_code(char *str, int i,
 							t_execution *exec);
-char					*ft_replace(char *str, t_dollar *d, int is_double_qut, t_execution *exec);
-char					*dollar3(char *str, t_dollar *d, t_execution *exec);
-char					*dollar6(char *str, t_dollar *d, t_execution *exec);
+char					*ft_replace(char *str, t_dollar *d, int is_double_qut,
+							t_dict *dictionary);
+char					*dollar3(char *str, t_dollar *d, t_dict *dictionary);
+char					*dollar6(char *str, t_dollar *d, t_dict *dictionary);
 void					dollar_init(t_dollar *d);
-char					*find_value_from_key(char *key,  t_execution *exec);
+char					*find_value_from_key(char *key, t_dict *dictionary);
 int						skip_spaces(char *str);
 void					unlink_func(t_execution *exec);
 
 int						echo_built_in(char **arr, t_execution *exec);
 int						pwd_built_in(char **arr, t_execution *exec);
 void					exit_built_in(char **arr, int i, t_execution *exec);
-int						env_built_in(char **arr,
-							t_execution *exec);
+int						env_built_in(char **arr, t_execution *exec);
 t_dict					*ft_dict_lstnew(char *key, char *value);
 void					ft_dict_lstadd_back(t_dict **lst, t_dict *newdict);
 void					ft_dict_lstclear(t_dict **lst, void (*del)(void *));
 void					ft_dict_lstdelone(t_dict *lst, void (*del)(void *));
 void					fill_dictionary(char **envp, t_execution *exec);
 void					print_dictionary(t_execution *exec);
-int						export_built_in(char **arr,
-							t_execution *exec);
+int						export_built_in(char **arr, t_execution *exec);
 int						unset_built_in(char **arr, t_execution *exec);
-int						cd_built_in(char **arr,
-							t_execution *exec);
+int						cd_built_in(char **arr, t_execution *exec);
 void					sort_dict(t_execution *exec);
-int						search_command_builtins(char **arr,
-							int i, t_execution *exec);
+int						search_command_builtins(char **arr, int i,
+							t_execution *exec);
 int						is_builtin(char *arr);
 int						error_msg_export(char *error_arg, t_execution *exec);
 void					error_msg_exit(char *error_arg, t_execution *exec,
-							 int j);
+							int j);
 int						error_msg_cd(char *error_arg, t_execution *exec);
 int						error_msg_unset(char *error_arg, t_execution *exec);
 int						error_msg_pwd(char *error_arg, t_execution *exec);
@@ -212,8 +203,8 @@ void					dup2_func(t_execution *exec, int i);
 void					infile_error_print(t_execution *exec, int i);
 int						open_input(char *in_file_name, int *file_in, int i,
 							int *in_file_error);
-int						here_doc(char *limiter, int fd,
-							t_execution *exec);
+int						here_doc(char *limiter, int fd, t_execution *exec);
 char					*heredoc_file_name(char *str, int i, char *extenstion);
 size_t					ft_dict_lstsize(t_dict *lst);
+void					create_envp(t_execution *exec);
 #endif

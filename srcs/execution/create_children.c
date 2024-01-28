@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_children.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:58:01 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/28 00:37:13 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/28 19:34:48 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	single_command_and_builtin(t_execution *exec, int i)
 
 void	execute_non_builtin(t_execution *exec, int i)
 {
-	execve(exec->full_path[i], exec->cmds_name[i], exec->paths);
-	// rl_clear_history();
+	execve(exec->full_path[i], exec->cmds_name[i], exec->envp);
+	rl_clear_history();
 	ft_putstr_fd("Command not found\n", 2);
 	free_all(exec);
 	ft_dict_lstclear(&exec->dictionary, free);
@@ -48,16 +48,15 @@ void	handle_child_process(t_execution *exec, int i)
 	{
 		if (exec->in_file_error[i] == 1)
 			return (free_all(exec), ft_dict_lstclear(&exec->dictionary, free),
-				 exit(1));
+				rl_clear_history(), exit(1));
 		dup2_func(exec, i);
 		close_all_fds(exec);
 		if (exec->full_path[i] == NULL)
 			return (free_all(exec), ft_dict_lstclear(&exec->dictionary, free),
-				 exit(0));
-		if (search_command_builtins(exec->cmds_name[i], i,
-				exec) != 1)
+				rl_clear_history(), exit(0));
+		if (search_command_builtins(exec->cmds_name[i], i, exec) != 1)
 			return (free_all(exec), ft_dict_lstclear(&exec->dictionary, free),
-				 exit(exec->exit_code));
+				rl_clear_history(), exit(exec->exit_code));
 		else
 			execute_non_builtin(exec, i);
 	}
@@ -80,7 +79,7 @@ int	create_children(t_execution *exec)
 		{
 			free_all(exec);
 			ft_dict_lstclear(&exec->dictionary, free);
-			// rl_clear_history();
+			rl_clear_history();
 			exit(1);
 		}
 		handle_child_process(exec, i);

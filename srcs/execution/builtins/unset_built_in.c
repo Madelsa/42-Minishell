@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_built_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:48:28 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/28 00:33:42 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/28 17:09:21 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_errors(char **arr, t_execution *exec)
 	while (arr[i] != NULL)
 	{
 		j = 0;
-		if (ft_isalpha(arr[i][0]) == 0)
+		if (ft_isalpha(arr[i][0]) == 0 && arr[i][0] != '_')
 		{
 			error_msg_unset(arr[i], exec);
 			i++;
@@ -29,7 +29,7 @@ int	check_errors(char **arr, t_execution *exec)
 		}
 		while (arr[i][j] != '\0')
 		{
-			if (ft_isalnum(arr[i][j]) == 0)
+			if (ft_isalnum(arr[i][j]) == 0 && arr[i][j] != '_')
 				return (error_msg_unset(arr[i], exec));
 			j++;
 		}

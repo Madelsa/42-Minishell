@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:50:38 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/28 00:40:40 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/28 16:47:01 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	here_doc2(t_execution *exec, t_inside_heredoc *in_hdoc)
 			unlink_func(exec);
 			return (1);
 		}
-		in_hdoc->str = dollar(in_hdoc->str, exec);
+		in_hdoc->str = dollar(in_hdoc->str, exec->dictionary, exec);
 		if (ft_strcmp(in_hdoc->str, in_hdoc->limiter) != 0 && in_hdoc->fd != -1)
 			heredoc_write(in_hdoc);
 	}
@@ -65,7 +65,7 @@ int	here_doc(char *limiter, int fd, t_execution *exec)
 		unlink_func(exec);
 		return (1);
 	}
-	in_hdoc.str = dollar(in_hdoc.str, exec);
+	in_hdoc.str = dollar(in_hdoc.str, exec->dictionary, exec);
 	if (in_hdoc.str != NULL && ft_strcmp(in_hdoc.str, limiter) != 0 && fd != -1)
 		heredoc_write(&in_hdoc);
 	if (here_doc2(exec, &in_hdoc) == 1)

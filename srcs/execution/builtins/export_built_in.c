@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_built_in.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:32:58 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/28 00:42:41 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/28 17:09:21 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	print_dict_export(t_execution *exec)
 	}
 }
 
-void	append_dict(t_execution *exec ,char **arr, int i, int j)
+void	append_dict(t_execution *exec, char **arr, int i, int j)
 {
 	char	*key;
 	char	*value;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalkaisi <aalkaisi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:05:55 by aalkaisi          #+#    #+#             */
-/*   Updated: 2024/01/25 12:18:00 by aalkaisi         ###   ########.fr       */
+/*   Updated: 2024/01/28 19:26:32 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,16 @@ void	free_all4(t_execution *exec)
 			i++;
 		}
 		free(exec->full_path);
+	}
+	i = 0;
+	if (exec->envp != NULL)
+	{
+		while (exec->envp[i] != NULL)
+		{
+			free(exec->envp[i]);
+			i++;
+		}
+		free(exec->envp);
 	}
 }
 

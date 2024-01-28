@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:31:19 by aalkaisi          #+#    #+#             */
-/*   Updated: 2024/01/28 00:29:42 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/28 16:44:46 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ char	*ft_replace2(t_replace *v, int is_double_qut)
 	return (v->value2);
 }
 
-char	*ft_replace(char *str, t_dollar *d, int is_double_qut, t_execution *exec)
+char	*ft_replace(char *str, t_dollar *d
+	, int is_double_qut, t_dict *dictionary)
 {
 	t_replace	v;
 
@@ -43,7 +44,7 @@ char	*ft_replace(char *str, t_dollar *d, int is_double_qut, t_execution *exec)
 		str = ft_strjoin(v.str1, v.str2);
 	else
 	{
-		v.value = find_value_from_key(d->dollar_word, exec);
+		v.value = find_value_from_key(d->dollar_word, dictionary);
 		v.value2 = ft_replace2(&v, is_double_qut);
 		if (v.value == NULL)
 			str = ft_strjoin3(v.str1, v.value2, v.str2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_error_msgs.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 16:49:43 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/28 00:36:05 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/28 17:32:46 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int	error_msg_export(char *error_arg, t_execution *exec)
 	return (exec->exit_code);
 }
 
-void	error_msg_exit(char *error_arg, t_execution *exec,
-		int j)
+void	error_msg_exit(char *error_arg, t_execution *exec, int j)
 {
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(error_arg, 2);
@@ -30,7 +29,7 @@ void	error_msg_exit(char *error_arg, t_execution *exec,
 	exec->exit_code = 255;
 	free_all(exec);
 	ft_dict_lstclear(&exec->dictionary, free);
-	// rl_clear_history();
+	rl_clear_history();
 	if (j == -1)
 	{
 		close(exec->fd_std[0]);

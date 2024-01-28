@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:33:26 by aalkaisi          #+#    #+#             */
-/*   Updated: 2024/01/28 00:21:58 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/28 19:16:32 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	parse(t_execution *exec, char *str)
 {
-	char		**res;
-	int			i;
+	char	**res;
+	int		i;
 
 	redirections(str, exec);
 	res = ft_splitt(str, '|', exec, 1);
@@ -51,7 +51,7 @@ void	prompt3(t_execution *exec)
 	{
 		waitpid(exec->process_id[i], &status, 0);
 		if (WIFEXITED(status))
-			exec->exit_code = WEXITSTATUS(status);
+			exec->exit_code = WEXITSTATUS(status) % 256;
 	}
 	g_signal = 1;
 	unlink_func(exec);
@@ -66,7 +66,7 @@ int	prompt2(t_execution *exec, char *rl, char *str)
 	str = ft_strdup(rl);
 	if (check_qut_error(str) == 1)
 		return ((1));
-	str = dollar(str, exec);
+	str = dollar(str, exec->dictionary, exec);
 	tab_to_space(str);
 	if (skip_spaces(str) == 1)
 		return ((1));
@@ -93,7 +93,6 @@ void	prompt(t_execution *exec)
 	char	*rl;
 
 	str = NULL;
-	// dictionary = NULL;
 	while (1)
 	{
 		signal(SIGINT, is_parent_child_sig);
@@ -101,6 +100,7 @@ void	prompt(t_execution *exec)
 		if (g_signal != 1)
 			exec->exit_code = g_signal;
 		g_signal = 1;
+		create_envp(exec);
 		rl = readline("minishell$ ");
 		if (g_signal == 99)
 			exec->exit_code = 1;
@@ -108,7 +108,7 @@ void	prompt(t_execution *exec)
 		if (rl == NULL)
 		{
 			return (printf("exit\n"), ft_dict_lstclear(&exec->dictionary, free),
-				 exit(0));
+				rl_clear_history(), exit(0));
 		}
 		if (prompt2(exec, rl, str) == 1)
 			continue ;
@@ -118,13 +118,11 @@ void	prompt(t_execution *exec)
 
 int		g_signal = 0;
 
-
 int	main(int ac, char **av, char **envp)
 {
 	t_execution	exec;
-	// t_dict		*dictionary;
 
-	// dictionary = NULL;
+	exec.envp = NULL;
 	exec.dictionary = NULL;
 	fill_dictionary(envp, &exec);
 	(void)ac;

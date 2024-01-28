@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   dollar2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:57:20 by aalkaisi          #+#    #+#             */
-/*   Updated: 2024/01/28 00:27:27 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/28 17:09:21 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*find_value_from_key(char *key, t_execution *exec)
+char	*find_value_from_key(char *key, t_dict *dictionary)
 {
 	char	*value;
 
 	value = NULL;
-	while (exec->dictionary != NULL)
+	while (dictionary != NULL)
 	{
-		if (ft_strcmp(exec->dictionary->key, key) == 0)
+		if (ft_strcmp(dictionary->key, key) == 0)
 		{
-			value = ft_strdup(exec->dictionary->value);
+			value = ft_strdup(dictionary->value);
 		}
-		exec->dictionary = exec->dictionary->next;
+		dictionary = dictionary->next;
 	}
 	if (value == NULL)
 		value = ft_strdup("");
@@ -44,9 +44,9 @@ char	*subsitute_exit_code(char *str, int i, t_execution *exec)
 	return (free(str1), free(str2), free(str3), str);
 }
 
-char	*dollar6(char *str, t_dollar *d, t_execution *exec)
+char	*dollar6(char *str, t_dollar *d, t_dict *dictionary)
 {
-	str = dollar3(str, d, exec);
+	str = dollar3(str, d, dictionary);
 	d->i++;
 	return (str);
 }

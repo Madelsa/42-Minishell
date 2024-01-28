@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_in_file.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:14:04 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/28 00:05:35 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/28 14:35:09 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ void	process_regular_file(t_execution *exec, t_create_heredoc *data)
 		exec->fd_infile[data->i] = data->file_in;
 }
 
-int	process_here_doc(t_execution *exec,
-		t_create_heredoc *data)
+int	process_here_doc(t_execution *exec, t_create_heredoc *data)
 {
 	data->heredoc_file = heredoc_file_name("/tmp/here_doc_", data->i, ".tmp");
 	data->file_in = open(data->heredoc_file, O_CREAT | O_TRUNC | O_WRONLY,
@@ -36,8 +35,7 @@ int	process_here_doc(t_execution *exec,
 	}
 	free(data->heredoc_file);
 	exec->fd_infile[data->i] = data->file_in;
-	here_doc(exec->infile_name[data->i][data->j], data->file_in,
-		exec);
+	here_doc(exec->infile_name[data->i][data->j], data->file_in, exec);
 	if (g_signal == 130)
 	{
 		close(data->file_in);
@@ -50,8 +48,7 @@ int	process_here_doc(t_execution *exec,
 	return (0);
 }
 
-int	handle_in_file2(t_execution *exec,
-		t_create_heredoc *data)
+int	handle_in_file2(t_execution *exec, t_create_heredoc *data)
 {
 	int	result;
 
@@ -59,8 +56,7 @@ int	handle_in_file2(t_execution *exec,
 		process_regular_file(exec, data);
 	else if (exec->infile_name[data->i][data->j + 1] != NULL)
 	{
-		here_doc(exec->infile_name[data->i][data->j], -1,
-			exec);
+		here_doc(exec->infile_name[data->i][data->j], -1, exec);
 		if (g_signal == 130)
 		{
 			unlink_func(exec);

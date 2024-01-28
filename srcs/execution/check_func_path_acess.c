@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_func_path_acess.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:21:12 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/28 00:36:36 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/28 19:03:11 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	check_func_path_acess(t_execution *exec)
 			&& is_builtin(*exec->cmds_name[i]) == 0)
 		{
 			error_msg_no_path(*exec->cmds_name[i], exec);
-			exec->exit_code = 127;
 			i++;
 			if (i == exec->cmds_num)
 			{

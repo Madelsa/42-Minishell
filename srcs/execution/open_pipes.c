@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mahmoud <mahmoud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:13:32 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/28 00:37:19 by mahmoud          ###   ########.fr       */
+/*   Updated: 2024/01/28 19:27:24 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	open_pipes(t_execution *exec)
 			write(2, "Error in pipes\n", 15);
 			free_all(exec);
 			ft_dict_lstclear(&exec->dictionary, free);
-			// rl_clear_history();
+			rl_clear_history();
 			exit(1);
 		}
 		i++;
@@ -56,7 +56,11 @@ void	infile_error_print(t_execution *exec, int i)
 	while (i < exec->cmds_num)
 	{
 		if (exec->in_file_error[i] == 1)
+		{
 			ft_putstr_fd("error: No such file or directory\n", 2);
+			exec->exit_code = 1;
+			return ;
+		}
 		i++;
 	}
 }

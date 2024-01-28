@@ -6,7 +6,7 @@
 #    By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/01 22:17:03 by mohammoh          #+#    #+#              #
-#    Updated: 2024/01/26 13:23:21 by mabdelsa         ###   ########.fr        #
+#    Updated: 2024/01/28 15:00:14 by mabdelsa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SOURCES = \
 		srcs/execution/handle_in_file.c srcs/execution/check_func_path_acess.c srcs/execution/create_children.c \
 		srcs/execution/signals.c srcs/execution/search_dictionary.c srcs/execution/builtins/args_error_msgs2.c \
 		srcs/execution/dup2_functions.c srcs/execution/open_pipes.c srcs/execution/open_all_input_files.c \
-		srcs/execution/heredoc.c
+		srcs/execution/heredoc.c srcs/execution/create_envp.c
 		
 OBJECTS = $(SOURCES:%.c=%.o)
 
@@ -33,8 +33,8 @@ LIBFTBF = ./includes/libft/libft.a
 LIBFT_P = ./includes/libft
 LIBFT_AR = ./includes/libft/libft.a
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 LIBSR = -L$(HOME)/local/lib -lreadline -lncurses
 
 
