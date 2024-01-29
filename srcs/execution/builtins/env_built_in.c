@@ -6,13 +6,13 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:28:12 by mahmoud           #+#    #+#             */
-/*   Updated: 2024/01/22 18:07:36 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/28 17:09:21 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
-void	fill_dictionary(char **envp, t_dict **dictionary)
+void	fill_dictionary(char **envp, t_execution *exec)
 {
 	char	*key;
 	char	*value;
@@ -29,18 +29,18 @@ void	fill_dictionary(char **envp, t_dict **dictionary)
 		key = ft_substr(envp[i], 0, j);
 		value = ft_substr(envp[i], j + 1, ft_strlen(envp[i]));
 		new_entry = ft_dict_lstnew(key, value);
-		ft_dict_lstadd_back(dictionary, new_entry);
+		ft_dict_lstadd_back(&exec->dictionary, new_entry);
 		free(key);
 		free(value);
 		i++;
 	}
 }
 
-void	print_dictionary(t_dict **dictionary)
+void	print_dictionary(t_execution *exec)
 {
 	t_dict	*current;
 
-	current = *dictionary;
+	current = exec->dictionary;
 	while (current != NULL)
 	{
 		if (current->value)
@@ -49,7 +49,7 @@ void	print_dictionary(t_dict **dictionary)
 	}
 }
 
-int	env_built_in(char **arr, t_dict **dictionary, t_execution *exec)
+int	env_built_in(char **arr, t_execution *exec)
 {
 	if (arr[1] != NULL)
 	{
@@ -57,7 +57,7 @@ int	env_built_in(char **arr, t_dict **dictionary, t_execution *exec)
 		exec->exit_code = 127;
 		return (exec->exit_code);
 	}
-	print_dictionary(dictionary);
+	print_dictionary(exec);
 	exec->exit_code = 0;
 	return (0);
 }

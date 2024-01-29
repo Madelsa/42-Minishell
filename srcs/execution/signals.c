@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 15:29:56 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/23 13:19:41 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:52:10 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	handle_parent_sig(int sig)
 	}
 	else if (sig == SIGQUIT)
 	{
-		rl_replace_line("", 1);
-		rl_on_new_line();
 		rl_redisplay();
 		return ;
 	}
@@ -65,7 +63,7 @@ void	exit_heredoc(int sig)
 
 void	is_parent_child_sig(int sig)
 {
-	if (g_signal == 0)
+	if (g_signal == 3)
 		handle_child_sig(sig);
 	else if (g_signal == 2)
 		exit_heredoc(sig);

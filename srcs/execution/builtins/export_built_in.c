@@ -6,17 +6,17 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 12:32:58 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/17 18:22:39 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/28 17:09:21 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../../../includes/minishell.h"
 
-int	check_overwrite_entry(char *key, char *value, t_dict **dictionary)
+int	check_overwrite_entry(char *key, char *value, t_execution *exec)
 {
 	t_dict	*current;
 
-	current = *dictionary;
+	current = exec->dictionary;
 	while (current != NULL)
 	{
 		if (ft_strcmp(current->key, key) == 0) 
@@ -36,11 +36,11 @@ int	check_overwrite_entry(char *key, char *value, t_dict **dictionary)
 	return (0);
 }
 
-void	print_dict_export(t_dict **dictionary)
+void	print_dict_export(t_execution *exec)
 {
 	t_dict	*current;
 
-	current = *dictionary;
+	current = exec->dictionary;
 	while (current != NULL)
 	{
 		printf("declare -x  ");
@@ -53,7 +53,7 @@ void	print_dict_export(t_dict **dictionary)
 	}
 }
 
-void	append_dict(t_dict **dictionary, char **arr, int i, int j)
+void	append_dict(t_execution *exec, char **arr, int i, int j)
 {
 	char	*key;
 	char	*value;
@@ -63,25 +63,25 @@ void	append_dict(t_dict **dictionary, char **arr, int i, int j)
 	{
 		key = ft_substr(arr[i], 0, j);
 		value = ft_substr(arr[i], j + 1, ft_strlen(arr[i]));
-		if (check_overwrite_entry(key, value, dictionary) == 0)
+		if (check_overwrite_entry(key, value, exec) == 0)
 		{
 			new_entry = ft_dict_lstnew(key, value);
-			ft_dict_lstadd_back(dictionary, new_entry);
+			ft_dict_lstadd_back(&exec->dictionary, new_entry);
 		}
 		free(key);
 		free(value);
 	}
 	else if (arr[i][j] == '\0')
 	{
-		if (check_overwrite_entry(arr[i], NULL, dictionary) == 0)
+		if (check_overwrite_entry(arr[i], NULL, exec) == 0)
 		{
 			new_entry = ft_dict_lstnew(arr[i], NULL);
-			ft_dict_lstadd_back(dictionary, new_entry);
+			ft_dict_lstadd_back(&exec->dictionary, new_entry);
 		}
 	}
 }
 
-int	handle_args(char **arr, t_dict **dictionary, t_execution *exec)
+int	handle_args(char **arr, t_execution *exec)
 {
 	int	i;
 	int	j;
@@ -98,7 +98,7 @@ int	handle_args(char **arr, t_dict **dictionary, t_execution *exec)
 					return (error_msg_export(arr[i], exec));
 				j++;
 			}
-			append_dict(dictionary, arr, i, j);
+			append_dict(exec, arr, i, j);
 		}
 		else
 			return (error_msg_export(arr[i], exec));
@@ -107,15 +107,15 @@ int	handle_args(char **arr, t_dict **dictionary, t_execution *exec)
 	return (0);
 }
 
-int	export_built_in(char **arr, t_dict **dictionary, t_execution *exec)
+int	export_built_in(char **arr, t_execution *exec)
 {
 	if (arr[1] == NULL)
 	{
-		sort_dict(dictionary);
-		print_dict_export(dictionary);
+		sort_dict(exec);
+		print_dict_export(exec);
 	}
 	else
-		if (handle_args(arr, dictionary, exec) != 0)
+		if (handle_args(arr, exec) != 0)
 			return (exec->exit_code);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:48:28 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/17 18:15:02 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/28 17:09:21 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_errors(char **arr, t_execution *exec)
 	while (arr[i] != NULL)
 	{
 		j = 0;
-		if (ft_isalpha(arr[i][0]) == 0)
+		if (ft_isalpha(arr[i][0]) == 0 && arr[i][0] != '_')
 		{
 			error_msg_unset(arr[i], exec);
 			i++;
@@ -29,7 +29,7 @@ int	check_errors(char **arr, t_execution *exec)
 		}
 		while (arr[i][j] != '\0')
 		{
-			if (ft_isalnum(arr[i][j]) == 0)
+			if (ft_isalnum(arr[i][j]) == 0 && arr[i][j] != '_')
 				return (error_msg_unset(arr[i], exec));
 			j++;
 		}
@@ -38,12 +38,12 @@ int	check_errors(char **arr, t_execution *exec)
 	return (0);
 }
 
-void	remove_from_dict(char *str, t_dict **dictionary)
+void	remove_from_dict(char *str, t_execution *exec)
 {
 	t_dict	*current;
 	t_dict	*prev;
 
-	current = *dictionary;
+	current = exec->dictionary;
 	prev = NULL;
 	while (current != NULL)
 	{
@@ -52,7 +52,7 @@ void	remove_from_dict(char *str, t_dict **dictionary)
 			if (prev != NULL)
 				prev->next = current->next;
 			else
-				*dictionary = current->next;
+				exec->dictionary = current->next;
 			free(current->key);
 			free(current->value);
 			free(current);
@@ -64,25 +64,25 @@ void	remove_from_dict(char *str, t_dict **dictionary)
 	return ;
 }
 
-void	check_in_dictionary(char **arr, t_dict **dictionary)
+void	check_in_dictionary(char **arr, t_execution *exec)
 {
 	int	i;
 
 	i = 0;
 	while (arr[i] != NULL)
 	{
-		remove_from_dict(arr[i], dictionary);
+		remove_from_dict(arr[i], exec);
 		i++;
 	}
 }
 
-int	unset_built_in(char **arr, t_dict **dictionary, t_execution *exec)
+int	unset_built_in(char **arr, t_execution *exec)
 {
 	if (arr[1] != NULL)
 	{
 		if (check_errors(arr, exec) != 0)
 			return (exec->exit_code);
-		check_in_dictionary(arr, dictionary);
+		check_in_dictionary(arr, exec);
 	}
 	return (0);
 }

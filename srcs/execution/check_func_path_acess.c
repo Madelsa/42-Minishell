@@ -6,7 +6,7 @@
 /*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:21:12 by mabdelsa          #+#    #+#             */
-/*   Updated: 2024/01/22 18:37:25 by mabdelsa         ###   ########.fr       */
+/*   Updated: 2024/01/28 19:03:11 by mabdelsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,26 +69,25 @@ void	split_paths(t_execution *exec, char *path)
 	}
 }
 
-void	check_func_path_acess(t_execution *exec, t_dict **dictionary)
+void	check_func_path_acess(t_execution *exec)
 {
 	int		i;
 	char	*path;
 
 	i = 0;
-	path = search_dict(dictionary, "PATH");
+	path = search_dict(exec, "PATH");
 	if (path == NULL)
 	{
 		while (*exec->cmds_name[i] != NULL
 			&& is_builtin(*exec->cmds_name[i]) == 0)
 		{
 			error_msg_no_path(*exec->cmds_name[i], exec);
-			exec->exit_code = 127;
 			i++;
 			if (i == exec->cmds_num)
 			{
 				exec->paths = NULL;
 				free_all(exec);
-				prompt(exec, *dictionary);
+				prompt(exec);
 			}
 		}
 		exec->paths = NULL;

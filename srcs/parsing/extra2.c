@@ -1,34 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   extra2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mabdelsa <mabdelsa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/23 13:30:59 by aalkaisi          #+#    #+#             */
+/*   Updated: 2024/01/29 11:25:31 by mabdelsa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
-
-// char	*ft_strdup(const char *s1)
-// {
-// 	char	*p;
-// 	int		i;
-
-// 	i = 0;
-// 	while (s1[i] != '\0')
-// 		i++;
-// 	p = (char *)malloc(sizeof(char) * (i + 1));
-// 	if (p == NULL)
-// 		return (NULL);
-// 	i = 0;
-// 	while (s1[i] != '\0')
-// 	{
-// 		p[i] = s1[i];
-// 		i++;
-// 	}
-// 	p[i] = '\0';
-// 	return (p);
-// }
 
 void	tab_to_space(char *str)
 {
 	int	i;
-	// int	qut_num[2];
 
 	i = 0;
-	// qut_num[0] = 0;
-	// qut_num[1] = 0;
 	if (str == NULL)
 		return ;
 	while (str[i] != '\0')
@@ -41,23 +29,6 @@ void	tab_to_space(char *str)
 	}
 }
 
-// void	find_qut_error(char *str)
-// {
-// 	int	i;
-// 	int	qut_num[2];
-
-// 	qut_num[0] = 0;
-// 	qut_num[1] = 0;
-// 	i = 0;
-// 	while (str[i] != '\0')
-// 	{
-// 		inside_qut(str, i, qut_num);
-// 		i++;
-// 	}
-// 	if (qut_num[0] == 1 || qut_num[1] == 1)
-// 		exit(1);
-// }
-
 int	know_symbol(char c)
 {
 	int	symbol;
@@ -69,21 +40,8 @@ int	know_symbol(char c)
 	return (symbol);
 }
 
-// int	know_qut_symbol(char c)
-// {
-// 	int	symbol;
-
-// 	if (c == '\'')
-// 		symbol = 1;
-// 	else
-// 		symbol = 2;
-// 	return (symbol);
-// }
-
-void	many_malloc(t_execution *z)
+void	many_malloc2(t_execution *z)
 {
-	int	i;
-
 	z->cmds_name = malloc(sizeof(char **) * (z->cmds_num + 1));
 	z->infile_name = malloc(sizeof(char **) * (z->cmds_num + 1));
 	z->outfile_name = malloc(sizeof(char **) * (z->cmds_num + 1));
@@ -92,13 +50,20 @@ void	many_malloc(t_execution *z)
 	z->full_path = ft_calloc((z->cmds_num + 1), sizeof(char *));
 	z->fd_pipe = malloc(sizeof(int *) * z->cmds_num);
 	z->process_id = malloc(sizeof(int) * z->cmds_num);
-	z->in_file_error = malloc(sizeof(int) * z->cmds_num);
-	if (z->cmds_name == NULL || z->infile_name == NULL || 
-		z->outfile_name == NULL || z->fd_infile == NULL ||
-		z->fd_outfile == NULL || z->full_path == NULL || 
-		z->fd_pipe == NULL || z->process_id == NULL ||
-		z->in_file_error == NULL)
+	z->in_out_file_error = malloc(sizeof(int) * z->cmds_num);
+	if (z->cmds_name == NULL || z->infile_name == NULL 
+		|| z->outfile_name == NULL || z->fd_infile == NULL 
+		|| z->fd_outfile == NULL || z->full_path == NULL 
+		|| z->fd_pipe == NULL || z->process_id == NULL 
+		|| z->in_out_file_error == NULL)
 		exit(1);
+}
+
+void	many_malloc(t_execution *z)
+{
+	int	i;
+
+	many_malloc2(z);
 	i = 0;
 	while (i < z->cmds_num)
 	{
@@ -112,24 +77,8 @@ void	many_malloc(t_execution *z)
 	z->fd_pipe[i] = NULL;
 	i = -1;
 	while (++i < z->cmds_num)
-		z->in_file_error[i] = 0;
+		z->in_out_file_error[i] = 0;
 }
-
-
-
-// void	num_of_commands_in_each_part(char **str, t_execution *z)
-// {
-// 	int		j;
-
-// 	j = 0;
-// 	while (str[j] != NULL)
-// 	{
-// 		z->cmds_name[j] = ft_split(str[j], ' ', z);
-// 		// if (z->cmds_name[j][0][0] != '\0')
-// 		j++;
-// 	}
-// 	z->cmds_name[j] = NULL;
-// }
 
 void	put_commands(char **str, t_execution *z)
 {
